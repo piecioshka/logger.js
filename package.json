@@ -1,0 +1,31 @@
+{
+    "name": "node-logger",
+    "preferGlobal": "true",
+    "version": "0.0.1",
+    "author": "Piotr Kowalski <piecioshka@gmail.com>",
+    "description": "a plain-text logger",
+    "contributors": [
+        {
+            "name": "Piotr Kowalski",
+            "email": "piecioshka@gmail.com"
+        }
+    ],
+    "main": "./lib/logger",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/piecioshka/node-logger.git"
+    },
+    "keywords": [],
+    "dependencies": {
+        "buster": "0.6.2"
+    },
+    "analyze": false,
+    "devDependencies": {
+    },
+    "bundleDependencies": [
+    ],
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.6"
+    }
+}

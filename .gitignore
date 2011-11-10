@@ -1,0 +1,10 @@
+# IDE config files/dirs
+# ---------------------
+
+/.idea
+/.project
+
+# NodeJS modules
+# --------------
+
+/node_modules/
