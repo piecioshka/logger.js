@@ -1,6 +1,6 @@
 # node-text-plain-logger
 
-Celem projektu jest realizacja konwersji obiektów JavaScript do postaci <pre>plain/text</pre>.
+Celem projektu jest realizacja konwersji obiektów JavaScript do postaci `plain/text`.
 
 Powodem dla którego realizuję ten projekt jest potrzeba wyświetlania, w sposób
 czytelny dla developera, obiektów w środowisku urzadzeń TV oraz BD.
