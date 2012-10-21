@@ -2,7 +2,7 @@
 
 library           = "logger.js"
 library_min       = "logger.min.js"
-dir_src           = "lib/"
+dir_src           = "src/"
 # dir_doc           = "docs/"
 # dir_jsdoc         = "tools/jsdoc-toolkit/"
 dir_yuicompressor = "tools/yuicompressor/"
