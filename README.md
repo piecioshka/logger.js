@@ -1,10 +1,9 @@
-# node-logger
+# node-text-plain-logger
 
 ## description
 
-Simple `loggger` print to console every JavaScript object and DOM Element with Collections.<br />
-Logger disable print prototype chain because this may crash printing data.
+Simple `loggger` print to console every JavaScript object: DOM, BOM or JSCore
 
 ## license
 
-MIT
+MIT License

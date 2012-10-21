@@ -5,9 +5,11 @@ config["node-logger node"] = {
     rootPath: "../",
     environment: "node",
     sources: [
+        "lib/logger-bom.js",
         "lib/logger-core.js",
-        "lib/logger-parser.js",
-        "lib/logger-js-core.js"
+        "lib/logger-dom.js",
+        "lib/logger-js.js",
+        "lib/logger-parser.js"
     ],
     tests: [
         "test/lib/core/*-test.js",
@@ -23,9 +25,9 @@ config["node-logger browser"] = {
     sources: [
         "lib/logger-core.js",
         "lib/logger-parser.js",
-        "lib/logger-dom-core.js",
-        "lib/logger-bom-core.js",
-        "lib/logger-js-core.js"
+        "lib/logger-dom.js",
+        "lib/logger-bom.js",
+        "lib/logger-js.js"
     ],
     tests: [
         "test/lib/core/*-test.js",
@@ -36,3 +38,4 @@ config["node-logger browser"] = {
     ]
 };
 */
+

@@ -2,7 +2,7 @@
 
 library           = "logger.js"
 library_min       = "logger.min.js"
-dir_src           = "src/"
+dir_src           = "lib/"
 dir_doc           = "docs/"
 dir_jsdoc         = "tools/jsdoc-toolkit/"
 dir_yuicompressor = "tools/yuicompressor/"
@@ -36,7 +36,7 @@ puts "------------- logger -------------"
 
 print "[+] Generate library:"
 
-files = ["core.js", "bom-core.js", "dom-core.js", "js-core.js"]
+files = ["logger-core.js", "logger-bom.js", "logger-dom.js", "logger-js.js"]
 
 lib_data = File.read(library)
 
@@ -55,7 +55,7 @@ sh yuicompressor
 lib_data = File.read(library_min)
 
 File.open(library_min, 'w') do |f|
-  f.write "/** text-plain-logger | https://github.com/piecioshka/text-plain-logger **/\n"
+  f.write "/** node-text-plain-logger | https://github.com/piecioshka/node-text-plain-logger **/\n"
   f.write lib_data
 end
 

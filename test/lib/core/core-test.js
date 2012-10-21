@@ -1,5 +1,5 @@
 /********************************************************************************/
-/* logger Core */
+/* TEST CASE: logger() */
 /********************************************************************************/
 
 if (typeof require !== "undefined") {
@@ -21,3 +21,4 @@ buster.testCase("logger/core", {
         assert(new logger() instanceof Function, "Run logger with operator \"new\"");
     }
 });
+
