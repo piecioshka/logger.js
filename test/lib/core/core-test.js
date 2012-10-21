@@ -1,15 +1,23 @@
-// Node.js tests
-var buster = require("buster");
-var logger = require("../../../lib/logger-core.js");
+/********************************************************************************/
+/* logger Core */
+/********************************************************************************/
 
-buster.testCase("logger - initialization process", {
-    "init by new ": function () {
-        var a = new logger();
-        assert(typeof a === "function", "\"new logger()\" also get function");
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
+buster.testCase("logger/core", {
+    "exists logger": function () {
+        assert(typeof logger === "function", "Exists master object logger");
     },
+
+    "init by new ": function () {
+        assert(typeof new logger() === "function", "\"new logger()\" also get function");
+    },
+
     "test use with new": function () {
-        var msg = "Simple text";
-        var msg_from_logger = new logger(msg);
-        assert(msg === msg_from_logger, "Run logger with operator \"new\"");
+        assert(new logger() instanceof Function, "Run logger with operator \"new\"");
     }
 });

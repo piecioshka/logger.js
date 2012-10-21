@@ -2,8 +2,14 @@
 /* DOM Abstract Schema Level 3 */
 /********************************************************************************/
 
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
 // http://www.w3.org/TR/2002/NOTE-DOM-Level-3-AS-20020725/abstract-schemas.html
-buster.testCase("DOM Abstract Schema Level 3", {
+buster.testCase("logger/dom DOM Abstract Schema Level 3", {
     // 1.3.1. Basic Abstract Schema Interfaces
 
     // interfaces

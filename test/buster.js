@@ -1,17 +1,38 @@
-var config = module.exports;
+var config;
+config = module.exports;
 
-config["node-logger test"] = {
+config["node-logger node"] = {
     rootPath: "../",
-    environment: "node", // "browser" or "node"
+    environment: "node",
     sources: [
-        "lib/logger-core.js"
-        // "lib/parser.js",
-        // "lib/bom-core.js",
-        // "lib/dom-core.js",
-        // "lib/js-core.js"
+        "lib/logger-core.js",
+        "lib/logger-parser.js",
+        "lib/logger-js-core.js"
     ],
     tests: [
-        "test/lib/core/core-test.js"
-        // "test/lib/**/*-test.js"
+        "test/lib/core/*-test.js",
+        "test/lib/parser/*-test.js",
+        "test/lib/js/*-test.js"
     ]
 };
+
+/*
+config["node-logger browser"] = {
+    rootPath: "../",
+    environment: "browser",
+    sources: [
+        "lib/logger-core.js",
+        "lib/logger-parser.js",
+        "lib/logger-dom-core.js",
+        "lib/logger-bom-core.js",
+        "lib/logger-js-core.js"
+    ],
+    tests: [
+        "test/lib/core/*-test.js",
+        "test/lib/parser/*-test.js",
+        "test/lib/dom/*-test.js",
+        "test/lib/bom/*-test.js",
+        "test/lib/js/*-test.js"
+    ]
+};
+*/

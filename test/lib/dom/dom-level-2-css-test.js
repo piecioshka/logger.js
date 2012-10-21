@@ -2,8 +2,14 @@
 /* DOM CSS Level 2 */
 /********************************************************************************/
 
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
 // http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html
-buster.testCase("DOM Events Level 2", {
+buster.testCase("logger/dom DOM Events Level 2", {
     // 2.2. CSS Fundamental Interfaces
 
     // interfaces

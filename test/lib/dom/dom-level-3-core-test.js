@@ -2,8 +2,14 @@
 /* DOM Core Level 3 */
 /********************************************************************************/
 
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
 // http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html
-buster.testCase("DOM Core Level 3", {
+buster.testCase("logger/dom DOM Core Level 3", {
     // 1.2.3 The DOMUserData Type
 
     "[??? DOMUserData]": function () {},

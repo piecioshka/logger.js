@@ -2,8 +2,14 @@
 /* DOM HTML Level 1 */
 /********************************************************************************/
 
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
 // http://www.w3.org/TR/1998/REC-DOM-Level-1-19981001/level-one-html.html
-buster.testCase("DOM HTML Level 1", {
+buster.testCase("logger/dom DOM HTML Level 1", {
     // 2.3. Miscellaneous Object Definitions
 
     // interfaces

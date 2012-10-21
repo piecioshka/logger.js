@@ -2,8 +2,14 @@
 /* DOM Views & Formatting Level 3 */
 /********************************************************************************/
 
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
 // http://www.w3.org/TR/2004/NOTE-DOM-Level-3-Views-20040226/views-formatting.html
-buster.testCase("DOM Views & Formatting Level 3", {
+buster.testCase("logger/dom DOM Views & Formatting Level 3", {
     // 1.2 Formal Interface Definition for a Generic View
 
     // interfaces

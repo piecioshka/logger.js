@@ -2,8 +2,14 @@
 /* DOM Load & Save Level 3 */
 /********************************************************************************/
 
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
 // http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/load-save.html
-buster.testCase("DOM Load & Save Level 3", {
+buster.testCase("logger/dom DOM Load & Save Level 3", {
     // 1.2.1 The LSInputStream Type
 
     "[??? LSInputStream]": function () {},

@@ -2,12 +2,21 @@
 /* DOM Core Level 1 */
 /********************************************************************************/
 
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
 // http://www.w3.org/TR/1998/REC-DOM-Level-1-19981001/level-one-core.html
-buster.testCase("DOM Core Level 1", {
+buster.testCase("logger/dom DOM Core Level 1", {
     // 1.2. Fundamental Interfaces
 
     // exceptions
-    "[exception DOMException]": function () {},
+    "[exception DOMException]": function () {
+        var window = new IFrame("http://localhost/");
+        window.document.body.appendChild(null);
+    },
 
     // interfaces
     "[interface DOMImplementation]": function () {},

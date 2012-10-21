@@ -1,15 +1,25 @@
 /********************************************************************************/
-/* FALSY VALUES */
+/* JavaScript Core */
 /********************************************************************************/
 
-buster.testCase("JS Core", {
+if (typeof require !== "undefined") {
+    // Node.js tests
+    var buster = require("buster");
+    var logger = require("../../../lib/logger-core.js");
+}
+
+buster.testCase("logger/js/core", {
+    /********************************************************************************/
+    /* FALSY VALUES */
+    /********************************************************************************/
+
     "Falsy Values": function () {
-        assert.equals(Logger.dump.call("#", false), false, "false");
-        assert.equals(Logger.dump.call("#", 0), 0, "0");
-        assert.equals(Logger.dump.call("#", null), null, "null");
-        assert.equals(Logger.dump.call("#", ''), '""', "''");
-        assert.equals(Logger.dump.call("#", NaN), "NaN", "NaN");
-        assert.equals(Logger.dump.call("#", undefined), undefined, "undefined");
+        assert.equals(logger(false), false, "false");
+        assert.equals(logger(0), 0, "0");
+        assert.equals(logger(null), null, "null");
+        assert.equals(logger(''), '""', "''");
+        assert.equals(logger(NaN), "NaN", "NaN");
+        assert.equals(logger(undefined), undefined, "undefined");
     },
     
     /********************************************************************************/
@@ -17,42 +27,42 @@ buster.testCase("JS Core", {
     /********************************************************************************/
     
     "Boolean": function () {
-        assert.equals(Logger.dump.call("#", false), false, "Boolean false");
-        assert.equals(Logger.dump.call("#", 1 === 0), false, "Boolean true");
-        assert.equals(Logger.dump.call("#", true), true, "Boolean true");
-        assert.equals(Logger.dump.call("#", 1 === 1), true, "Boolean true");
+        assert.equals(logger(false), false, "Boolean false");
+        assert.equals(logger(1 === 0), false, "Boolean true");
+        assert.equals(logger(true), true, "Boolean true");
+        assert.equals(logger(1 === 1), true, "Boolean true");
     },
     "Number": function () {
-        assert.equals(Logger.dump.call("#", 1), 1, "Number 1");
-        assert.equals(Logger.dump.call("#", 0), 0, "Number 0");
-        assert.equals(Logger.dump.call("#", NaN), "NaN", "Number NaN");
-        assert.equals(Logger.dump.call("#", Infinity), "Infinity", "Number Infinity");
-        assert.equals(Logger.dump.call("#", -Infinity), "-Infinity", "Number -Infinity");
+        assert.equals(logger(1), 1, "Number 1");
+        assert.equals(logger(0), 0, "Number 0");
+        assert.equals(logger(NaN), "NaN", "Number NaN");
+        assert.equals(logger(Infinity), "Infinity", "Number Infinity");
+        assert.equals(logger(-Infinity), "-Infinity", "Number -Infinity");
         (function () {
-            assert.equals(Logger.dump.call("#", arguments.length), 0, "Number Arguments 0");
+            assert.equals(logger(arguments.length), 0, "Number Arguments 0");
         }());
         (function (a) {
-            assert.equals(Logger.dump.call("#", arguments.length), 1, "Number Arguments 1");
+            assert.equals(logger(arguments.length), 1, "Number Arguments 1");
         }(1));
     },
     "String": function () {
-        assert.equals(Logger.dump.call("#", "xyz"), "\"xyz\"", "String xyz");
+        assert.equals(logger("xyz"), "\"xyz\"", "String xyz");
         var array = [];
         array.push("abc");
-        assert.equals(Logger.dump.call("#", array.join("")), "\"abc\"", "String abc");
-        assert.equals(Logger.dump.call("#", "NaN"), "\"NaN\"", "String NaN");
-        assert.equals(Logger.dump.call("#", "Infinity"), "\"Infinity\"", "String Infinity");
-        assert.equals(Logger.dump.call("#", "-Infinity"), "\"-Infinity\"", "String -Infinity");
+        assert.equals(logger(array.join("")), "\"abc\"", "String abc");
+        assert.equals(logger("NaN"), "\"NaN\"", "String NaN");
+        assert.equals(logger("Infinity"), "\"Infinity\"", "String Infinity");
+        assert.equals(logger("-Infinity"), "\"-Infinity\"", "String -Infinity");
     },
     "Undefined": function () {
         var a;
-        assert.equals(Logger.dump.call("#", a), undefined, "Undefined");
+        assert.equals(logger(a), undefined, "Undefined");
     },
     "Function": function () {
-        assert.equals(Logger.dump.call("#", function () {
+        assert.equals(logger(function () {
             return 1;
         }), "function () { [ignore code] }", "Function");
-        assert.equals(Logger.dump.call("#", function (a, b) {
+        assert.equals(logger(function (a, b) {
             return 1;
         }), "function (a, b) { [ignore code] }", "Function with params");
     },
@@ -62,24 +72,24 @@ buster.testCase("JS Core", {
     /********************************************************************************/
     
     "Array": function () {
-        assert.equals(Logger.dump.call("#", []), "[]", "Array");
-        assert.equals(Logger.dump.call("#", [1, 2, 3, "A"]), "[1, 2, 3, \"A\"]", "Array with params");
+        assert.equals(logger([]), "[]", "Array");
+        assert.equals(logger([1, 2, 3, "A"]), "[1, 2, 3, \"A\"]", "Array with params");
         (function () {
-            assert.equals(Logger.dump.call("#", arguments), "[]", "Arguments");
+            assert.equals(logger(arguments), "[]", "Arguments");
         }());
     },
     "Null": function () {
         var a = null;
-        assert.equals(Logger.dump.call("#", a), null, "Null");
+        assert.equals(logger(a), null, "Null");
     },
     "JSON": function () {
-        assert.equals(Logger.dump.call("#", {
+        assert.equals(logger({
             a: 1
         }), "{\n\t\"a\": 1,\n}", "JSON");
     },
     "prototype": function () {
         var result = ["function () { [ignore code] }", "function Empty() { [ignore code] }"],
-            testing = Logger.dump.call("#", Function.prototype),
+            testing = logger(Function.prototype),
             in_side = false;
         for (var i = 0; i < result.length; ++i) {
             if (result[i] === testing) {
@@ -87,13 +97,13 @@ buster.testCase("JS Core", {
             }
         }
         assert(in_side, "Function.prototype");
-        assert.equals(Logger.dump.call("#", function () {}.prototype), "{\n}", "function () {}.prototype");
+        assert.equals(logger(function () {}.prototype), "{\n}", "function () {}.prototype");
     },
     "RegExp": function () {
-        assert.equals(Logger.dump.call("#", /^(.*)$/), "/^(.*)$/", "RegExp");
+        assert.equals(logger(/^(.*)$/), "/^(.*)$/", "RegExp");
     },
     "Date": function () {
         var d = new Date().toString();
-        assert.equals(Logger.dump.call("#", new Date()), "Date(" + d + ")", "Date");
+        assert.equals(logger(new Date()), "Date(" + d + ")", "Date");
     }
 });
