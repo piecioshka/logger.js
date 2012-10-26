@@ -17,3 +17,7 @@ w silnikach dostępnych na telewizorach oraz urządzenia STB.
 ## LICENSE
 
 MIT License
+
+## TODO
+
+- https://gist.github.com/1432106
