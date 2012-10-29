@@ -22,20 +22,38 @@
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 function logger(data) {
-    var res;
+    var res,
+        parts = ["bom", "dom", "js"],
+        i = 0,
+        len = parts.length;
+
+    // reset found system
+    logger.found = false;
 
     if (this instanceof logger) {
         return logger;
     }
 
-    // parse data for get 2 value
-    // - parse_type - where data is comes
-    // - parse_data - TODO: for what?
-    res = logger.parser(data);
+    for (; i < len; ++i) {
+        if ((res = logger[parts[i]](data)) !== undefined) {
+            logger.found = true;
+            break;
+        }
+    }
 
-    // run concrete logger
-    return logger[res.parse_type](res.parse_data);
-};
+    if (logger.found) {
+        // run concrete logger
+        return res;
+    }
+
+    throw {
+        name: "UnexpectedTypeError",
+        msg: "Undefined type of variable"
+    };
+}
+
+// found type
+logger.found = false;
 
 // public API
 module.exports = logger;
