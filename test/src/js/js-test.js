@@ -15,12 +15,12 @@ buster.testCase("logger/js/core", {
 /******************************************************************************/
 
     "Falsy Values": function () {
-        assert.equals(logger(false), false, "Falsy Values: false");
+        assert.equals(logger(false), "false", "Falsy Values: false");
         assert.equals(logger(0), 0, "Falsy Values: 0");
-        assert.equals(logger(null), null, "Falsy Values: null");
-        assert.equals(logger(''), '""', "Falsy Values: ''");
+        assert.equals(logger(null), "null", "Falsy Values: null");
+        assert.equals(logger(''), '\"\"', "Falsy Values: \"\"");
         assert.equals(logger(NaN), "NaN", "Falsy Values: NaN");
-        assert.equals(logger(undefined), undefined, "Falsy Values: undefined");
+        assert.equals(logger(undefined), "undefined", "Falsy Values: undefined");
     },
 
 /******************************************************************************/
@@ -29,22 +29,25 @@ buster.testCase("logger/js/core", {
 
     "Array": function () {
         assert.equals(logger([]), "[]", "Array");
-        assert.equals(logger([1, 2, 3, "A"]), "[1, 2, 3, \"A\"]", "General-purpose constructors: Array with params");
+    },
+
+    "Arguments": function () {
+        assert.equals(logger([1, 2, 3, "A"]), "[1, 2, 3, \"A\"]", "General-purpose constructors: Arguments: not empty");
         (function () {
-            assert.equals(logger(arguments), "[]", "General-purpose constructors: Arguments");
+            assert.equals(logger(arguments), "[]", "General-purpose constructors: Arguments: empty");
         }());
     },
 
     "Boolean": function () {
-        assert.equals(logger(false), false, "General-purpose constructors: Boolean: false");
-        assert.equals(logger(1 === 0), false, "General-purpose constructors: Boolean: false");
-        assert.equals(logger(true), true, "General-purpose constructors: Boolean: true");
-        assert.equals(logger(1 === 1), true, "General-purpose constructors: Boolean: true");
+        assert.equals(logger(false), "false", "General-purpose constructors: Boolean: false");
+        assert.equals(logger(1 === 0), "false", "General-purpose constructors: Boolean: false");
+        assert.equals(logger(true), "true", "General-purpose constructors: Boolean: true");
+        assert.equals(logger(1 === 1), "true", "General-purpose constructors: Boolean: true");
     },
 
 
     "Date": function () {
-        assert.equals(logger(new Date()), new Date().toString(), "General-purpose constructors: Date");
+        assert.equals(logger(new Date()), "Date: " + new Date().toString(), "General-purpose constructors: Date");
     },
 
     "Function": function () {
@@ -54,6 +57,8 @@ buster.testCase("logger/js/core", {
         assert.equals(logger(function (a, b) {
             return 1;
         }), "function (a, b) { [ignore code] }", "General-purpose constructors: Function: with params");
+
+        assert.equals(logger(new Function("test")), "function anonymous() { [ignore code] }", "General-purpose constructors: Function: not empty object");
     },
 
     // Harmony JS
@@ -71,16 +76,8 @@ buster.testCase("logger/js/core", {
     },
 
     "Object": function () {
-        var result = ["function () { [ignore code] }", "function Empty() { [ignore code] }"],
-            testing = logger(Function.prototype),
-            in_side = false;
-        for (var i = 0; i < result.length; ++i) {
-            if (result[i] === testing) {
-                in_side = true;
-            }
-        }
-        assert(in_side, "Function.prototype");
-        assert.equals(logger(function () {}.prototype), "{\n}", "function () {}.prototype");
+        assert.equals(logger({}), "{}", "General-purpose constructors: Object: empty object");
+        assert.equals(logger({ alpha: "beta" }), "{\n\t\"alpha\": \"beta\"\n}", "General-purpose constructors: Object: empty object");
     },
 
     "RegExp": function () {
@@ -88,14 +85,13 @@ buster.testCase("logger/js/core", {
     },
 
     "String": function () {
-        assert.equals(logger("xyz"), "xyz", "General-purpose constructors: String: xyz");
-        var array = ["abc"];
-        assert.equals(logger(array.join("")), "abc", "General-purpose constructors: String: abc");
-        assert.equals(logger("NaN"), "NaN", "General-purpose constructors: String: NaN");
-        assert.equals(logger("Infinity"), "Infinity", "General-purpose constructors: String: Infinity");
-        assert.equals(logger("-Infinity"), "-Infinity", "General-purpose constructors: String: -Infinity");
-        assert.equals(logger("Function"), "Function", "General-purpose constructors: String: Function");
-        assert.equals(logger("Array"), "Array", "General-purpose constructors: String: Array");
+        assert.equals(logger("xyz"), "\"xyz\"", "General-purpose constructors: String: xyz");
+        assert.equals(logger(["abc"].join("")), "\"abc\"", "General-purpose constructors: String: abc");
+        assert.equals(logger("NaN"), "\"NaN\"", "General-purpose constructors: String: NaN");
+        assert.equals(logger("Infinity"), "\"Infinity\"", "General-purpose constructors: String: Infinity");
+        assert.equals(logger("-Infinity"), "\"-Infinity\"", "General-purpose constructors: String: -Infinity");
+        assert.equals(logger("Function"), "\"Function\"", "General-purpose constructors: String: Function");
+        assert.equals(logger("Array"), "\"Array\"", "General-purpose constructors: String: Array");
     },
 
 /******************************************************************************/
@@ -153,18 +149,23 @@ buster.testCase("logger/js/core", {
     },
     "JSON": function () {
         assert.equals(logger({
-            a: 1
-        }), "{\n\t\"a\": 1,\n}", "Other: JSON");
+            alpha: 1
+        }), "{\n\t\"alpha\": 1\n}", "Other: JSON");
+
+        assert.equals(logger({
+            alpha: 1,
+            "beta": 2
+        }), "{\n\t\"alpha\": 1,\n\t\"beta\": 2\n}", "Other: JSON");
     },
     "Math": function () { assert(true); },
     "NaN": function () {
         assert.equals(logger(NaN), "NaN", "Other: NaN");
     },
     "Null": function () {
-        assert.equals(logger(null), null, "Other: Null");
+        assert.equals(logger(null), "null", "Other: Null");
     },
     "undefined": function () {
-        assert.equals(logger(undefined), undefined, "Other: undefined");
+        assert.equals(logger(undefined), "undefined", "Other: undefined");
     }
 });
 

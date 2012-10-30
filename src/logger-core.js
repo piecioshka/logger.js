@@ -48,7 +48,7 @@ function logger(data) {
 
     throw {
         name: "UnexpectedTypeError",
-        msg: "Undefined type of variable"
+        message: "Undefined type of variable: " + data
     };
 }
 
@@ -56,5 +56,7 @@ function logger(data) {
 logger.found = false;
 
 // public API
-module.exports = logger;
+if (typeof module !== "undefined") {
+    module.exports = logger;
+}
 

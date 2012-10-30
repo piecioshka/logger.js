@@ -21,21 +21,30 @@ logger.parser = (function () {
 /******************************************************************************/
 
             "Array": function (o) {
+                o = Array.prototype.slice.call(o);
+
                 var r = "[",
                     i = 0,
                     l = o.length;
 
                 for (; i < l; ++i) {
-                    r += logger(o);
+                    r += logger(o[i]);
+
+                    if (i < l - 1) {
+                        r += ", ";
+                    }
                 }
 
                 return r + "]";
             },
+            "Arguments": function (o) {
+                return printer_js["Array"](o);
+            },
             "Boolean": function (o) {
-                return o;
+                return String(o);
             },
             "Date": function (o) {
-                return "Date:" + o.toString();
+                return "Date: " + o.toString();
             },
             "Function": function (o) {
                 var s = o.toString(),
@@ -48,19 +57,46 @@ logger.parser = (function () {
             // "Iterator": function (o) { return o; },
             "Number": function (o) { return o; },
             "Object": function (o) {
-                var r = "{\n",
-                    i;
+                var r = "{",
+                    i,
+                    c = 0,
+                    len = (function (o) {
+                        var i,
+                            c = 0;
+
+                        for (i in o) {
+                            if (o.hasOwnProperty(i)) {
+                                c++;
+                            }
+                        }
+
+                        return c;
+                    }(o));
+
+                if (len > 0) {
+                    r += "\n";
+                }
 
                 for (i in o) {
                     if (o.hasOwnProperty(i)) {
                         r += "\t" + "\"" + i + "\": " + logger(o[i]);
+
+                        if (c < len - 1) {
+                            r += ",\n";
+                        }
+
+                        c++;
                     }
                 }
 
-                return r + "\n}";
+                if (len > 0) {
+                    r += "\n";
+                }
+
+                return r + "}";
             },
             "RegExp": function (o) { return o.toString(); },
-            "String": function (o) { return String(o); },
+            "String": function (o) { return "\"" + String(o) + "\""; },
 
 /******************************************************************************/
 /* Typed array constructors */
@@ -115,8 +151,8 @@ logger.parser = (function () {
             "JSON": function (o) { return printer_js["Object"](o); },
             "Math": function (o) { return o; },
             "NaN": function (o) { return String(o); },
-            "Null": function (o) { return o; },
-            "undefined": function (o) { return o; }
+            "Null": function (o) { return String(o); },
+            "undefined": function (o) { return String(o); }
         };
 
     // public API

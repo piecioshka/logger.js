@@ -33,9 +33,11 @@ File.new(library_min, File::CREAT|File::TRUNC|File::RDWR, 0777)
 
 task :default
 
+sh "clear"
+
 puts "------------- node-plain-text-logger for Web -------------"
 
-print "[+] Generate library:"
+print "(1) Generate library:"
 
 files = ["logger-core.js", "logger-bom.js", "logger-dom.js", "logger-js.js"]
 
@@ -50,7 +52,7 @@ end
 
 puts "\t\t\t\tDone."
 
-print "[+] Minifing:"
+print "(2) Minifing:"
 sh yuicompressor
 
 lib_data = File.read(library_min)
@@ -65,3 +67,5 @@ puts "\t\t\t\t\tDone."
 # print "[+] Generate documentation:"
 # sh jsdoc
 # puts "\t\t\tDone."
+
+puts "\n"
