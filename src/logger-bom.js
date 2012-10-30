@@ -6,7 +6,26 @@ if (typeof require !== "undefined") {
     var logger = require("./logger-core.js");
 }
 
-logger.bom = function (data) {
-    return;
-};
+(function () {
+    "use strict";
+
+    var checker = {
+
+    };
+
+    logger.bom = function (data) {
+        var res,
+            type;
+
+        for (type in checker) {
+            if (checker.hasOwnProperty(type)) {
+                if (checker[type].call(null, data)) {
+                    res = logger.parser.bom[type].call(this, data);
+                }
+            }
+        }
+
+        return res;
+    };
+}).call(this);
 

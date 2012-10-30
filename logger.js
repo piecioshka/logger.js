@@ -22,18 +22,25 @@
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 function logger(data) {
-    var res,
+    var i = 0,
+        // returned value
+        res,
+
+        // available special logger types
         parts = ["bom", "dom", "js"],
-        i = 0,
+
+        // number of special loggers
         len = parts.length;
 
-    // reset found system
+    // reset found status
     logger.found = false;
 
+    // if run that "new logger()" conv to "logger()"
     if (this instanceof logger) {
         return logger;
     }
 
+    // check if some special logger found value
     for (; i < len; ++i) {
         if ((res = logger[parts[i]](data)) !== undefined) {
             logger.found = true;
@@ -42,21 +49,23 @@ function logger(data) {
     }
 
     if (logger.found) {
-        // run concrete logger
+        // if found parse value return that
         return res;
     }
 
+    // if not found, report w exception
     throw {
         name: "UnexpectedTypeError",
         message: "Undefined type of variable: " + data
     };
 }
 
-// found type
+// found status
 logger.found = false;
 
 // public API
 if (typeof module !== "undefined") {
+    // only for NodeJS
     module.exports = logger;
 }
 
@@ -68,9 +77,28 @@ if (typeof require !== "undefined") {
     var logger = require("./logger-core.js");
 }
 
-logger.bom = function (data) {
-    return;
-};
+(function () {
+    "use strict";
+
+    var checker = {
+
+    };
+
+    logger.bom = function (data) {
+        var res,
+            type;
+
+        for (type in checker) {
+            if (checker.hasOwnProperty(type)) {
+                if (checker[type].call(null, data)) {
+                    res = logger.parser.bom[type].call(this, data);
+                }
+            }
+        }
+
+        return res;
+    };
+}).call(this);
 
 /******************************************************************************/
 /* Logger DOM */
@@ -80,9 +108,28 @@ if (typeof require !== "undefined") {
     var logger = require("./logger-core.js");
 }
 
-logger.dom = function (data) {
-    return;
-};
+(function () {
+    "use strict";
+
+    var checker = {
+
+    };
+
+    logger.dom = function (data) {
+        var res,
+            type;
+
+        for (type in checker) {
+            if (checker.hasOwnProperty(type)) {
+                if (checker[type].call(null, data)) {
+                    res = logger.parser.dom[type].call(this, data);
+                }
+            }
+        }
+
+        return res;
+    };
+}).call(this);
 
 /******************************************************************************/
 /* Logger JavaScript */
@@ -193,7 +240,6 @@ if (typeof require !== "undefined") {
         for (type in checker) {
             if (checker.hasOwnProperty(type)) {
                 if (checker[type].call(null, data)) {
-                    // res = "[" + type + "]" + logger.parser.js[type].call(this, data);
                     res = logger.parser.js[type].call(this, data);
                 }
             }
