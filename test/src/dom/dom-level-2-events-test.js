@@ -13,34 +13,34 @@ buster.testCase("logger/dom DOM Events Level 2", {
     // 1.3.1. Event registration interfaces
 
     // interfaces
-    "[interface EventTarget]": function () {},
-    "[interface EventListener]": function () {},
+    "[interface EventTarget]": function () { assert(false); },
+    "[interface EventListener]": function () { assert(false); },
 
     // 1.4. Event interface
 
     // interfaces
-    "[interface Event]": function () {},
+    "[interface Event]": function () { assert(false); },
 
     // exceptions
-    "[exception EventException]": function () {},
+    "[exception EventException]": function () { assert(false); },
 
     // 1.5. DocumentEvent interface
 
     // interfaces
-    "[interface DocumentEvent]": function () {},
+    "[interface DocumentEvent]": function () { assert(false); },
 
     // 1.6.1. User Interface event types
 
     // interfaces
-    "[interface UIEvent : Event]": function () {},
+    "[interface UIEvent : Event]": function () { assert(false); },
 
     // 1.6.2. Mouse event types
 
     // interfaces
-    "[interface MouseEvent : UIEvent]": function () {},
+    "[interface MouseEvent : UIEvent]": function () { assert(false); },
 
     // 1.6.4. Mutation event types
 
     // interfaces
-    "[interface MutationEvent : Event]": function () {}
+    "[interface MutationEvent : Event]": function () { assert(false); }
 });

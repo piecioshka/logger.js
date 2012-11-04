@@ -102,46 +102,65 @@ logger.parser = (function () {
 /* Typed array constructors */
 /******************************************************************************/
 
-            "ArrayBuffer": function (o) { return o; },
-            "DataView": function (o) { return o; },
-            "Float32Array": function (o) { return o; },
-            "Float64Array": function (o) { return o; },
-            "Int16Array": function (o) { return o; },
-            "Int32Array": function (o) { return o; },
-            "Int8Array": function (o) { return o; },
-            "Uint16Array": function (o) { return o; },
-            "Uint32Array": function (o) { return o; },
-            "Uint8Array": function (o) { return o; },
-            "Uint8ClampedArray": function (o) { return o; },
+            "ArrayBuffer": function (o) { return "[].byteLength: " + o.byteLength; },
+            "DataView": function (o) { return "[].buffer.byteLength: " + o.buffer.byteLength; },
+            "Float32Array": function (o) { return printer_js["DataView"](o); },
+            "Float64Array": function (o) { return printer_js["DataView"](o); },
+            "Int16Array": function (o) { return printer_js["DataView"](o); },
+            "Int32Array": function (o) { return printer_js["DataView"](o); },
+            "Int8Array": function (o) { return printer_js["DataView"](o); },
+            "Uint16Array": function (o) { return printer_js["DataView"](o); },
+            "Uint32Array": function (o) { return printer_js["DataView"](o); },
+            "Uint8Array": function (o) { return printer_js["DataView"](o); },
+            "Uint8ClampedArray": function (o) { return printer_js["DataView"](o); },
 
 /******************************************************************************/
 /* Error constructors */
 /******************************************************************************/
 
-            "Error": function (o) { return o; },
-            "EvalError": function (o) { return o; },
-            "InternalError": function (o) { return o; },
-            "RangeError": function (o) { return o; },
-            "ReferenceError": function (o) { return o; },
-            "StopIteration": function (o) { return o; },
-            "SyntaxError": function (o) { return o; },
-            "TypeError": function (o) { return o; },
-            "URIError": function (o) { return o; },
+            "Error": function (o) {
+                var res = "";
+                res += o.name + "(";
+                if (o.message || o.lineNumber || o.line || o.fileName || o.sourceURL) {
+                    res += "{\n";
+                    if (o.message) {
+                        res += "\tMessage: \"" + o.message + "\"\n";
+                    }
+                    if (o.lineNumber || o.line) {
+                        res += "\tLine: " + (o.lineNumber || o.line) + "\n";
+                    }
+                    if (o.fileName || o.sourceURL) {
+                        res += "\tFile: \"" + (o.fileName || o.sourceURL) + "\"\n";
+                    }
+                    res += "}";
+                }
+                res += ")";
+                return res;
+            },
+            "EvalError": function (o) { return printer_js["Error"](o); },
+            // "InternalError": function (o) { return o; },
+            "RangeError": function (o) { return printer_js["Error"](o); },
+            "ReferenceError": function (o) { return printer_js["Error"](o); },
+            // "StopIteration": function (o) { return o; },
+            "SyntaxError": function (o) { return printer_js["Error"](o); },
+            "TypeError": function (o) { return printer_js["Error"](o); },
+            "URIError": function (o) { return printer_js["Error"](o); },
 
 /******************************************************************************/
 /* Non-constructor functions */
 /******************************************************************************/
 
-            "decodeURI": function (o) { return o; },
-            "decodeURIComponent": function (o) { return o; },
-            "encodeURI": function (o) { return o; },
-            "encodeURIComponent": function (o) { return o; },
-            "eval": function (o) { return o; },
-            "isFinite": function (o) { return o; },
-            "isNaN": function (o) { return o; },
-            "parseFloat": function (o) { return o; },
-            "parseInt": function (o) { return o; },
-            "uneval": function (o) { return o; },
+            "decodeURI": function (o) { return o.toString(); },
+            "decodeURIComponent": function (o) { return o.toString(); },
+            "encodeURI": function (o) { return o.toString(); },
+            "encodeURIComponent": function (o) { return o.toString(); },
+            "eval": function (o) { return o.toString(); },
+            "isFinite": function (o) { return o.toString(); },
+            "isNaN": function (o) { return o.toString(); },
+            "parseFloat": function (o) { return o.toString(); },
+            "parseInt": function (o) { return o.toString(); },
+            // Harmony JS
+            // "uneval": function (o) { return o; },
 
 /******************************************************************************/
 /* Other */
@@ -149,7 +168,7 @@ logger.parser = (function () {
 
             "Infinity": function (o) { return String(o); },
             "JSON": function (o) { return printer_js["Object"](o); },
-            "Math": function (o) { return o; },
+            "Math": function (o) { return printer_js["Object"](o); },
             "NaN": function (o) { return String(o); },
             "Null": function (o) { return String(o); },
             "undefined": function (o) { return String(o); }

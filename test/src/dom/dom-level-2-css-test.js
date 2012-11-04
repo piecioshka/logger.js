@@ -13,44 +13,44 @@ buster.testCase("logger/dom DOM Events Level 2", {
     // 2.2. CSS Fundamental Interfaces
 
     // interfaces
-    "[interface CSSStyleSheet : stylesheets::StyleSheet]": function () {},
-    "[interface CSSRuleList]": function () {},
-    "[interface CSSRule]": function () {},
-    "[interface CSSStyleRule : CSSRule]": function () {},
-    "[interface CSSMediaRule : CSSRule]": function () {},
-    "[interface CSSFontFaceRule : CSSRule]": function () {},
-    "[interface CSSPageRule : CSSRule]": function () {},
-    "[interface CSSImportRule : CSSRule]": function () {},
-    "[interface CSSCharsetRule : CSSRule]": function () {},
-    "[interface CSSUnknownRule : CSSRule]": function () {},
-    "[interface CSSStyleDeclaration]": function () {},
-    "[interface CSSValue]": function () {},
-    "[interface CSSPrimitiveValue : CSSValue]": function () {},
-    "[interface CSSValueList : CSSValue]": function () {},
-    "[interface RGBColor]": function () {},
-    "[interface Rect]": function () {},
-    "[interface Counter]": function () {},
+    "[interface CSSStyleSheet : stylesheets::StyleSheet]": function () { assert(false); },
+    "[interface CSSRuleList]": function () { assert(false); },
+    "[interface CSSRule]": function () { assert(false); },
+    "[interface CSSStyleRule : CSSRule]": function () { assert(false); },
+    "[interface CSSMediaRule : CSSRule]": function () { assert(false); },
+    "[interface CSSFontFaceRule : CSSRule]": function () { assert(false); },
+    "[interface CSSPageRule : CSSRule]": function () { assert(false); },
+    "[interface CSSImportRule : CSSRule]": function () { assert(false); },
+    "[interface CSSCharsetRule : CSSRule]": function () { assert(false); },
+    "[interface CSSUnknownRule : CSSRule]": function () { assert(false); },
+    "[interface CSSStyleDeclaration]": function () { assert(false); },
+    "[interface CSSValue]": function () { assert(false); },
+    "[interface CSSPrimitiveValue : CSSValue]": function () { assert(false); },
+    "[interface CSSValueList : CSSValue]": function () { assert(false); },
+    "[interface RGBColor]": function () { assert(false); },
+    "[interface Rect]": function () { assert(false); },
+    "[interface Counter]": function () { assert(false); },
 
     // 2.2.1. Override and computed style sheet
 
     // interfaces
-    "[interface ViewCSS : views::AbstractView]": function () {},
-    "[interface DocumentCSS : stylesheets::DocumentStyle]": function () {},
+    "[interface ViewCSS : views::AbstractView]": function () { assert(false); },
+    "[interface DocumentCSS : stylesheets::DocumentStyle]": function () { assert(false); },
 
     // 2.2.2. Style sheet creation
 
     // interfaces
-    "[interface DOMImplementationCSS : DOMImplementation]": function () {},
+    "[interface DOMImplementationCSS : DOMImplementation]": function () { assert(false); },
 
     // 2.2.3. Element with CSS inline style
 
     // interfaces
-    "[interface ElementCSSInlineStyle]": function () {},
+    "[interface ElementCSSInlineStyle]": function () { assert(false); },
 
     // 2.3. CSS2 Extended Interface
 
     // interfaces
-    "[interface CSS2Properties]": function () {}
+    "[interface CSS2Properties]": function () { assert(false); }
 });
 
 

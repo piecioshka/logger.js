@@ -12,6 +12,6 @@ if (typeof require !== "undefined") {
 buster.testCase("logger/dom DOM Core Level 2", {
     // 1.1.6. The DOMTimeStamp type
 
-    "[valuetype DOMString]": function () {},
-    "[??? DOMTimeStamp]": function () {}
+    "[valuetype DOMString]": function () { assert(false); },
+    "[??? DOMTimeStamp]": function () { assert(false); }
 });

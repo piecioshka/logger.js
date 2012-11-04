@@ -13,7 +13,7 @@ buster.testCase("logger/dom DOM Range Level 2", {
     // 2.13. Formal Description of the Range Interface
 
     // interfaces
-    "[interface Range]": function () {},
-    "[interface DocumentRange]": function () {},
-    "[interface RangeException]": function () {},
+    "[interface Range]": function () { assert(false); },
+    "[interface DocumentRange]": function () { assert(false); },
+    "[interface RangeException]": function () { assert(false); },
 });

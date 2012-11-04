@@ -13,12 +13,12 @@ buster.testCase("logger/dom DOM XPath Level 3", {
     // 1.4 Interfaces
 
     // exceptions
-    "[exception XPathException]": function () {},
+    "[exception XPathException]": function () { assert(false); },
 
     // interfaces
-    "[interface XPathEvaluator]": function () {},
-    "[interface XPathExpression]": function () {},
-    "[interface XPathNSResolver]": function () {},
-    "[interface XPathResult]": function () {},
-    "[interface XPathNamespace : Node]": function () {},
+    "[interface XPathEvaluator]": function () { assert(false); },
+    "[interface XPathExpression]": function () { assert(false); },
+    "[interface XPathNSResolver]": function () { assert(false); },
+    "[interface XPathResult]": function () { assert(false); },
+    "[interface XPathNamespace : Node]": function () { assert(false); },
 });

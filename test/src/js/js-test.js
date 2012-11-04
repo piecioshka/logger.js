@@ -62,7 +62,7 @@ buster.testCase("logger/js/core", {
     },
 
     // Harmony JS
-    // "Iterator": function (o) { assert(true); },
+    // "Iterator": function (o) { assert(false); },
 
     "Number": function () {
         assert.equals(logger(1), 1, "General-purpose constructors: Number: 1");
@@ -98,46 +98,161 @@ buster.testCase("logger/js/core", {
 /* Typed array constructors */
 /******************************************************************************/
 
-    "ArrayBuffer": function () { assert(true); },
-    "DataView": function () { assert(true); },
-    "Float32Array": function () { assert(true); },
-    "Float64Array": function () { assert(true); },
-    "Int16Array": function () { assert(true); },
-    "Int32Array": function () { assert(true); },
-    "Int8Array": function () { assert(true); },
-    "Uint16Array": function () { assert(true); },
-    "Uint32Array": function () { assert(true); },
-    "Uint8Array": function () { assert(true); },
-    "Uint8ClampedArray": function () { assert(true); },
+    "ArrayBuffer": function () {
+        assert.equals(logger(new ArrayBuffer(Infinity)), "[].byteLength: 0", "Typed array constructors: ArrayBuffer: Infinity");
+        assert.equals(logger(new ArrayBuffer(0)), "[].byteLength: 0", "Typed array constructors: ArrayBuffer: 0");
+        assert.equals(logger(new ArrayBuffer(2)), "[].byteLength: 2", "Typed array constructors: ArrayBuffer: 2");
+        assert.equals(logger(new ArrayBuffer(Math.E)), "[].byteLength: 2", "Typed array constructors: ArrayBuffer: Math.E");
+        assert.equals(logger(new ArrayBuffer(5)), "[].byteLength: 5", "Typed array constructors: ArrayBuffer: 5");
+        assert.equals(logger(new ArrayBuffer(123456789)), "[].byteLength: 123456789", "Typed array constructors: ArrayBuffer: 123456789");
+        assert.equals(logger(new ArrayBuffer(Number.MAX_VALUE)), "[].byteLength: 0", "Typed array constructors: ArrayBuffer: Number.MAX_VALUE");
+    },
+
+    "DataView": function () {
+        assert.equals(logger(new DataView(new ArrayBuffer(1), 0)), "[].buffer.byteLength: 1", "Typed array constructors: DataView: 1");
+        assert.equals(logger(new DataView(new ArrayBuffer(123456789))), "[].buffer.byteLength: 123456789", "Typed array constructors: DataView: 123456789");
+
+        assert.equals(logger(new DataView(new ArrayBuffer(12), 0, 0)), "[].buffer.byteLength: 12", "Typed array constructors: DataView: 12");
+    },
+
+    "Float32Array": function () {
+        assert.equals(logger(new Float32Array(0)), "[].buffer.byteLength: 0", "Typed array constructors: Float32Array: 0");
+        assert.equals(logger(new Float32Array(1)), "[].buffer.byteLength: 4", "Typed array constructors: Float32Array: 1");
+        assert.equals(logger(new Float32Array(Number.MAX_VALUE)), "[].buffer.byteLength: 0", "Typed array constructors: Float32Array: Number.MAX_VALUE");
+    },
+
+    "Float64Array": function () {
+        assert.equals(logger(new Float64Array(0)), "[].buffer.byteLength: 0", "Typed array constructors: Float64Array: 0");
+        assert.equals(logger(new Float64Array(1)), "[].buffer.byteLength: 8", "Typed array constructors: Float64Array: 1");
+        assert.equals(logger(new Float64Array(Number.MAX_VALUE)), "[].buffer.byteLength: 0", "Typed array constructors: Float64Array: Number.MAX_VALUE");
+    },
+
+    "Int16Array": function () {
+        assert.equals(logger(new Int16Array(0)), "[].buffer.byteLength: 0", "Typed array constructors: Int16Array: 0");
+        assert.equals(logger(new Int16Array(1)), "[].buffer.byteLength: 2", "Typed array constructors: Int16Array: 1");
+        assert.equals(logger(new Int16Array(Number.MAX_VALUE)), "[].buffer.byteLength: 0", "Typed array constructors: Int16Array: Number.MAX_VALUE");
+    },
+
+    "Int32Array": function () {
+        assert.equals(logger(new Int32Array(0)), "[].buffer.byteLength: 0", "Typed array constructors: Int32Array: 0");
+        assert.equals(logger(new Int32Array(1)), "[].buffer.byteLength: 4", "Typed array constructors: Int32Array: 1");
+        assert.equals(logger(new Int32Array(Number.MAX_VALUE)), "[].buffer.byteLength: 0", "Typed array constructors: Int32Array: Number.MAX_VALUE");
+    },
+
+    "Int8Array": function () {
+        assert.equals(logger(new Int8Array(0)), "[].buffer.byteLength: 0", "Typed array constructors: Int8Array: 0");
+        assert.equals(logger(new Int8Array(1)), "[].buffer.byteLength: 1", "Typed array constructors: Int8Array: 1");
+        assert.equals(logger(new Int8Array(Number.MAX_VALUE)), "[].buffer.byteLength: 0", "Typed array constructors: Int8Array: Number.MAX_VALUE");
+    },
+
+    "Uint16Array": function () {
+        assert.equals(logger(new Uint16Array(0)), "[].buffer.byteLength: 0", "Typed array constructors: Uint16Array: 0");
+        assert.equals(logger(new Uint16Array(1)), "[].buffer.byteLength: 2", "Typed array constructors: Uint16Array: 1");
+        assert.equals(logger(new Uint16Array(Number.MAX_VALUE)), "[].buffer.byteLength: 0", "Typed array constructors: Uint16Array: Number.MAX_VALUE");
+    },
+
+    "Uint32Array": function () {
+        assert.equals(logger(new Uint32Array(0)), "[].buffer.byteLength: 0", "Typed array constructors: Uint32Array: 0");
+        assert.equals(logger(new Uint32Array(1)), "[].buffer.byteLength: 4", "Typed array constructors: Uint32Array: 1");
+        assert.equals(logger(new Uint32Array(Number.MAX_VALUE)), "[].buffer.byteLength: 0", "Typed array constructors: Uint32Array: Number.MAX_VALUE");
+    },
+
+    "Uint8Array": function () {
+        assert.equals(logger(new Uint8Array(0)), "[].buffer.byteLength: 0", "Typed array constructors: Uint8Array: 0");
+        assert.equals(logger(new Uint8Array(1)), "[].buffer.byteLength: 1", "Typed array constructors: Uint8Array: 1");
+        assert.equals(logger(new Uint8Array(Number.MAX_VALUE)), "[].buffer.byteLength: 0", "Typed array constructors: Uint8Array: Number.MAX_VALUE");
+    },
+
+    // Harmony JS
+    // "Uint8ClampedArray": function () { assert(false); },
 
 /******************************************************************************/
 /* Error constructors */
 /******************************************************************************/
 
-    "Error": function () { assert(true); },
-    "EvalError": function () { assert(true); },
-    "InternalError": function () { assert(true); },
-    "RangeError": function () { assert(true); },
-    "ReferenceError": function () { assert(true); },
-    "StopIteration": function () { assert(true); },
-    "SyntaxError": function () { assert(true); },
-    "TypeError": function () { assert(true); },
-    "URIError": function () { assert(true); },
+    "Error": function () {
+        assert.equals(logger(new Error()), "Error()", "Error constructors: Error: empty");
+        assert.equals(logger(new Error("test")), "Error({\n\tMessage: \"test\"\n})", "Error constructors: Error: with message");
+    },
+
+    "EvalError": function () {
+        assert.equals(logger(new EvalError()), "EvalError()", "Error constructors: EvalError");
+        assert.equals(logger(new EvalError("test")), "EvalError({\n\tMessage: \"test\"\n})", "Error constructors: EvalError: with message");
+    },
+
+    // Harmony JS
+    // "InternalError": function () { assert(false); },
+
+    "RangeError": function () {
+        assert.equals(logger(new RangeError()), "RangeError()", "Error constructors: RangeError");
+        assert.equals(logger(new RangeError("test")), "RangeError({\n\tMessage: \"test\"\n})", "Error constructors: RangeError: with message");
+    },
+
+    "ReferenceError": function () {
+        assert.equals(logger(new ReferenceError()), "ReferenceError()", "Error constructors: ReferenceError");
+        assert.equals(logger(new ReferenceError("test")), "ReferenceError({\n\tMessage: \"test\"\n})", "Error constructors: ReferenceError: with message");
+    },
+
+    // Harmony JS
+    // "StopIteration": function () { assert(false); },
+
+    "SyntaxError": function () {
+        assert.equals(logger(new SyntaxError()), "SyntaxError()", "Error constructors: SyntaxError");
+        assert.equals(logger(new SyntaxError("test")), "SyntaxError({\n\tMessage: \"test\"\n})", "Error constructors: SyntaxError: with message");
+    },
+
+    "TypeError": function () {
+        assert.equals(logger(new TypeError()), "TypeError()", "Error constructors: TypeError");
+        assert.equals(logger(new TypeError("test")), "TypeError({\n\tMessage: \"test\"\n})", "Error constructors: TypeError: with message");
+    },
+
+    "URIError": function () {
+        assert.equals(logger(new URIError()), "URIError()", "Error constructors: URIError");
+        assert.equals(logger(new URIError("test")), "URIError({\n\tMessage: \"test\"\n})", "Error constructors: URIError: with message");
+    },
 
 /******************************************************************************/
 /* Non-constructor functions */
 /******************************************************************************/
 
-    "decodeURI": function () { assert(true); },
-    "decodeURIComponent": function () { assert(true); },
-    "encodeURI": function () { assert(true); },
-    "encodeURIComponent": function () { assert(true); },
-    "eval": function () { assert(true); },
-    "isFinite": function () { assert(true); },
-    "isNaN": function () { assert(true); },
-    "parseFloat": function () { assert(true); },
-    "parseInt": function () { assert(true); },
-    "uneval": function () { assert(true); },
+    "decodeURI": function () {
+        assert.equals(logger(decodeURI), "function decodeURI() { [native code] }", "Non-constructor functions: decodeURI");
+    },
+
+    "decodeURIComponent": function () {
+        assert.equals(logger(decodeURIComponent), "function decodeURIComponent() { [native code] }", "Non-constructor functions: decodeURIComponent");
+    },
+
+    "encodeURI": function () {
+        assert.equals(logger(encodeURI), "function encodeURI() { [native code] }", "Non-constructor functions: encodeURI");
+    },
+
+    "encodeURIComponent": function () {
+        assert.equals(logger(encodeURIComponent), "function encodeURIComponent() { [native code] }", "Non-constructor functions: encodeURIComponent");
+    },
+
+    "eval": function () {
+        assert.equals(logger(eval), "function eval() { [native code] }", "Non-constructor functions: eval");
+    },
+
+    "isFinite": function () {
+        assert.equals(logger(isFinite), "function isFinite() { [native code] }", "Non-constructor functions: isFinite");
+    },
+
+    "isNaN": function () {
+        assert.equals(logger(isNaN), "function isNaN() { [native code] }", "Non-constructor functions: isNaN");
+    },
+
+    "parseFloat": function () {
+        assert.equals(logger(parseFloat), "function parseFloat() { [native code] }", "Non-constructor functions: parseFloat");
+    },
+
+    "parseInt": function () {
+        assert.equals(logger(parseInt), "function parseInt() { [native code] }", "Non-constructor functions: parseInt");
+    },
+
+    // Harmony JS
+    // "uneval": function () { assert(false); },
 
 /******************************************************************************/
 /* Other */
@@ -147,6 +262,7 @@ buster.testCase("logger/js/core", {
         assert.equals(logger(Infinity), "Infinity", "Other: Infinity");
         assert.equals(logger(-Infinity), "-Infinity", "Other: -Infinity");
     },
+
     "JSON": function () {
         assert.equals(logger({
             alpha: 1
@@ -157,13 +273,19 @@ buster.testCase("logger/js/core", {
             "beta": 2
         }), "{\n\t\"alpha\": 1,\n\t\"beta\": 2\n}", "Other: JSON");
     },
-    "Math": function () { assert(true); },
+
+    "Math": function () {
+        assert.equals(logger(Math), "{}", "Other: Math");
+    },
+
     "NaN": function () {
         assert.equals(logger(NaN), "NaN", "Other: NaN");
     },
+
     "Null": function () {
         assert.equals(logger(null), "null", "Other: Null");
     },
+
     "undefined": function () {
         assert.equals(logger(undefined), "undefined", "Other: undefined");
     }

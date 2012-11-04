@@ -13,8 +13,8 @@ buster.testCase("logger/dom DOM Traversal Level 2", {
     // 1.2. Formal Interface Definition
 
     // interfaces
-    "[interface NodeIterator]": function () {},
-    "[interface NodeFilter]": function () {},
-    "[interface TreeWalker]": function () {},
-    "[interface DocumentTraversal]": function () {}
+    "[interface NodeIterator]": function () { assert(false); },
+    "[interface NodeFilter]": function () { assert(false); },
+    "[interface TreeWalker]": function () { assert(false); },
+    "[interface DocumentTraversal]": function () { assert(false); }
 });

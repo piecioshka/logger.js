@@ -22,14 +22,16 @@ var tests = [
 /* Hybrid Test: Browser + NodeJS */
 /******************************************************************************/
 
-config["node-logger browser"] = {
+/*
+config["node-text-plain-logger @ browser"] = {
     rootPath: "../",
     environment: "browser",
     sources: sources,
     tests: tests
 };
+*/
 
-config["node-logger node"] = {
+config["node-text-plain-logger @ node"] = {
     rootPath: "../",
     environment: "node",
     sources: sources,

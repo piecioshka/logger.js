@@ -13,5 +13,5 @@ buster.testCase("logger/dom DOM Traversal Level 3", {
     // A. IDL Definitions
 
     // interfaces
-    "[interface ElementTraversal]": function () {}
+    "[interface ElementTraversal]": function () { assert(false); }
 });
