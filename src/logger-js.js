@@ -167,7 +167,6 @@ if (typeof require !== "undefined") {
             if (checker.hasOwnProperty(type)) {
                 if (checker[type].call(null, data)) {
                     res = logger.parser.js[type].call(this, data);
-                    // res = ">>" + type + "<< : " + logger.parser.js[type].call(this, data);
                 }
             }
         }

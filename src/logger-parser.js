@@ -12,7 +12,19 @@ logger.parser = (function () {
 
         printer_dom = {},
 
-        printer_bom = {},
+        printer_bom = {
+
+/******************************************************************************/
+/* General */
+/******************************************************************************/
+
+            "Document": function (o) {
+                return "Document: \"" + o.location.href + "\"";
+            },
+            "Window": function (o) {
+                return "Window: \"" + o.location.href + "\"";
+            }
+        },
 
         printer_js = {
 

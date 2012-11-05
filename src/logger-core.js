@@ -55,7 +55,7 @@ function logger(data) {
 
     // if not found, report w exception
     throw {
-        name: "UnexpectedTypeError",
+        name: "LoggerUnexpectedTypeError",
         message: "Undefined type of variable: " + data
     };
 }

@@ -9,11 +9,17 @@ if (typeof require !== "undefined") {
 }
 
 buster.testCase("logger/bom/core", {
+
+/******************************************************************************/
+/* General */
+/******************************************************************************/
+
     "Document": function () {
-        assert.equals(logger(document), "Document '" + location.href + "'", "Document");
+        assert.equals(logger(window.document), "Document \"" + location.href + "\"", "Document");
     },
+
     "Window": function () {
-        assert.equals(logger(window), "Window '" + location.href + "'", "Window");
+        assert.equals(logger(window), "Window \"" + location.href + "\"", "Window");
     }
 });
 
