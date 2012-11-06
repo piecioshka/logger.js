@@ -55,7 +55,7 @@ function logger(data) {
 
     // if not found, report w exception
     throw {
-        name: "UnexpectedTypeError",
+        name: "LoggerUnexpectedTypeError",
         message: "Undefined type of variable: " + data
     };
 }
@@ -82,6 +82,10 @@ if (typeof require !== "undefined") {
 
     var checker = {
 
+/******************************************************************************/
+/* General */
+/******************************************************************************/
+
     };
 
     logger.bom = function (data) {
@@ -91,7 +95,8 @@ if (typeof require !== "undefined") {
         for (type in checker) {
             if (checker.hasOwnProperty(type)) {
                 if (checker[type].call(null, data)) {
-                    res = logger.parser.bom[type].call(this, data);
+                    // res = logger.parser.bom[type].call(this, data);
+                    res = ">>" + type + "<< : " + logger.parser.bom[type].call(this, data);
                 }
             }
         }
@@ -160,8 +165,8 @@ if (typeof require !== "undefined") {
             && o.getFullYear && o.getHours && o.getMilliseconds &&
             o.getMinutes && o.getMonth && o.getSeconds;
         },
-        "Function": function (o) { return o && o.constructor && o.call &&
-            o.apply && o instanceof Function;
+        "Function": function (o) { return o && (o.name === "empty" || o.name === "") &&
+            o.constructor && o.call && o.apply && o instanceof Function;
         },
         // Harmony JS
         // "Iterator": function (o) { return o.constructor === Iterator; },
@@ -178,46 +183,89 @@ if (typeof require !== "undefined") {
 /* Typed array constructors */
 /******************************************************************************/
 
-        "ArrayBuffer": function (o) { return false; },
-        "DataView": function (o) { return false; },
-        "Float32Array": function (o) { return false; },
-        "Float64Array": function (o) { return false; },
-        "Int16Array": function (o) { return false; },
-        "Int32Array": function (o) { return false; },
-        "Int8Array": function (o) { return false; },
-        "Uint16Array": function (o) { return false; },
-        "Uint32Array": function (o) { return false; },
-        "Uint8Array": function (o) { return false; },
-        "Uint8ClampedArray": function (o) { return false; },
+        "ArrayBuffer": function (o) { return o && o instanceof ArrayBuffer &&
+            typeof o.byteLength === "number";
+        },
+        "DataView": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            o.getInt8 && o.getUint8 && o.getInt16 && o.getUint16 && o.getInt32 &&
+            o.getUint32 && o.getFloat32 && o.getFloat64 && o instanceof DataView;
+        },
+        "Float32Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            o instanceof Float32Array;
+        },
+        "Float64Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            o instanceof Float64Array;
+        },
+        "Int16Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            o instanceof Int16Array;
+        },
+        "Int32Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            o instanceof Int32Array;
+        },
+        "Int8Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            o instanceof Int8Array;
+        },
+        "Uint16Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            o instanceof Uint16Array;
+        },
+        "Uint32Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            o instanceof Uint32Array;
+        },
+        "Uint8Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            o instanceof Uint8Array;
+        },
+        /*
+        "Uint8ClampedArray": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            !!Uint8ClampedArray && o instanceof Uint8ClampedArray;
+        },
+        */
 
 /******************************************************************************/
 /* Error constructors */
 /******************************************************************************/
 
-        "Error": function (o) { return false; },
-        "EvalError": function (o) { return false; },
-        "InternalError": function (o) { return false; },
-        "RangeError": function (o) { return false; },
-        "ReferenceError": function (o) { return false; },
-        "StopIteration": function (o) { return false; },
-        "SyntaxError": function (o) { return false; },
-        "TypeError": function (o) { return false; },
-        "URIError": function (o) { return false; },
-
-/******************************************************************************/
-/* Non-constructor functions */
-/******************************************************************************/
-
-        "decodeURI": function (o) { return false; },
-        "decodeURIComponent": function (o) { return false; },
-        "encodeURI": function (o) { return false; },
-        "encodeURIComponent": function (o) { return false; },
-        "eval": function (o) { return false; },
-        "isFinite": function (o) { return false; },
-        "isNaN": function (o) { return false; },
-        "parseFloat": function (o) { return false; },
-        "parseInt": function (o) { return false; },
-        "uneval": function (o) { return false; },
+        "Error": function (o) { return o && o.name === "Error" &&
+            o instanceof Error;
+        },
+        "EvalError": function (o) { return o && o.name === "EvalError" &&
+            o instanceof Error && o instanceof EvalError;
+        },
+        /*
+        // Harmony JS
+        "InternalError": function (o) { return o && o.name === "InternalError" &&
+            o instanceof Error && o instanceof InternalError;
+        },
+        */
+        "RangeError": function (o) { return o && o.name === "RangeError" &&
+            o instanceof Error && o instanceof RangeError;
+        },
+        "ReferenceError": function (o) { return o && o.name === "ReferenceError" &&
+            o instanceof Error && o instanceof ReferenceError;
+        },
+        /*
+        // Harmony JS
+        "StopIteration": function (o) { return o && o.name === "StopIteration" &&
+            o instanceof Error && o instanceof StopIteration;
+        },
+        */
+        "SyntaxError": function (o) { return o && o.name === "SyntaxError" &&
+            o instanceof Error && o instanceof SyntaxError;
+        },
+        "TypeError": function (o) { return o && o.name === "TypeError" &&
+            o instanceof Error && o instanceof TypeError;
+        },
+        "URIError": function (o) { return o && o.name === "URIError" &&
+            o instanceof Error && o instanceof URIError;
+        },
 
 /******************************************************************************/
 /* Other */
@@ -227,7 +275,7 @@ if (typeof require !== "undefined") {
             !isFinite(o);
         },
         "JSON": function (o) { return checker["Object"](o); },
-        "Math": function (o) { return false; },
+        "Math": function (o) { return o && o.E === Math.E; },
         "NaN": function (o) { return typeof o === "number" && isNaN(o); },
         "Null": function (o) { return o === null; },
         "undefined": function (o) { return o === undefined; }

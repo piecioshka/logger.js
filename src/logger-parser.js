@@ -159,22 +159,6 @@ logger.parser = (function () {
             "URIError": function (o) { return printer_js["Error"](o); },
 
 /******************************************************************************/
-/* Non-constructor functions */
-/******************************************************************************/
-
-            "decodeURI": function (o) { return o.toString(); },
-            "decodeURIComponent": function (o) { return o.toString(); },
-            "encodeURI": function (o) { return o.toString(); },
-            "encodeURIComponent": function (o) { return o.toString(); },
-            "eval": function (o) { return o.toString(); },
-            "isFinite": function (o) { return o.toString(); },
-            "isNaN": function (o) { return o.toString(); },
-            "parseFloat": function (o) { return o.toString(); },
-            "parseInt": function (o) { return o.toString(); },
-            // Harmony JS
-            // "uneval": function (o) { return o; },
-
-/******************************************************************************/
 /* Other */
 /******************************************************************************/
 

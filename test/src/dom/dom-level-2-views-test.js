@@ -13,6 +13,10 @@ buster.testCase("logger/dom DOM Views Level 2", {
     // 1.2. Interfaces
 
     // interfaces
-    "[interface AbstractView]": function () { assert(false); },
-    "[interface DocumentView]": function () { assert(false); }
+    "[interface AbstractView]": function () {
+        assert(false);
+    },
+    "[interface DocumentView]": function () {
+        assert(false);
+    }
 });

@@ -1,5 +1,5 @@
 /******************************************************************************/
-/* TEST CASE: logger.bom() */
+/* TEST CASE: logger.bom(): Mozilla Firefox*/
 /******************************************************************************/
 
 if (typeof require !== "undefined") {
@@ -8,18 +8,10 @@ if (typeof require !== "undefined") {
     var logger = require("../../../src/logger-core.js");
 }
 
-buster.testCase("logger/bom/core", {
+buster.testCase("logger/bom Mozilla Firefox", {
 
 /******************************************************************************/
 /* General */
 /******************************************************************************/
 
-    "Document": function () {
-        assert.equals(logger(window.document), "Document \"" + location.href + "\"", "Document");
-    },
-
-    "Window": function () {
-        assert.equals(logger(window), "Window \"" + location.href + "\"", "Window");
-    }
 });
-

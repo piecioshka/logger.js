@@ -13,11 +13,21 @@ buster.testCase("logger/dom DOM Validation Level 3", {
     // 1.2 Exceptions
 
     // exceptions
-    "[exception ExceptionVAL]": function () { assert(false); },
+    "[exception ExceptionVAL]": function () {
+        assert(false);
+    },
 
     // interfaces
-    "[interface DocumentEditVAL : NodeEditVAL]": function () { assert(false); },
-    "[interface NodeEditVAL]": function () { assert(false); },
-    "[interface ElementEditVAL : NodeEditVAL]": function () { assert(false); },
-    "[interface CharacterDataEditVAL : NodeEditVAL]": function () { assert(false); },
+    "[interface DocumentEditVAL : NodeEditVAL]": function () {
+        assert(false);
+    },
+    "[interface NodeEditVAL]": function () {
+        assert(false);
+    },
+    "[interface ElementEditVAL : NodeEditVAL]": function () {
+        assert(false);
+    },
+    "[interface CharacterDataEditVAL : NodeEditVAL]": function () {
+        assert(false);
+    }
 });

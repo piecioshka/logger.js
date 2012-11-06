@@ -15,8 +15,6 @@ if (typeof require !== "undefined") {
 /* General */
 /******************************************************************************/
 
-        "Document": function (o) { return typeof o.onload == "function"; },
-        "Window": function (o) { return typeof o.document !== "undefined"; }
     };
 
     logger.bom = function (data) {

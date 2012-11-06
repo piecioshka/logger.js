@@ -130,22 +130,6 @@ if (typeof require !== "undefined") {
         },
 
 /******************************************************************************/
-/* Non-constructor functions */
-/******************************************************************************/
-
-        "decodeURI": function (o) { return o && o.name === "decodeURI"; },
-        "decodeURIComponent": function (o) { return o && o.name === "decodeURIComponent"; },
-        "encodeURI": function (o) { return o && o.name === "encodeURI"; },
-        "encodeURIComponent": function (o) { return o && o.name === "encodeURIComponent"; },
-        "eval": function (o) { return o && o.name === "eval"; },
-        "isFinite": function (o) { return o && o.name === "isFinite"; },
-        "isNaN": function (o) { return o && o.name === "isNaN"; },
-        "parseFloat": function (o) { return o && o.name === "parseFloat"; },
-        "parseInt": function (o) { return o && o.name === "parseInt"; },
-        // Harmony JS
-        // "uneval": function (o) { return o && o.name === "uneval"; },
-
-/******************************************************************************/
 /* Other */
 /******************************************************************************/
 

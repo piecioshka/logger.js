@@ -13,13 +13,23 @@ buster.testCase("logger/dom DOM Events Level 2", {
     // 1.2. Style Sheet Interfaces
 
     // interfaces
-    "[interface StyleSheet]": function () { assert(false); },
-    "[interface StyleSheetList]": function () { assert(false); },
-    "[interface MediaList]": function () { assert(false); },
+    "[interface StyleSheet]": function () {
+        assert(false);
+    },
+    "[interface StyleSheetList]": function () {
+        assert(false);
+    },
+    "[interface MediaList]": function () {
+        assert(false);
+    },
 
     // 1.3. Document Extensions
 
     // interfaces
-    "[interface LinkStyle]": function () { assert(false); },
-    "[interface DocumentStyle]": function () { assert(false); }
+    "[interface LinkStyle]": function () {
+        assert(false);
+    },
+    "[interface DocumentStyle]": function () {
+        assert(false);
+    }
 });
