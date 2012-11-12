@@ -13,7 +13,7 @@ var sources = [
 // Test case files
 var tests = [
     "test/src/core/*-test.js",
-    "test/src/dom/*-test.js",
+    // "test/src/dom/*-test.js",
     "test/src/bom/*-test.js",
     "test/src/js/*-test.js"
 ];
