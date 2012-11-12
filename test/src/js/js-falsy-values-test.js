@@ -22,5 +22,4 @@ buster.testCase("logger/js/core", {
         assert.equals(logger(NaN), "NaN", "Falsy Values: NaN");
         assert.equals(logger(undefined), "undefined", "Falsy Values: undefined");
     }
-
 });

@@ -1,4 +1,4 @@
-/******************************************************************************/
+  /******************************************************************************/
 /* Logger DOM */
 /******************************************************************************/
 
@@ -32,15 +32,9 @@ if (typeof require !== "undefined") {
     }
 
     var checker = {
-        "NamedNodeMap": function (o) { return o && o instanceof NamedNodeMap &&
-            toString.call(o) === "[object NamedNodeMap]";
-        },
-        "Attr": function (o) { return o && o instanceof Attr &&
-            toString.call(o) === "[object Attr]";
-        },
-        "HTMLDivElement": function (o) { return o && o instanceof HTMLDivElement &&
-            toString.call(o) === "[object HTMLDivElement]";
-        }
+        "NamedNodeMap": function (o) { return o && toString.call(o) === "[object NamedNodeMap]"; },
+        "Attr": function (o) { return o && toString.call(o) === "[object Attr]"; },
+        "HTMLDivElement": function (o) { return o && toString.call(o) === "[object HTMLDivElement]"; }
     };
 
     logger.dom = function (data) {
