@@ -56,7 +56,7 @@ function logger(data) {
     // if not found, report w exception
     throw {
         name: "LoggerUnexpectedTypeError",
-        message: "Undefined type of variable: " + data
+        message: "Undefined type of variable: " + Object.prototype.toString.call(data)
     };
 }
 

@@ -24,8 +24,8 @@ if (typeof require !== "undefined") {
         for (type in checker) {
             if (checker.hasOwnProperty(type)) {
                 if (checker[type].call(null, data)) {
-                    // res = logger.parser.bom[type].call(this, data);
-                    res = ">>" + type + "<< : " + logger.parser.bom[type].call(this, data);
+                    res = logger.parser.bom[type].call(this, data);
+                    // res = ">>" + type + "<< : " + logger.parser.bom[type].call(this, data);
                 }
             }
         }
