@@ -9,6 +9,8 @@ if (typeof require !== "undefined") {
 (function () {
     "use strict";
 
+    var toString = Object.prototype.toString;
+
     // Types of all available node
     var nodeTypes = {
         "ELEMENT_NODE": 1,
@@ -30,7 +32,15 @@ if (typeof require !== "undefined") {
     }
 
     var checker = {
-
+        "NamedNodeMap": function (o) { return o && o instanceof NamedNodeMap &&
+            toString.call(o) === "[object NamedNodeMap]";
+        },
+        "Attr": function (o) { return o && o instanceof Attr &&
+            toString.call(o) === "[object Attr]";
+        },
+        "HTMLDivElement": function (o) { return o && o instanceof HTMLDivElement &&
+            toString.call(o) === "[object HTMLDivElement]";
+        }
     };
 
     logger.dom = function (data) {

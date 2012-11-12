@@ -26,6 +26,9 @@ function logger(data) {
         // returned value
         res,
 
+        // value convert to string
+        data_s = Object.prototype.toString.call(data),
+
         // available special logger types
         parts = ["bom", "dom", "js"],
 
@@ -49,15 +52,12 @@ function logger(data) {
     }
 
     if (logger.found) {
-        // if found parse value return that
+        // if logger model has matched also returned parsing value
         return res;
     }
 
     // if not found, report w exception
-    throw {
-        name: "LoggerUnexpectedTypeError",
-        message: "Undefined type of variable: " + Object.prototype.toString.call(data)
-    };
+    throw new TypeError("LoggerUnexpectedValue: Undefined type of variable: " + data_s);
 }
 
 // found status
@@ -116,6 +116,8 @@ if (typeof require !== "undefined") {
 (function () {
     "use strict";
 
+    var toString = Object.prototype.toString;
+
     // Types of all available node
     var nodeTypes = {
         "ELEMENT_NODE": 1,
@@ -137,7 +139,15 @@ if (typeof require !== "undefined") {
     }
 
     var checker = {
-
+        "NamedNodeMap": function (o) { return o && o instanceof NamedNodeMap &&
+            toString.call(o) === "[object NamedNodeMap]";
+        },
+        "Attr": function (o) { return o && o instanceof Attr &&
+            toString.call(o) === "[object Attr]";
+        },
+        "HTMLDivElement": function (o) { return o && o instanceof HTMLDivElement &&
+            toString.call(o) === "[object HTMLDivElement]";
+        }
     };
 
     logger.dom = function (data) {
@@ -326,9 +336,98 @@ if (typeof require !== "undefined") {
 
 logger.parser = (function () {
 
-    var
+    function parse_attrs(o) {
+        var attrs = "",
+            attrs_count = o.attributes.length;
 
-        printer_dom = {},
+        for (var i = 0; i < attrs_count; ++i) {
+            var attr = o[i];
+
+            attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
+
+            if (i < attrs_count -1) {
+                attrs += " ";
+            }
+        }
+
+        return attrs;
+    }
+
+    var printer_dom = {
+            "NamedNodeMap": function (o) {
+                return printer_js["Object"](o);
+            },
+
+/******************************************************************************/
+/* Node */
+/******************************************************************************/
+
+            "Node": function (o) {
+
+            },
+
+/******************************************************************************/
+/* Node ELEMENT_NODE 1 */
+/******************************************************************************/
+
+            "Element": function (o) {
+                return printer_js["Node"](o);
+            },
+            "HTMLElement": function (o) {
+                return printer_js["Element"](o);
+            },
+            "HTMLDivElement": function (o) {
+                return printer_js["HTMLElement"](o);
+            },
+
+/******************************************************************************/
+/* Node ATTRIBUTE_NODE 2 */
+/******************************************************************************/
+
+            "Attr": function (o) {
+                return printer_js["Object"](o);
+            }
+
+/******************************************************************************/
+/* Node TEXT_NODE 3 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node CDATA_SECTION_NODE 4 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node ENTITY_REFERENCE_NODE 5 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node ENTITY_NODE 6 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node PROCESSING_INSTRUCTION_NODE 7 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node COMMENT_NODE 8 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node DOCUMENT_NODE 9 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node DOCUMENT_TYPE_NODE 10 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node DOCUMENT_FRAGMENT_NODE 11 */
+/******************************************************************************/
+
+/******************************************************************************/
+/* Node NOTATION_NODE 12 */
+/******************************************************************************/
+        },
 
         printer_bom = {
 
@@ -336,12 +435,6 @@ logger.parser = (function () {
 /* General */
 /******************************************************************************/
 
-            "Document": function (o) {
-                return "Document: \"" + o.location.href + "\"";
-            },
-            "Window": function (o) {
-                return "Window: \"" + o.location.href + "\"";
-            }
         },
 
         printer_js = {

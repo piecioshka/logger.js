@@ -26,6 +26,9 @@ function logger(data) {
         // returned value
         res,
 
+        // value convert to string
+        data_s = Object.prototype.toString.call(data),
+
         // available special logger types
         parts = ["bom", "dom", "js"],
 
@@ -49,15 +52,12 @@ function logger(data) {
     }
 
     if (logger.found) {
-        // if found parse value return that
+        // if logger model has matched also returned parsing value
         return res;
     }
 
     // if not found, report w exception
-    throw {
-        name: "LoggerUnexpectedTypeError",
-        message: "Undefined type of variable: " + Object.prototype.toString.call(data)
-    };
+    throw new TypeError("LoggerUnexpectedValue: Undefined type of variable: " + data_s);
 }
 
 // found status
