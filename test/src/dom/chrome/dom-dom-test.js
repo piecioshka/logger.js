@@ -5,7 +5,7 @@
 if (typeof require !== "undefined") {
     // Node.js tests
     var buster = require("buster");
-    var logger = require("../../../src/logger-core.js");
+    var logger = require("../../../../src/logger-core.js");
 }
 
 buster.testCase("logger/bom/chrome DOM", {
@@ -366,11 +366,11 @@ buster.testCase("logger/bom/chrome DOM", {
     },
     "Window": function () {
         // function Window() { [native code] }
-        assert.equals(logger(window), "[Global]", "window");
-        assert.equals(logger(parent), "[Global]", "parent");
-        assert.equals(logger(self), "[Global]", "self");
-        assert.equals(logger(top), "[Global]", "top");
-        assert.equals(logger(frames), "[Global]", "frames");
+        assert.equals(logger(window), "[object global]", "window");
+        assert.equals(logger(parent), "[object global]", "parent");
+        assert.equals(logger(self), "[object global]", "self");
+        assert.equals(logger(top), "[object global]", "top");
+        assert.equals(logger(frames), "[object global]", "frames");
     },
     "XMLDocument": function () {
         // function Document() { [native code] }
@@ -378,7 +378,7 @@ buster.testCase("logger/bom/chrome DOM", {
     },
     "XMLHttpRequest": function () {
         // function XMLHttpRequest() { [native code] }
-        assert.equals(logger(new XMLHttpRequest()), "[XMLHttpRequest]", "XMLHttpRequest");
+        assert.equals(logger(new XMLHttpRequest()), "[object XMLHttpRequest]", "XMLHttpRequest");
     },
     "XMLHttpRequestException": function () {
         // function XMLHttpRequestException() { [native code] }

@@ -5,7 +5,7 @@
 if (typeof require !== "undefined") {
     // Node.js tests
     var buster = require("buster");
-    var logger = require("../../../src/logger-core.js");
+    var logger = require("../../../../src/logger-core.js");
 }
 
 // http://www.w3.org/TR/2004/REC-DOM-Level-3-Val-20040127/validation.html

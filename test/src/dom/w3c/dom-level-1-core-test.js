@@ -1,46 +1,25 @@
 /******************************************************************************/
-/* DOM Core Level 3 */
+/* DOM Core Level 1 */
 /******************************************************************************/
 
 if (typeof require !== "undefined") {
     // Node.js tests
     var buster = require("buster");
-    var logger = require("../../../src/logger-core.js");
+    var logger = require("../../../../src/logger-core.js");
 }
 
-// http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html
-buster.testCase("logger/dom DOM Core Level 3", {
-    // 1.2.3 The DOMUserData Type
-
-    "[??? DOMUserData]": function () {
-        assert(false);
-    },
-
-    // 1.2.4 The DOMObject Type
-    "[??? DOMObject]": function () {
-        assert(false);
-    },
-
-    // 1.4 Fundamental Interfaces: Core Module
+// http://www.w3.org/TR/1998/REC-DOM-Level-1-19981001/level-one-core.html
+buster.testCase("logger/dom DOM Core Level 1", {
+    // 1.2. Fundamental Interfaces
 
     // exceptions
     "[exception DOMException]": function () {
+        // simple DOMException example
+        // document.body.appendChild(null);
         assert(false);
     },
 
     // interfaces
-    "[interface DOMStringList]": function () {
-        assert(false);
-    },
-    "[interface NameList]": function () {
-        assert(false);
-    },
-    "[interface DOMImplementationList]": function () {
-        assert(false);
-    },
-    "[interface DOMImplementationSource]": function () {
-        assert(false);
-    },
     "[interface DOMImplementation]": function () {
         assert(false);
     },
@@ -74,24 +53,10 @@ buster.testCase("logger/dom DOM Core Level 3", {
     "[interface Comment : CharacterData]": function () {
         assert(false);
     },
-    "[interface TypeInfo]": function () {
-        assert(false);
-    },
-    "[interface UserDataHandler]": function () {
-        assert(false);
-    },
-    "[interface DOMError]": function () {
-        assert(false);
-    },
-    "[interface DOMErrorHandler]": function () {
-        assert(false);
-    },
-    "[interface DOMLocator]": function () {
-        assert(false);
-    },
-    "[interface DOMConfiguration]": function () {
-        assert(false);
-    },
+
+    // 1.3. Extended Interfaces
+
+    // interfaces
     "[interface CDATASection : Text]": function () {
         assert(false);
     },

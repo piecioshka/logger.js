@@ -143,14 +143,14 @@ if (typeof require !== "undefined") {
         "undefined": function (o) { return o === undefined; }
     };
 
-    logger.js = function (data) {
+    logger.JSLogger = function (data) {
         var res,
             type;
 
         for (type in checker) {
             if (checker.hasOwnProperty(type)) {
                 if (checker[type].call(null, data)) {
-                    res = logger.parser.js[type].call(this, data);
+                    res = logger.parser.JSParser.type.call(this, data);
                 }
             }
         }

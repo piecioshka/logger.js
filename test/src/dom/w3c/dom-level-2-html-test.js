@@ -1,37 +1,40 @@
 /******************************************************************************/
-/* DOM HTML Level 1 */
+/* DOM HTML Level 2 */
 /******************************************************************************/
 
 if (typeof require !== "undefined") {
     // Node.js tests
     var buster = require("buster");
-    var logger = require("../../../src/logger-core.js");
+    var logger = require("../../../../src/logger-core.js");
 }
 
-// http://www.w3.org/TR/1998/REC-DOM-Level-1-19981001/level-one-html.html
-buster.testCase("logger/dom DOM HTML Level 1", {
-    // 2.3. Miscellaneous Object Definitions
+// http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/html.html
+buster.testCase("logger/dom DOM HTML Level 2", {
+    // 1.4. Miscellaneous Object Definitions
 
     // interfaces
     "[interface HTMLCollection]": function () {
         assert(false);
     },
+    "[interface HTMLOptionsCollection]": function () {
+        assert(false);
+    },
 
-    // 2.4. Objects related to HTML documents
+    // 1.5. Objects related to HTML documents
 
     // interfaces
     "[interface HTMLDocument : Document]": function () {
         assert(false);
     },
 
-    // 2.5.4. The HTMLElement interface
+    // 1.6.4. The HTMLElement interface
 
     // interfaces
     "[interface HTMLElement : Element]": function () {
         assert(false);
     },
 
-    // 2.5.5. Object definitions
+    // 1.6.5. Object definitions
 
     // interfaces
     "[interface HTMLHtmlElement : HTMLElement]": function () {
@@ -107,9 +110,6 @@ buster.testCase("logger/dom DOM HTML Level 1", {
         assert(false);
     },
     "[interface HTMLLIElement : HTMLElement]": function () {
-        assert(false);
-    },
-    "[interface HTMLBlockquoteElement : HTMLElement]": function () {
         assert(false);
     },
     "[interface HTMLDivElement : HTMLElement]": function () {

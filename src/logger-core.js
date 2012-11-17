@@ -30,7 +30,7 @@ function logger(data) {
         data_s = Object.prototype.toString.call(data),
 
         // available special logger types
-        parts = ["bom", "dom", "js"],
+        parts = ["DOMLogger", "JSLogger"],
 
         // number of special loggers
         len = parts.length;
@@ -62,6 +62,9 @@ function logger(data) {
 
 // found status
 logger.found = false;
+
+// parser's
+logger.parser = {};
 
 // public API
 if (typeof module !== "undefined") {

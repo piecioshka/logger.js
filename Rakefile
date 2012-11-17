@@ -39,7 +39,7 @@ puts "------------- node-plain-text-logger for Web -------------"
 
 print "(1) Generate library:"
 
-files = ["logger-core.js", "logger-bom.js", "logger-dom.js", "logger-js.js", "logger-parser.js"]
+files = ["logger-core.js", "logger-dom.js", "logger-js.js", "parser/dom-parser.js", "parser/js-parser.js"]
 
 lib_data = File.read(library)
 
