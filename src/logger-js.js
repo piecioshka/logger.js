@@ -150,7 +150,7 @@ if (typeof require !== "undefined") {
         for (type in checker) {
             if (checker.hasOwnProperty(type)) {
                 if (checker[type].call(null, data)) {
-                    res = logger.parser.JSParser.type.call(this, data);
+                    res = logger.parser.JSParser.call(this, type, data);
                 }
             }
         }

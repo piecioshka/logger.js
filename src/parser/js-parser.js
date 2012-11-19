@@ -10,7 +10,43 @@
         // parser
         JSParser;
 
-    JSParser = {
+    var default_data_objects = [
+        "Array",
+        "Arguments",
+        "Boolean",
+        "Date",
+        "Function",
+        "Number",
+        "Object",
+        "RegExp",
+        "String",
+        "ArrayBuffer",
+        "DataView",
+        "Float32Array",
+        "Float64Array",
+        "Int16Array",
+        "Int32Array",
+        "Int8Array",
+        "Uint16Array",
+        "Uint32Array",
+        "Uint8Array",
+        "Uint8ClampedArray",
+        "Error",
+        "EvalError",
+        "RangeError",
+        "ReferenceError",
+        "SyntaxError",
+        "TypeError",
+        "URIError",
+        "Infinity",
+        "JSON",
+        "Math",
+        "NaN",
+        "Null",
+        "undefined"
+    ];
+    
+    var special_parsers = {
 
 /******************************************************************************/
 /* General-purpose constructors */
@@ -35,9 +71,6 @@
         },
         "Arguments": function (o) {
             return this["Array"](o);
-        },
-        "Boolean": function (o) {
-            return String(o);
         },
         "Date": function (o) {
             return "Date: " + o.toString();
@@ -108,33 +141,6 @@
         "DataView": function (o) {
             return "[].buffer.byteLength: " + o.buffer.byteLength;
         },
-        "Float32Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Float64Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Int16Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Int32Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Int8Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Uint16Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Uint32Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Uint8Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Uint8ClampedArray": function (o) {
-            return this["DataView"](o);
-        },
 
 /******************************************************************************/
 /* Error constructors */
@@ -159,48 +165,88 @@
             res += ")";
             return res;
         },
-        "EvalError": function (o) {
-            return this["Error"](o);
-        },
-        "RangeError": function (o) {
-            return this["Error"](o);
-        },
-        "ReferenceError": function (o) {
-            return this["Error"](o);
-        },
-        "SyntaxError": function (o) {
-            return this["Error"](o);
-        },
-        "TypeError": function (o) {
-            return this["Error"](o);
-        },
-        "URIError": function (o) {
-            return this["Error"](o);
-        },
 
 /******************************************************************************/
 /* Other */
 /******************************************************************************/
 
-        "Infinity": function (o) {
-            return String(o);
-        },
         "JSON": function (o) {
             return this["Object"](o);
         },
         "Math": function (o) {
             return this["Object"](o);
-        },
-        "NaN": function (o) {
-            return String(o);
-        },
-        "Null": function (o) {
-            return String(o);
-        },
-        "undefined": function (o) {
-            return String(o);
         }
     };
+
+    function in_array(i, a) {
+        var l = a.length;
+        for (var j = 0; j < l; ++j) {
+            if (a[j] === i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function like_as_data_view(o) {
+        return JSParser("DataView", o);
+    }
+    
+    function is_special_number(type) {
+        var SPECIAL_NUMBER_ARRAY = [
+            "Float32Array",
+            "Float64Array",
+            "Int16Array",
+            "Int32Array",
+            "Int8Array",
+            "Uint16Array",
+            "Uint32Array",
+            "Uint8Array",
+            "Uint8ClampedArray"
+        ];
+
+        return in_array(type, SPECIAL_NUMBER_ARRAY);
+    }
+
+    function like_as_error(o) {
+        return JSParser("Error", o);
+    }
+
+    function is_error(type) {
+        var ERRORS_NAME_ARRAY = [
+            "EvalError",
+            "RangeError",
+            "ReferenceError",
+            "SyntaxError",
+            "TypeError",
+            "URIError"
+        ];
+
+        return in_array(type, ERRORS_NAME_ARRAY);
+    }
+
+    JSParser = (function () {
+        return function (type, data) {
+            // check if exists special parser
+            if (type in special_parsers) {
+                // yes! exists, so run it!
+                return special_parsers[type](data);
+            }
+
+            // is Special Number
+            else if (is_special_number(type)) {
+                return like_as_data_view(data);
+            }
+
+            // is Error
+            else if (is_error(type)) {
+                return like_as_error(data);
+            }
+
+            // default parser
+            return String(data);
+        };        
+    }());
 
     // public API
     logger.parser.JSParser = JSParser;

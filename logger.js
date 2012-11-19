@@ -80,10 +80,6 @@ if (typeof module !== "undefined") {
 
         logger = (typeof require !== "undefined") ? require("./logger-core.js") : global.logger;
 
-    function to_string(data) {
-        return Object.prototype.toString.call(data);
-    }
-
     // Types of all available node
     var nodeTypes = {
         "ELEMENT_NODE": 1,
@@ -98,7 +94,11 @@ if (typeof module !== "undefined") {
         "DOCUMENT_TYPE_NODE": 10,
         "DOCUMENT_FRAGMENT_NODE": 11,
         "NOTATION_NODE": 12
-    };
+    }
+
+    function to_string(data) {
+        return Object.prototype.toString.call(data);
+    }
 
     function trim(source) {
         return source.replace(/^\s+|\s+$/g, "");
@@ -108,13 +108,14 @@ if (typeof module !== "undefined") {
         "ArrayBuffer": function (o) {
             return false;
         },
-        "Attr": function (o) { return o && toString.call(o) === "[object Attr]"; },
+        "Attr": function (o) { return o && to_string.call(o) === "[object Attr]"; },
         "Audio": function (o) {
             return false;
         },
         "AudioProcessingEvent": function (o) {
             return false;
         },
+        "BarInfo": function (o) { return o && to_string.call(o) === "[object BarInfo]"; },
         "BeforeLoadEvent": function (o) {
             return false;
         },
@@ -321,7 +322,7 @@ if (typeof module !== "undefined") {
         "HTMLDirectoryElement": function (o) {
             return false;
         },
-        "HTMLDivElement": function (o) { return o && toString.call(o) === "[object HTMLDivElement]"; },
+        "HTMLDivElement": function (o) { return o && to_string.call(o) === "[object HTMLDivElement]"; },
         "HTMLDocument": function (o) {
             return false;
         },
@@ -437,7 +438,7 @@ if (typeof module !== "undefined") {
             return false;
         },
         "HTMLSelectElement": function (o) {
-
+            return false;
         },
         "HTMLSourceElement": function (o) {
             return false;
@@ -538,7 +539,7 @@ if (typeof module !== "undefined") {
         "MutationEvent": function (o) {
             return false;
         },
-        "NamedNodeMap": function (o) { return o && toString.call(o) === "[object NamedNodeMap]"; },
+        "NamedNodeMap": function (o) { return o && to_string.call(o) === "[object NamedNodeMap]"; },
         "Node": function (o) {
             return false;
         },
@@ -1349,9 +1350,7 @@ if (typeof module !== "undefined") {
 
         return res;
     };
-
 }).call(this);
-
 /******************************************************************************/
 /* Logger JavaScript */
 /******************************************************************************/
@@ -1504,7 +1503,7 @@ if (typeof require !== "undefined") {
         for (type in checker) {
             if (checker.hasOwnProperty(type)) {
                 if (checker[type].call(null, data)) {
-                    res = logger.parser.JSParser.type.call(this, data);
+                    res = logger.parser.JSParser.call(this, type, data);
                 }
             }
         }
@@ -1524,43 +1523,13 @@ if (typeof require !== "undefined") {
         // parser
         DOMParser;
 
-    function parse_attrs(o) {
-        var attrs = "",
-            attrs_count = o.attributes.length;
-
-        for (var i = 0; i < attrs_count; ++i) {
-            var attr = o[i];
-
-            attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
-
-            if (i < attrs_count - 1) {
-                attrs += " ";
-            }
-        }
-
-        return attrs;
-    }
-
-    function in_array(i, a) {
-        var l = a.length;
-        for (var j = 0; j < l; ++j) {
-            if (a[j] === i) {
-               return true;
-            }
-        }
-        return false;
-    }
-
-    function to_string(o) {
-        return Object.prototype.toString.call(o);
-    }
-
-    var object_parse_by_to_string = [
+    var default_data_objects = [
         "ArrayBuffer",
         "Audio",
         "AudioProcessingEvent",
         "BeforeLoadEvent",
         "Blob",
+        "BarInfo",
         "CDATASection",
         "CSSCharsetRule",
         "CSSFontFaceRule",
@@ -1797,6 +1766,7 @@ if (typeof require !== "undefined") {
         "SharedWorker",
         "SpeechInputEvent",
         "Storage",
+        "StorageInfo",
         "StorageEvent",
         "StyleSheet",
         "StyleSheetList",
@@ -1893,10 +1863,19 @@ if (typeof require !== "undefined") {
         "webkitRequestFileSystem",
         "webkitResolveLocalFileSystemURL",
         "webkitStorageInfo",
-        //StorageInfo
         "webkitURL",
         "window"
     ];
+
+    var special_parsers = {
+        "Attr": function (o) {
+            return logger.parser.JSParser["Object"](o);
+        },
+
+        "NamedNodeMap": function () {
+            return logger.parser.JSParser["Object"].call(this, o);
+        }
+    };
 
 /******************************************************************************/
 /* Node */
@@ -2016,15 +1995,36 @@ if (typeof require !== "undefined") {
         return tag;
     }
 
-    var special_parsers = {
-        "Attr": function (o) {
-            return logger.parser.JSParser["Object"](o);
-        },
+    function parse_attrs(o) {
+        var attrs = "",
+            attrs_count = o.attributes.length;
 
-        "NamedNodeMap": function () {
-            return logger.parser.JSParser["Object"].call(this, o);
+        for (var i = 0; i < attrs_count; ++i) {
+            var attr = o[i];
+
+            attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
+
+            if (i < attrs_count - 1) {
+                attrs += " ";
+            }
         }
-    };
+
+        return attrs;
+    }
+
+    function in_array(i, a) {
+        var l = a.length;
+        for (var j = 0; j < l; ++j) {
+            if (a[j] === i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function to_string(o) {
+        return Object.prototype.toString.call(o);
+    }
 
     DOMParser = (function () {
         return function (type, data) {
@@ -2059,7 +2059,43 @@ if (typeof require !== "undefined") {
         // parser
         JSParser;
 
-    JSParser = {
+    var default_data_objects = [
+        "Array",
+        "Arguments",
+        "Boolean",
+        "Date",
+        "Function",
+        "Number",
+        "Object",
+        "RegExp",
+        "String",
+        "ArrayBuffer",
+        "DataView",
+        "Float32Array",
+        "Float64Array",
+        "Int16Array",
+        "Int32Array",
+        "Int8Array",
+        "Uint16Array",
+        "Uint32Array",
+        "Uint8Array",
+        "Uint8ClampedArray",
+        "Error",
+        "EvalError",
+        "RangeError",
+        "ReferenceError",
+        "SyntaxError",
+        "TypeError",
+        "URIError",
+        "Infinity",
+        "JSON",
+        "Math",
+        "NaN",
+        "Null",
+        "undefined"
+    ];
+    
+    var special_parsers = {
 
 /******************************************************************************/
 /* General-purpose constructors */
@@ -2084,9 +2120,6 @@ if (typeof require !== "undefined") {
         },
         "Arguments": function (o) {
             return this["Array"](o);
-        },
-        "Boolean": function (o) {
-            return String(o);
         },
         "Date": function (o) {
             return "Date: " + o.toString();
@@ -2157,33 +2190,6 @@ if (typeof require !== "undefined") {
         "DataView": function (o) {
             return "[].buffer.byteLength: " + o.buffer.byteLength;
         },
-        "Float32Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Float64Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Int16Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Int32Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Int8Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Uint16Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Uint32Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Uint8Array": function (o) {
-            return this["DataView"](o);
-        },
-        "Uint8ClampedArray": function (o) {
-            return this["DataView"](o);
-        },
 
 /******************************************************************************/
 /* Error constructors */
@@ -2208,48 +2214,88 @@ if (typeof require !== "undefined") {
             res += ")";
             return res;
         },
-        "EvalError": function (o) {
-            return this["Error"](o);
-        },
-        "RangeError": function (o) {
-            return this["Error"](o);
-        },
-        "ReferenceError": function (o) {
-            return this["Error"](o);
-        },
-        "SyntaxError": function (o) {
-            return this["Error"](o);
-        },
-        "TypeError": function (o) {
-            return this["Error"](o);
-        },
-        "URIError": function (o) {
-            return this["Error"](o);
-        },
 
 /******************************************************************************/
 /* Other */
 /******************************************************************************/
 
-        "Infinity": function (o) {
-            return String(o);
-        },
         "JSON": function (o) {
             return this["Object"](o);
         },
         "Math": function (o) {
             return this["Object"](o);
-        },
-        "NaN": function (o) {
-            return String(o);
-        },
-        "Null": function (o) {
-            return String(o);
-        },
-        "undefined": function (o) {
-            return String(o);
         }
     };
+
+    function in_array(i, a) {
+        var l = a.length;
+        for (var j = 0; j < l; ++j) {
+            if (a[j] === i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function like_as_data_view(o) {
+        return JSParser("DataView", o);
+    }
+    
+    function is_special_number(type) {
+        var SPECIAL_NUMBER_ARRAY = [
+            "Float32Array",
+            "Float64Array",
+            "Int16Array",
+            "Int32Array",
+            "Int8Array",
+            "Uint16Array",
+            "Uint32Array",
+            "Uint8Array",
+            "Uint8ClampedArray"
+        ];
+
+        return in_array(type, SPECIAL_NUMBER_ARRAY);
+    }
+
+    function like_as_error(o) {
+        return JSParser("Error", o);
+    }
+
+    function is_error(type) {
+        var ERRORS_NAME_ARRAY = [
+            "EvalError",
+            "RangeError",
+            "ReferenceError",
+            "SyntaxError",
+            "TypeError",
+            "URIError"
+        ];
+
+        return in_array(type, ERRORS_NAME_ARRAY);
+    }
+
+    JSParser = (function () {
+        return function (type, data) {
+            // check if exists special parser
+            if (type in special_parsers) {
+                // yes! exists, so run it!
+                return special_parsers[type](data);
+            }
+
+            // is Special Number
+            else if (is_special_number(type)) {
+                return like_as_data_view(data);
+            }
+
+            // is Error
+            else if (is_error(type)) {
+                return like_as_error(data);
+            }
+
+            // default parser
+            return String(data);
+        };        
+    }());
 
     // public API
     logger.parser.JSParser = JSParser;

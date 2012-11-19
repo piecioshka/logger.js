@@ -6,10 +6,6 @@
 
         logger = (typeof require !== "undefined") ? require("./logger-core.js") : global.logger;
 
-    function to_string(data) {
-        return Object.prototype.toString.call(data);
-    }
-
     // Types of all available node
     var nodeTypes = {
         "ELEMENT_NODE": 1,
@@ -24,7 +20,11 @@
         "DOCUMENT_TYPE_NODE": 10,
         "DOCUMENT_FRAGMENT_NODE": 11,
         "NOTATION_NODE": 12
-    };
+    }
+
+    function to_string(data) {
+        return Object.prototype.toString.call(data);
+    }
 
     function trim(source) {
         return source.replace(/^\s+|\s+$/g, "");
@@ -34,13 +34,14 @@
         "ArrayBuffer": function (o) {
             return false;
         },
-        "Attr": function (o) { return o && toString.call(o) === "[object Attr]"; },
+        "Attr": function (o) { return o && to_string.call(o) === "[object Attr]"; },
         "Audio": function (o) {
             return false;
         },
         "AudioProcessingEvent": function (o) {
             return false;
         },
+        "BarInfo": function (o) { return o && to_string.call(o) === "[object BarInfo]"; },
         "BeforeLoadEvent": function (o) {
             return false;
         },
@@ -247,7 +248,7 @@
         "HTMLDirectoryElement": function (o) {
             return false;
         },
-        "HTMLDivElement": function (o) { return o && toString.call(o) === "[object HTMLDivElement]"; },
+        "HTMLDivElement": function (o) { return o && to_string.call(o) === "[object HTMLDivElement]"; },
         "HTMLDocument": function (o) {
             return false;
         },
@@ -363,7 +364,7 @@
             return false;
         },
         "HTMLSelectElement": function (o) {
-
+            return false;
         },
         "HTMLSourceElement": function (o) {
             return false;
@@ -464,7 +465,7 @@
         "MutationEvent": function (o) {
             return false;
         },
-        "NamedNodeMap": function (o) { return o && toString.call(o) === "[object NamedNodeMap]"; },
+        "NamedNodeMap": function (o) { return o && to_string.call(o) === "[object NamedNodeMap]"; },
         "Node": function (o) {
             return false;
         },
@@ -1275,6 +1276,4 @@
 
         return res;
     };
-
 }).call(this);
-

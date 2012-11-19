@@ -10,43 +10,13 @@
         // parser
         DOMParser;
 
-    function parse_attrs(o) {
-        var attrs = "",
-            attrs_count = o.attributes.length;
-
-        for (var i = 0; i < attrs_count; ++i) {
-            var attr = o[i];
-
-            attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
-
-            if (i < attrs_count - 1) {
-                attrs += " ";
-            }
-        }
-
-        return attrs;
-    }
-
-    function in_array(i, a) {
-        var l = a.length;
-        for (var j = 0; j < l; ++j) {
-            if (a[j] === i) {
-               return true;
-            }
-        }
-        return false;
-    }
-
-    function to_string(o) {
-        return Object.prototype.toString.call(o);
-    }
-
-    var object_parse_by_to_string = [
+    var default_data_objects = [
         "ArrayBuffer",
         "Audio",
         "AudioProcessingEvent",
         "BeforeLoadEvent",
         "Blob",
+        "BarInfo",
         "CDATASection",
         "CSSCharsetRule",
         "CSSFontFaceRule",
@@ -283,6 +253,7 @@
         "SharedWorker",
         "SpeechInputEvent",
         "Storage",
+        "StorageInfo",
         "StorageEvent",
         "StyleSheet",
         "StyleSheetList",
@@ -379,10 +350,19 @@
         "webkitRequestFileSystem",
         "webkitResolveLocalFileSystemURL",
         "webkitStorageInfo",
-        //StorageInfo
         "webkitURL",
         "window"
     ];
+
+    var special_parsers = {
+        "Attr": function (o) {
+            return logger.parser.JSParser["Object"](o);
+        },
+
+        "NamedNodeMap": function () {
+            return logger.parser.JSParser["Object"].call(this, o);
+        }
+    };
 
 /******************************************************************************/
 /* Node */
@@ -502,15 +482,36 @@
         return tag;
     }
 
-    var special_parsers = {
-        "Attr": function (o) {
-            return logger.parser.JSParser["Object"](o);
-        },
+    function parse_attrs(o) {
+        var attrs = "",
+            attrs_count = o.attributes.length;
 
-        "NamedNodeMap": function () {
-            return logger.parser.JSParser["Object"].call(this, o);
+        for (var i = 0; i < attrs_count; ++i) {
+            var attr = o[i];
+
+            attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
+
+            if (i < attrs_count - 1) {
+                attrs += " ";
+            }
         }
-    };
+
+        return attrs;
+    }
+
+    function in_array(i, a) {
+        var l = a.length;
+        for (var j = 0; j < l; ++j) {
+            if (a[j] === i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function to_string(o) {
+        return Object.prototype.toString.call(o);
+    }
 
     DOMParser = (function () {
         return function (type, data) {
