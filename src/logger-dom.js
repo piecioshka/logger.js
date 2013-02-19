@@ -20,7 +20,7 @@
         "DOCUMENT_TYPE_NODE": 10,
         "DOCUMENT_FRAGMENT_NODE": 11,
         "NOTATION_NODE": 12
-    }
+    };
 
     function to_string(data) {
         return Object.prototype.toString.call(data);
@@ -1261,6 +1261,7 @@
         }
     };
 
+    // public API
     logger.DOMLogger = function (data) {
         var res,
             type;
@@ -1276,4 +1277,5 @@
 
         return res;
     };
+
 }).call(this);

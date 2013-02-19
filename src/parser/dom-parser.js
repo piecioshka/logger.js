@@ -461,7 +461,7 @@
         var isContent = false;
 
         // check if tag have a content
-        if (o.inner.HTML.length > 0) {
+        if (o.innerHTML.length > 0) {
             isContent = true;
         }
 

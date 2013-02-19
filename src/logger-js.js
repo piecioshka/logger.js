@@ -9,6 +9,9 @@ if (typeof require !== "undefined") {
 (function () {
     "use strict";
 
+    // master scope
+    var global = this;
+
     var checker = {
 
 /******************************************************************************/
@@ -45,44 +48,77 @@ if (typeof require !== "undefined") {
 /* Typed array constructors */
 /******************************************************************************/
 
-        "ArrayBuffer": function (o) { return o && o instanceof ArrayBuffer &&
-            typeof o.byteLength === "number";
+        "ArrayBuffer": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o instanceof ArrayBuffer && typeof o.byteLength === "number";
+            }
+            return false;
         },
-        "DataView": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            o.getInt8 && o.getUint8 && o.getInt16 && o.getUint16 && o.getInt32 &&
-            o.getUint32 && o.getFloat32 && o.getFloat64 && o instanceof DataView;
+        "DataView": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    o.getInt8 && o.getUint8 && o.getInt16 && o.getUint16 && o.getInt32 &&
+                    o.getUint32 && o.getFloat32 && o.getFloat64 && o instanceof DataView;
+            }
+            return false;
         },
-        "Float32Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
-            o instanceof Float32Array;
+        "Float32Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Float32Array;
+            }
+            return false;
         },
-        "Float64Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
-            o instanceof Float64Array;
+        "Float64Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Float64Array;
+            }
+            return false;
         },
-        "Int16Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
-            o instanceof Int16Array;
+        "Int16Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Int16Array;
+            }
         },
-        "Int32Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
-            o instanceof Int32Array;
+        "Int32Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Int32Array;
+            }
         },
-        "Int8Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
-            o instanceof Int8Array;
+        "Int8Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Int8Array;
+            }
         },
-        "Uint16Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
-            o instanceof Uint16Array;
+        "Uint16Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Uint16Array;
+            }
         },
-        "Uint32Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
-            o instanceof Uint32Array;
+        "Uint32Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Uint32Array;
+            }
         },
-        "Uint8Array": function (o) { return o && o.buffer instanceof ArrayBuffer &&
-            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
-            o instanceof Uint8Array;
+        "Uint8Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Uint8Array;
+            }
         },
         /*
         "Uint8ClampedArray": function (o) { return o && o.buffer instanceof ArrayBuffer &&
@@ -143,6 +179,7 @@ if (typeof require !== "undefined") {
         "undefined": function (o) { return o === undefined; }
     };
 
+    // public API
     logger.JSLogger = function (data) {
         var res,
             type;
@@ -157,4 +194,5 @@ if (typeof require !== "undefined") {
 
         return res;
     };
+
 }).call(this);
