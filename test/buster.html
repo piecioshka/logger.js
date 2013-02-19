@@ -1,0 +1,12 @@
+<script type="text/javascript" src="../src/logger-core.js"></script>
+<script type="text/javascript" src="../src/parser/dom-parser.js"></script>
+<script type="text/javascript" src="../src/parser/js-parser.js"></script>
+<script type="text/javascript" src="../src/logger-dom.js"></script>
+<script type="text/javascript" src="../src/logger-js.js"></script>
+<script>
+    var a = null;
+    (function () {
+       a = logger(arguments);
+    }());
+    console.log(a);
+</script>

@@ -35,11 +35,6 @@ function logger(data) {
     // reset found status
     logger.found = false;
 
-    // if run that "new logger()" conv to "logger()"
-    if ( this instanceof logger ) {
-        return logger;
-    }
-
     // check if some special logger found value
     for (i = 0; i < len; ++i) {
         if ( (res = logger[parts[i]](data)) !== undefined ) {
@@ -58,7 +53,7 @@ function logger(data) {
         // value convert to string
         "toString": Object.prototype.toString.call( data ),
         "typeof": typeof data,
-        "contructor": data.contructor
+        "contructor": data.constructor && data.constructor.name
     }));
 }
 
@@ -1037,12 +1032,6 @@ if (typeof module !== "undefined") {
         "SpeechInputEvent": function (o) {
             return false;
         },
-        "Storage": function (o) {
-            return false;
-        },
-        "StorageEvent": function (o) {
-            return false;
-        },
         "StyleSheet": function (o) {
             return false;
         },
@@ -1208,9 +1197,6 @@ if (typeof module !== "undefined") {
         "history": function (o) {
             return false;
         },
-        "localStorage": function (o) {
-            return false;
-        },
         "location": function (o) {
             return false;
         },
@@ -1239,9 +1225,6 @@ if (typeof module !== "undefined") {
             return false;
         },
         "self": function (o) {
-            return false;
-        },
-        "sessionStorage": function (o) {
             return false;
         },
         "statusbar": function (o) {
@@ -1325,10 +1308,6 @@ if (typeof module !== "undefined") {
         "webkitResolveLocalFileSystemURL": function (o) {
             return false;
         },
-        "webkitStorageInfo": function (o) {
-            //StorageInfo
-            return false;
-        },
         "webkitURL": function (o) {
             return false;
         },
@@ -1369,34 +1348,44 @@ if (typeof require !== "undefined") {
     // master scope
     var global = this;
 
+    function to_string(o) {
+        return Object.prototype.toString.call(o);
+    }
+
     var checker = {
 
 /******************************************************************************/
 /* General-purpose constructors */
 /******************************************************************************/
 
-        "Array": function (o) { return o && o.constructor && o.pop && o.push &&
-            o.reverse && (o.length !== undefined) && o.shift && o.sort &&
-            o.splice && o.unshift && o.concat && o.join && o.slice && o.indexOf;
+        "Array": function (o) {
+            if ( o && o.constructor && o.constructor.name === "Array" ) {
+                return true;
+            }
+            return o && o.constructor && o.pop && o.push &&
+                o.reverse && (typeof o.length === "number") && o.shift &&
+                o.sort && o.splice && o.unshift && o.concat && o.join &&
+                o.slice && o.indexOf;
         },
-        "Arguments": function (o) { return o && (o.length !== undefined) &&
-            Object.prototype.toString.call(o) === "[object Arguments]";
+        "Arguments": function (o) {
+            return o && (typeof o.length === "number") &&
+                Object.prototype.toString.call(o) === "[object Arguments]";
         },
         "Boolean": function (o) { return typeof o === "boolean" },
         "Date": function (o) { return o && o.getDate && o.getDay
             && o.getFullYear && o.getHours && o.getMilliseconds &&
             o.getMinutes && o.getMonth && o.getSeconds;
         },
-        "Function": function (o) { return o && (o.name === "empty" || o.name === "") &&
-            o.constructor && o.call && o.apply && o instanceof Function;
+        "Function": function (o) { return o &&
+            Object.prototype.toString.call(o) === "[object Function]";
         },
         // Harmony JS
         // "Iterator": function (o) { return o.constructor === Iterator; },
         "Number": function (o) { return typeof o === "number" && !isNaN(o) &&
             isFinite(o);
         },
-        "Object": function (o) { return o && (o.length === undefined) &&
-            o instanceof Object && o.constructor === Object;
+        "Object": function (o) {
+            return o && Object.prototype.toString.call(o) === "[object Object]";
         },
         "RegExp": function (o) { return o && o.exec && o.test; },
         "String": function (o) { return typeof o === "string"; },
@@ -1520,6 +1509,25 @@ if (typeof require !== "undefined") {
         },
         "URIError": function (o) { return o && o.name === "URIError" &&
             o instanceof Error && o instanceof URIError;
+        },
+
+/******************************************************************************/
+/* STORAGE */
+/******************************************************************************/
+
+        "Storage": function (o) { return o && to_string.call(o) === "[object Storage]"; },
+        "StorageEvent": function (o) {
+            return false;
+        },
+        "localStorage": function (o) {
+            return false;
+        },
+        "sessionStorage": function (o) {
+            return false;
+        },
+        "webkitStorageInfo": function (o) {
+            // StorageInfo
+            return false;
         },
 
 /******************************************************************************/
@@ -1807,9 +1815,6 @@ if (typeof require !== "undefined") {
         "SessionDescription",
         "SharedWorker",
         "SpeechInputEvent",
-        "Storage",
-        "StorageInfo",
-        "StorageEvent",
         "StyleSheet",
         "StyleSheetList",
         "Text",
@@ -1865,7 +1870,6 @@ if (typeof require !== "undefined") {
         "document",
         "frames",
         "history",
-        "localStorage",
         "location",
         "locationbar",
         "menubar",
@@ -1876,7 +1880,6 @@ if (typeof require !== "undefined") {
         "screen",
         "scrollbars",
         "self",
-        "sessionStorage",
         "statusbar",
         "styleMedia",
         "toolbar",
@@ -1904,7 +1907,6 @@ if (typeof require !== "undefined") {
         "webkitRequestAnimationFrame",
         "webkitRequestFileSystem",
         "webkitResolveLocalFileSystemURL",
-        "webkitStorageInfo",
         "webkitURL",
         "window"
     ];
@@ -2038,11 +2040,10 @@ if (typeof require !== "undefined") {
     }
 
     function parse_attrs(o) {
-        var attrs = "",
-            attrs_count = o.attributes.length;
+        var attrs = "", i, attr, attrs_count = o.attributes.length;
 
-        for (var i = 0; i < attrs_count; ++i) {
-            var attr = o[i];
+        for (i = 0; i < attrs_count; ++i) {
+            attr = o[i];
 
             attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
 
@@ -2055,8 +2056,9 @@ if (typeof require !== "undefined") {
     }
 
     function in_array(i, a) {
-        var l = a.length;
-        for (var j = 0; j < l; ++j) {
+        var j, l = a.length;
+
+        for (j = 0; j < l; ++j) {
             if (a[j] === i) {
                 return true;
             }
@@ -2068,23 +2070,21 @@ if (typeof require !== "undefined") {
         return Object.prototype.toString.call(o);
     }
 
-    DOMParser = (function () {
-        return function (type, data) {
-            // check if exists special parser
-            if (type in special_parsers) {
-                // yes! exists, so run it!
-                return special_parsers[type](data);
-            }
-
-            // doesn't exists special parser for this object type
-            else if (is_node(type) && is_element(type)) {
-                return like_as_node(data);
-            }
-
-            // default parser
-            return to_string(data);
+    DOMParser = function (type, data) {
+        // check if exists special parser
+        if (type in special_parsers) {
+            // yes! exists, so run it!
+            return special_parsers[type](data);
         }
-    }());
+
+        // doesn't exists special parser for this object type
+        else if (is_node(type) && is_element(type)) {
+            return like_as_node(data);
+        }
+
+        // default parser
+        return to_string(data);
+    };
 
     // public API
     logger.parser.DOMParser = DOMParser;
@@ -2111,6 +2111,7 @@ if (typeof require !== "undefined") {
         "Object",
         "RegExp",
         "String",
+
         "ArrayBuffer",
         "DataView",
         "Float32Array",
@@ -2122,6 +2123,7 @@ if (typeof require !== "undefined") {
         "Uint32Array",
         "Uint8Array",
         "Uint8ClampedArray",
+
         "Error",
         "EvalError",
         "RangeError",
@@ -2129,6 +2131,14 @@ if (typeof require !== "undefined") {
         "SyntaxError",
         "TypeError",
         "URIError",
+
+        "Storage",
+        "StorageInfo",
+        "StorageEvent",
+        "localStorage",
+        "sessionStorage",
+        "webkitStorageInfo",
+
         "Infinity",
         "JSON",
         "Math",
@@ -2167,9 +2177,10 @@ if (typeof require !== "undefined") {
             return "Date: " + o.toString();
         },
         "Function": function (o) {
-            var s = o.toString(),
-                pre = s.split("\n")[0],
-                post = " [ignore code] }";
+            var s = o.toString(), pre, post;
+
+            pre = s.slice(0, s.indexOf("{") + 1);
+            post = " [ignore code] }";
 
             return pre + post;
         },
@@ -2316,28 +2327,26 @@ if (typeof require !== "undefined") {
         return in_array(type, ERRORS_NAME_ARRAY);
     }
 
-    JSParser = (function () {
-        return function (type, data) {
-            // check if exists special parser
-            if (type in special_parsers) {
-                // yes! exists, so run it!
-                return special_parsers[type](data);
-            }
+    JSParser = function (type, data) {
+        // check if exists special parser
+        if (type in special_parsers) {
+            // yes! exists, so run it!
+            return special_parsers[type](data);
+        }
 
-            // is Special Number
-            else if (is_special_number(type)) {
-                return like_as_data_view(data);
-            }
+        // is Special Number
+        else if (is_special_number(type)) {
+            return like_as_data_view(data);
+        }
 
-            // is Error
-            else if (is_error(type)) {
-                return like_as_error(data);
-            }
+        // is Error
+        else if (is_error(type)) {
+            return like_as_error(data);
+        }
 
-            // default parser
-            return String(data);
-        };        
-    }());
+        // default parser
+        return String(data);
+    };
 
     // public API
     logger.parser.JSParser = JSParser;

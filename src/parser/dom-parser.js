@@ -252,9 +252,6 @@
         "SessionDescription",
         "SharedWorker",
         "SpeechInputEvent",
-        "Storage",
-        "StorageInfo",
-        "StorageEvent",
         "StyleSheet",
         "StyleSheetList",
         "Text",
@@ -310,7 +307,6 @@
         "document",
         "frames",
         "history",
-        "localStorage",
         "location",
         "locationbar",
         "menubar",
@@ -321,7 +317,6 @@
         "screen",
         "scrollbars",
         "self",
-        "sessionStorage",
         "statusbar",
         "styleMedia",
         "toolbar",
@@ -349,7 +344,6 @@
         "webkitRequestAnimationFrame",
         "webkitRequestFileSystem",
         "webkitResolveLocalFileSystemURL",
-        "webkitStorageInfo",
         "webkitURL",
         "window"
     ];
@@ -483,11 +477,10 @@
     }
 
     function parse_attrs(o) {
-        var attrs = "",
-            attrs_count = o.attributes.length;
+        var attrs = "", i, attr, attrs_count = o.attributes.length;
 
-        for (var i = 0; i < attrs_count; ++i) {
-            var attr = o[i];
+        for (i = 0; i < attrs_count; ++i) {
+            attr = o[i];
 
             attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
 
@@ -500,8 +493,9 @@
     }
 
     function in_array(i, a) {
-        var l = a.length;
-        for (var j = 0; j < l; ++j) {
+        var j, l = a.length;
+
+        for (j = 0; j < l; ++j) {
             if (a[j] === i) {
                 return true;
             }
@@ -513,23 +507,21 @@
         return Object.prototype.toString.call(o);
     }
 
-    DOMParser = (function () {
-        return function (type, data) {
-            // check if exists special parser
-            if (type in special_parsers) {
-                // yes! exists, so run it!
-                return special_parsers[type](data);
-            }
-
-            // doesn't exists special parser for this object type
-            else if (is_node(type) && is_element(type)) {
-                return like_as_node(data);
-            }
-
-            // default parser
-            return to_string(data);
+    DOMParser = function (type, data) {
+        // check if exists special parser
+        if (type in special_parsers) {
+            // yes! exists, so run it!
+            return special_parsers[type](data);
         }
-    }());
+
+        // doesn't exists special parser for this object type
+        else if (is_node(type) && is_element(type)) {
+            return like_as_node(data);
+        }
+
+        // default parser
+        return to_string(data);
+    };
 
     // public API
     logger.parser.DOMParser = DOMParser;

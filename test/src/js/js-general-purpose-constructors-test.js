@@ -19,7 +19,10 @@ buster.testCase("logger/js General-purpose constructors", {
     },
 
     "Arguments": function () {
-        assert.equals(logger([1, 2, 3, "A"]), "[1, 2, 3, \"A\"]", "General-purpose constructors: Arguments: not empty");
+        (function () {
+            assert.equals(logger(arguments), "[1, 2, 3, \"A\"]", "General-purpose constructors: Arguments: not empty");
+        }(1, 2, 3, "A"));
+
         (function () {
             assert.equals(logger(arguments), "[]", "General-purpose constructors: Arguments: empty");
         }());
@@ -38,6 +41,8 @@ buster.testCase("logger/js General-purpose constructors", {
     },
 
     "Function": function () {
+        assert.equals(logger(Storage), "function Storage() { [ignore code] }", "Storage");
+
         assert.equals(logger(function () {
             return 1;
         }), "function () { [ignore code] }", "General-purpose constructors: Function: empty");
@@ -80,5 +85,4 @@ buster.testCase("logger/js General-purpose constructors", {
         assert.equals(logger("Function"), "\"Function\"", "General-purpose constructors: String: Function");
         assert.equals(logger("Array"), "\"Array\"", "General-purpose constructors: String: Array");
     }
-
 });

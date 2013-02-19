@@ -35,11 +35,6 @@ function logger(data) {
     // reset found status
     logger.found = false;
 
-    // if run that "new logger()" conv to "logger()"
-    if ( this instanceof logger ) {
-        return logger;
-    }
-
     // check if some special logger found value
     for (i = 0; i < len; ++i) {
         if ( (res = logger[parts[i]](data)) !== undefined ) {
@@ -58,7 +53,7 @@ function logger(data) {
         // value convert to string
         "toString": Object.prototype.toString.call( data ),
         "typeof": typeof data,
-        "contructor": data.contructor
+        "contructor": data.constructor && data.constructor.name
     }));
 }
 

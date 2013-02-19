@@ -12,34 +12,44 @@ if (typeof require !== "undefined") {
     // master scope
     var global = this;
 
+    function to_string(o) {
+        return Object.prototype.toString.call(o);
+    }
+
     var checker = {
 
 /******************************************************************************/
 /* General-purpose constructors */
 /******************************************************************************/
 
-        "Array": function (o) { return o && o.constructor && o.pop && o.push &&
-            o.reverse && (o.length !== undefined) && o.shift && o.sort &&
-            o.splice && o.unshift && o.concat && o.join && o.slice && o.indexOf;
+        "Array": function (o) {
+            if ( o && o.constructor && o.constructor.name === "Array" ) {
+                return true;
+            }
+            return o && o.constructor && o.pop && o.push &&
+                o.reverse && (typeof o.length === "number") && o.shift &&
+                o.sort && o.splice && o.unshift && o.concat && o.join &&
+                o.slice && o.indexOf;
         },
-        "Arguments": function (o) { return o && (o.length !== undefined) &&
-            Object.prototype.toString.call(o) === "[object Arguments]";
+        "Arguments": function (o) {
+            return o && (typeof o.length === "number") &&
+                Object.prototype.toString.call(o) === "[object Arguments]";
         },
         "Boolean": function (o) { return typeof o === "boolean" },
         "Date": function (o) { return o && o.getDate && o.getDay
             && o.getFullYear && o.getHours && o.getMilliseconds &&
             o.getMinutes && o.getMonth && o.getSeconds;
         },
-        "Function": function (o) { return o && (o.name === "empty" || o.name === "") &&
-            o.constructor && o.call && o.apply && o instanceof Function;
+        "Function": function (o) { return o &&
+            Object.prototype.toString.call(o) === "[object Function]";
         },
         // Harmony JS
         // "Iterator": function (o) { return o.constructor === Iterator; },
         "Number": function (o) { return typeof o === "number" && !isNaN(o) &&
             isFinite(o);
         },
-        "Object": function (o) { return o && (o.length === undefined) &&
-            o instanceof Object && o.constructor === Object;
+        "Object": function (o) {
+            return o && Object.prototype.toString.call(o) === "[object Object]";
         },
         "RegExp": function (o) { return o && o.exec && o.test; },
         "String": function (o) { return typeof o === "string"; },
@@ -163,6 +173,25 @@ if (typeof require !== "undefined") {
         },
         "URIError": function (o) { return o && o.name === "URIError" &&
             o instanceof Error && o instanceof URIError;
+        },
+
+/******************************************************************************/
+/* STORAGE */
+/******************************************************************************/
+
+        "Storage": function (o) { return o && to_string.call(o) === "[object Storage]"; },
+        "StorageEvent": function (o) {
+            return false;
+        },
+        "localStorage": function (o) {
+            return false;
+        },
+        "sessionStorage": function (o) {
+            return false;
+        },
+        "webkitStorageInfo": function (o) {
+            // StorageInfo
+            return false;
         },
 
 /******************************************************************************/

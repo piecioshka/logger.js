@@ -961,12 +961,6 @@
         "SpeechInputEvent": function (o) {
             return false;
         },
-        "Storage": function (o) {
-            return false;
-        },
-        "StorageEvent": function (o) {
-            return false;
-        },
         "StyleSheet": function (o) {
             return false;
         },
@@ -1132,9 +1126,6 @@
         "history": function (o) {
             return false;
         },
-        "localStorage": function (o) {
-            return false;
-        },
         "location": function (o) {
             return false;
         },
@@ -1163,9 +1154,6 @@
             return false;
         },
         "self": function (o) {
-            return false;
-        },
-        "sessionStorage": function (o) {
             return false;
         },
         "statusbar": function (o) {
@@ -1247,10 +1235,6 @@
             return false;
         },
         "webkitResolveLocalFileSystemURL": function (o) {
-            return false;
-        },
-        "webkitStorageInfo": function (o) {
-            //StorageInfo
             return false;
         },
         "webkitURL": function (o) {

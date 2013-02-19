@@ -391,7 +391,6 @@ buster.testCase("logger/bom Chrome", {
     },
     "Storage": function () {
         // function Storage() { [native code] }
-        assert.equals(logger(Storage), "[Storage]", "Storage");
         assert.equals(logger(localStorage), "[Storage]", "Storage");
         assert.equals(logger(sessionStorage), "[Storage]", "Storage");
     },

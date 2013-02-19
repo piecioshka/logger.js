@@ -20,6 +20,7 @@
         "Object",
         "RegExp",
         "String",
+
         "ArrayBuffer",
         "DataView",
         "Float32Array",
@@ -31,6 +32,7 @@
         "Uint32Array",
         "Uint8Array",
         "Uint8ClampedArray",
+
         "Error",
         "EvalError",
         "RangeError",
@@ -38,6 +40,14 @@
         "SyntaxError",
         "TypeError",
         "URIError",
+
+        "Storage",
+        "StorageInfo",
+        "StorageEvent",
+        "localStorage",
+        "sessionStorage",
+        "webkitStorageInfo",
+
         "Infinity",
         "JSON",
         "Math",
@@ -76,9 +86,10 @@
             return "Date: " + o.toString();
         },
         "Function": function (o) {
-            var s = o.toString(),
-                pre = s.split("\n")[0],
-                post = " [ignore code] }";
+            var s = o.toString(), pre, post;
+
+            pre = s.slice(0, s.indexOf("{") + 1);
+            post = " [ignore code] }";
 
             return pre + post;
         },
@@ -225,28 +236,26 @@
         return in_array(type, ERRORS_NAME_ARRAY);
     }
 
-    JSParser = (function () {
-        return function (type, data) {
-            // check if exists special parser
-            if (type in special_parsers) {
-                // yes! exists, so run it!
-                return special_parsers[type](data);
-            }
+    JSParser = function (type, data) {
+        // check if exists special parser
+        if (type in special_parsers) {
+            // yes! exists, so run it!
+            return special_parsers[type](data);
+        }
 
-            // is Special Number
-            else if (is_special_number(type)) {
-                return like_as_data_view(data);
-            }
+        // is Special Number
+        else if (is_special_number(type)) {
+            return like_as_data_view(data);
+        }
 
-            // is Error
-            else if (is_error(type)) {
-                return like_as_error(data);
-            }
+        // is Error
+        else if (is_error(type)) {
+            return like_as_error(data);
+        }
 
-            // default parser
-            return String(data);
-        };        
-    }());
+        // default parser
+        return String(data);
+    };
 
     // public API
     logger.parser.JSParser = JSParser;
