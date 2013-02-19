@@ -22,12 +22,9 @@
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 function logger(data) {
-    var i = 0,
+    var i,
         // returned value
         res,
-
-        // value convert to string
-        data_s = Object.prototype.toString.call(data),
 
         // available special logger types
         parts = ["DOMLogger", "JSLogger"],
@@ -39,25 +36,30 @@ function logger(data) {
     logger.found = false;
 
     // if run that "new logger()" conv to "logger()"
-    if (this instanceof logger) {
+    if ( this instanceof logger ) {
         return logger;
     }
 
     // check if some special logger found value
-    for (; i < len; ++i) {
-        if ((res = logger[parts[i]](data)) !== undefined) {
+    for (i = 0; i < len; ++i) {
+        if ( (res = logger[parts[i]](data)) !== undefined ) {
             logger.found = true;
             break;
         }
     }
 
-    if (logger.found) {
+    if ( logger.found ) {
         // if logger model has matched also returned parsing value
         return res;
     }
 
     // if not found, report w exception
-    throw new TypeError("LoggerUnexpectedValue: Undefined type of variable: " + data_s);
+    throw new TypeError("LoggerUnexpectedValue: undefined type of variable: " + logger.JSLogger({
+        // value convert to string
+        "toString": Object.prototype.toString.call( data ),
+        "typeof": typeof data,
+        "contructor": data.contructor
+    }));
 }
 
 // found status
