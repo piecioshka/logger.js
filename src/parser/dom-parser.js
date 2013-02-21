@@ -16,7 +16,6 @@
         "AudioProcessingEvent",
         "BeforeLoadEvent",
         "Blob",
-        "BarInfo",
         "CDATASection",
         "CSSCharsetRule",
         "CSSFontFaceRule",
@@ -43,7 +42,6 @@
         "CompositionEvent",
         "Counter",
         "CustomEvent",
-        "DOMException",
         "DOMImplementation",
         "DOMParser",
         "DOMSettableTokenList",
@@ -292,10 +290,6 @@
         "Window",
         "Worker",
         "XMLDocument",
-        "XMLHttpRequest",
-        "XMLHttpRequestException",
-        "XMLHttpRequestProgressEvent",
-        "XMLHttpRequestUpload",
         "XMLSerializer",
         "XPathEvaluator",
         "XPathException",
@@ -353,8 +347,36 @@
             return logger.parser.JSParser["Object"](o);
         },
 
+        "BarInfo": function (o) {
+            return "[BarInfo]";
+        },
+
         "NamedNodeMap": function () {
             return logger.parser.JSParser["Object"].call(this, o);
+        },
+
+        "DOMException": function (o) {
+            var code, message, name, stack;
+
+            if ( "code" in o && o.code ) {
+                code = o.code;
+            }
+            if ( "message" in o && o.message ) {
+                message = o.message;
+            }
+            if ( "name" in o && o.name ) {
+                name = o.name;
+            }
+            if ( "stack" in o && o.stack ) {
+                stack = o.stack;
+            }
+
+            return {
+                code: code,
+                message: message,
+                name: name,
+                stack: stack
+            }
         }
     };
 

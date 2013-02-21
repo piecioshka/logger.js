@@ -12,6 +12,10 @@ if (typeof require !== "undefined") {
     // master scope
     var global = this;
 
+    /**
+     * @param {Object} o
+     * @returns {String}
+     */
     function to_string(o) {
         return Object.prototype.toString.call(o);
     }
@@ -176,10 +180,12 @@ if (typeof require !== "undefined") {
         },
 
 /******************************************************************************/
-/* STORAGE */
+/* Storage */
 /******************************************************************************/
 
-        "Storage": function (o) { return o && to_string.call(o) === "[object Storage]"; },
+        "Storage": function (o) {
+            return o && to_string(o) === "[object Storage]";
+        },
         "StorageEvent": function (o) {
             return false;
         },
@@ -192,6 +198,23 @@ if (typeof require !== "undefined") {
         "webkitStorageInfo": function (o) {
             // StorageInfo
             return false;
+        },
+
+/******************************************************************************/
+/* XMLHttpRequest */
+/******************************************************************************/
+
+        "XMLHttpRequest": function (o) {
+            return to_string(o) === "[object XMLHttpRequest]";
+        },
+        "XMLHttpRequestException": function (o) {
+            return to_string(o) === "[object XMLHttpRequestException]";
+        },
+        "XMLHttpRequestProgressEvent": function (o) {
+            return to_string(o) === "[object XMLHttpRequestProgressEvent]";
+        },
+        "XMLHttpRequestUpload": function (o) {
+            return to_string(o) === "[object XMLHttpRequestUpload]";
         },
 
 /******************************************************************************/

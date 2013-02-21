@@ -34,14 +34,16 @@
         "ArrayBuffer": function (o) {
             return false;
         },
-        "Attr": function (o) { return o && to_string.call(o) === "[object Attr]"; },
+        "Attr": function (o) { return o && to_string(o) === "[object Attr]"; },
         "Audio": function (o) {
             return false;
         },
         "AudioProcessingEvent": function (o) {
             return false;
         },
-        "BarInfo": function (o) { return o && to_string.call(o) === "[object BarInfo]"; },
+        "BarInfo": function (o) {
+            return o && to_string(o) === "[object BarInfo]";
+        },
         "BeforeLoadEvent": function (o) {
             return false;
         },
@@ -127,7 +129,7 @@
             return false;
         },
         "DOMException": function (o) {
-            return false;
+            return to_string(o) === "[object DOMException]";
         },
         "DOMImplementation": function (o) {
             return false;
@@ -248,7 +250,9 @@
         "HTMLDirectoryElement": function (o) {
             return false;
         },
-        "HTMLDivElement": function (o) { return o && to_string.call(o) === "[object HTMLDivElement]"; },
+        "HTMLDivElement": function (o) {
+            return o && to_string(o) === "[object HTMLDivElement]";
+        },
         "HTMLDocument": function (o) {
             return false;
         },
@@ -465,7 +469,7 @@
         "MutationEvent": function (o) {
             return false;
         },
-        "NamedNodeMap": function (o) { return o && to_string.call(o) === "[object NamedNodeMap]"; },
+        "NamedNodeMap": function (o) { return o && to_string(o) === "[object NamedNodeMap]"; },
         "Node": function (o) {
             return false;
         },
@@ -1079,18 +1083,6 @@
             return false;
         },
         "XMLDocument": function (o) {
-            return false;
-        },
-        "XMLHttpRequest": function (o) {
-            return false;
-        },
-        "XMLHttpRequestException": function (o) {
-            return false;
-        },
-        "XMLHttpRequestProgressEvent": function (o) {
-            return false;
-        },
-        "XMLHttpRequestUpload": function (o) {
             return false;
         },
         "XMLSerializer": function (o) {

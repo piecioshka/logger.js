@@ -4,9 +4,54 @@
 <script type="text/javascript" src="../src/logger-dom.js"></script>
 <script type="text/javascript" src="../src/logger-js.js"></script>
 <script>
-    var a = null;
+    console.log( logger(locationbar) );
+
     (function () {
-       a = logger(arguments);
+       console.log( logger(arguments) );
     }());
-    console.log(a);
+
+    function do_xhr(url, callback) {
+        console.log("");
+        console.log(" => ", url);
+
+        var xhr = new XMLHttpRequest();
+        console.log( "a: ", logger(xhr) );
+
+        console.log( "b: ", logger(xhr) );
+
+        xhr.onreadystatechange = function () {
+            console.log( "c: ", logger(xhr) );
+
+            if (xhr.readyState === 4) {
+                if (typeof callback === "function") {
+                    callback();
+                }
+            }
+        };
+
+        try {
+            xhr.send();
+        } catch (e) {
+            console.log( "d: ", logger(e) );
+        }
+
+        xhr.open("GET", url, false);
+
+        try {
+            xhr.send();
+        } catch (e) {
+            console.log( "e: ", logger(e) );
+        }
+    }
+
+    (function () {
+        // httpCode: 200
+        do_xhr("/", function () {
+            // httpCode: 404
+            do_xhr("/xxx", function () {
+                do_xhr("http://www.google.com/"); // httpCode: 401
+            });
+        });
+    }());
+
 </script>

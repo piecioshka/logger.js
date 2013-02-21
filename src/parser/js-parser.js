@@ -41,12 +41,16 @@
         "TypeError",
         "URIError",
 
-        "Storage",
         "StorageInfo",
         "StorageEvent",
         "localStorage",
         "sessionStorage",
         "webkitStorageInfo",
+
+        "XMLHttpRequest",
+        "XMLHttpRequestException",
+        "XMLHttpRequestProgressEvent",
+        "XMLHttpRequestUpload",
 
         "Infinity",
         "JSON",
@@ -175,6 +179,55 @@
             }
             res += ")";
             return res;
+        },
+
+/******************************************************************************/
+/* Storage */
+/******************************************************************************/
+
+        "Storage": function () {
+            return "[Storage]";
+        },
+
+/******************************************************************************/
+/* XMLHttpRequest */
+/******************************************************************************/
+
+        "XMLHttpRequest": function (o) {
+            var state, code = 0, text = "";
+
+            switch (o.readyState) {
+                case 0: state = "UNSENT (0)"; break;
+                case 1: state = "OPENED (1)"; break;
+                case 2: state = "HEADERS_RECEIVED (2)"; break;
+                case 3: state = "LOADING (3)"; break;
+                case 4: state = "DONE (4)"; break;
+            }
+
+            // if XHR is not ready, can not read "status" and "statusText" values
+            if ( !in_array(o.readyState, [0, 1]) ) {
+                code = o.status;
+                text = o.statusText;
+            }
+
+            return {
+                type: "[XMLHttpRequest]",
+                readyState: state,
+                statusText: text,
+                httpCode: code
+            };
+        },
+        "XMLHttpRequestException": function (o) {
+            return {
+                type: "[XMLHttpRequestException]",
+                code: o.code
+            };
+        },
+        "XMLHttpRequestProgressEvent": function (o) {
+            return ["XMLHttpRequestProgressEvent"];
+        },
+        "XMLHttpRequestUpload": function (o) {
+            return "[XMLHttpRequestUpload]";
         },
 
 /******************************************************************************/

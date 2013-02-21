@@ -105,14 +105,16 @@ if (typeof module !== "undefined") {
         "ArrayBuffer": function (o) {
             return false;
         },
-        "Attr": function (o) { return o && to_string.call(o) === "[object Attr]"; },
+        "Attr": function (o) { return o && to_string(o) === "[object Attr]"; },
         "Audio": function (o) {
             return false;
         },
         "AudioProcessingEvent": function (o) {
             return false;
         },
-        "BarInfo": function (o) { return o && to_string.call(o) === "[object BarInfo]"; },
+        "BarInfo": function (o) {
+            return o && to_string(o) === "[object BarInfo]";
+        },
         "BeforeLoadEvent": function (o) {
             return false;
         },
@@ -198,7 +200,7 @@ if (typeof module !== "undefined") {
             return false;
         },
         "DOMException": function (o) {
-            return false;
+            return to_string(o) === "[object DOMException]";
         },
         "DOMImplementation": function (o) {
             return false;
@@ -319,7 +321,9 @@ if (typeof module !== "undefined") {
         "HTMLDirectoryElement": function (o) {
             return false;
         },
-        "HTMLDivElement": function (o) { return o && to_string.call(o) === "[object HTMLDivElement]"; },
+        "HTMLDivElement": function (o) {
+            return o && to_string(o) === "[object HTMLDivElement]";
+        },
         "HTMLDocument": function (o) {
             return false;
         },
@@ -536,7 +540,7 @@ if (typeof module !== "undefined") {
         "MutationEvent": function (o) {
             return false;
         },
-        "NamedNodeMap": function (o) { return o && to_string.call(o) === "[object NamedNodeMap]"; },
+        "NamedNodeMap": function (o) { return o && to_string(o) === "[object NamedNodeMap]"; },
         "Node": function (o) {
             return false;
         },
@@ -1152,18 +1156,6 @@ if (typeof module !== "undefined") {
         "XMLDocument": function (o) {
             return false;
         },
-        "XMLHttpRequest": function (o) {
-            return false;
-        },
-        "XMLHttpRequestException": function (o) {
-            return false;
-        },
-        "XMLHttpRequestProgressEvent": function (o) {
-            return false;
-        },
-        "XMLHttpRequestUpload": function (o) {
-            return false;
-        },
         "XMLSerializer": function (o) {
             return false;
         },
@@ -1348,6 +1340,10 @@ if (typeof require !== "undefined") {
     // master scope
     var global = this;
 
+    /**
+     * @param {Object} o
+     * @returns {String}
+     */
     function to_string(o) {
         return Object.prototype.toString.call(o);
     }
@@ -1512,10 +1508,12 @@ if (typeof require !== "undefined") {
         },
 
 /******************************************************************************/
-/* STORAGE */
+/* Storage */
 /******************************************************************************/
 
-        "Storage": function (o) { return o && to_string.call(o) === "[object Storage]"; },
+        "Storage": function (o) {
+            return o && to_string(o) === "[object Storage]";
+        },
         "StorageEvent": function (o) {
             return false;
         },
@@ -1528,6 +1526,23 @@ if (typeof require !== "undefined") {
         "webkitStorageInfo": function (o) {
             // StorageInfo
             return false;
+        },
+
+/******************************************************************************/
+/* XMLHttpRequest */
+/******************************************************************************/
+
+        "XMLHttpRequest": function (o) {
+            return to_string(o) === "[object XMLHttpRequest]";
+        },
+        "XMLHttpRequestException": function (o) {
+            return to_string(o) === "[object XMLHttpRequestException]";
+        },
+        "XMLHttpRequestProgressEvent": function (o) {
+            return to_string(o) === "[object XMLHttpRequestProgressEvent]";
+        },
+        "XMLHttpRequestUpload": function (o) {
+            return to_string(o) === "[object XMLHttpRequestUpload]";
         },
 
 /******************************************************************************/
@@ -1579,7 +1594,6 @@ if (typeof require !== "undefined") {
         "AudioProcessingEvent",
         "BeforeLoadEvent",
         "Blob",
-        "BarInfo",
         "CDATASection",
         "CSSCharsetRule",
         "CSSFontFaceRule",
@@ -1606,7 +1620,6 @@ if (typeof require !== "undefined") {
         "CompositionEvent",
         "Counter",
         "CustomEvent",
-        "DOMException",
         "DOMImplementation",
         "DOMParser",
         "DOMSettableTokenList",
@@ -1855,10 +1868,6 @@ if (typeof require !== "undefined") {
         "Window",
         "Worker",
         "XMLDocument",
-        "XMLHttpRequest",
-        "XMLHttpRequestException",
-        "XMLHttpRequestProgressEvent",
-        "XMLHttpRequestUpload",
         "XMLSerializer",
         "XPathEvaluator",
         "XPathException",
@@ -1916,8 +1925,36 @@ if (typeof require !== "undefined") {
             return logger.parser.JSParser["Object"](o);
         },
 
+        "BarInfo": function (o) {
+            return "[BarInfo]";
+        },
+
         "NamedNodeMap": function () {
             return logger.parser.JSParser["Object"].call(this, o);
+        },
+
+        "DOMException": function (o) {
+            var code, message, name, stack;
+
+            if ( "code" in o && o.code ) {
+                code = o.code;
+            }
+            if ( "message" in o && o.message ) {
+                message = o.message;
+            }
+            if ( "name" in o && o.name ) {
+                name = o.name;
+            }
+            if ( "stack" in o && o.stack ) {
+                stack = o.stack;
+            }
+
+            return {
+                code: code,
+                message: message,
+                name: name,
+                stack: stack
+            }
         }
     };
 
@@ -2132,12 +2169,16 @@ if (typeof require !== "undefined") {
         "TypeError",
         "URIError",
 
-        "Storage",
         "StorageInfo",
         "StorageEvent",
         "localStorage",
         "sessionStorage",
         "webkitStorageInfo",
+
+        "XMLHttpRequest",
+        "XMLHttpRequestException",
+        "XMLHttpRequestProgressEvent",
+        "XMLHttpRequestUpload",
 
         "Infinity",
         "JSON",
@@ -2266,6 +2307,55 @@ if (typeof require !== "undefined") {
             }
             res += ")";
             return res;
+        },
+
+/******************************************************************************/
+/* Storage */
+/******************************************************************************/
+
+        "Storage": function () {
+            return "[Storage]";
+        },
+
+/******************************************************************************/
+/* XMLHttpRequest */
+/******************************************************************************/
+
+        "XMLHttpRequest": function (o) {
+            var state, code = 0, text = "";
+
+            switch (o.readyState) {
+                case 0: state = "UNSENT (0)"; break;
+                case 1: state = "OPENED (1)"; break;
+                case 2: state = "HEADERS_RECEIVED (2)"; break;
+                case 3: state = "LOADING (3)"; break;
+                case 4: state = "DONE (4)"; break;
+            }
+
+            // if XHR is not ready, can not read "status" and "statusText" values
+            if ( !in_array(o.readyState, [0, 1]) ) {
+                code = o.status;
+                text = o.statusText;
+            }
+
+            return {
+                type: "[XMLHttpRequest]",
+                readyState: state,
+                statusText: text,
+                httpCode: code
+            };
+        },
+        "XMLHttpRequestException": function (o) {
+            return {
+                type: "[XMLHttpRequestException]",
+                code: o.code
+            };
+        },
+        "XMLHttpRequestProgressEvent": function (o) {
+            return ["XMLHttpRequestProgressEvent"];
+        },
+        "XMLHttpRequestUpload": function (o) {
+            return "[XMLHttpRequestUpload]";
         },
 
 /******************************************************************************/
