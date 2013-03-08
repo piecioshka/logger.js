@@ -34,7 +34,9 @@
         "ArrayBuffer": function (o) {
             return false;
         },
-        "Attr": function (o) { return o && to_string(o) === "[object Attr]"; },
+        "Attr": function (o) {
+            return o && to_string(o) === "[object Attr]";
+        },
         "Audio": function (o) {
             return false;
         },
@@ -43,6 +45,9 @@
         },
         "BarInfo": function (o) {
             return o && to_string(o) === "[object BarInfo]";
+        },
+        "BarProp": function (o) {
+            return o && to_string(o) === "[object BarProp]";
         },
         "BeforeLoadEvent": function (o) {
             return false;
@@ -156,7 +161,7 @@
             return false;
         },
         "Document": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDocument]";
         },
         "DocumentFragment": function (o) {
             return false;
@@ -469,7 +474,9 @@
         "MutationEvent": function (o) {
             return false;
         },
-        "NamedNodeMap": function (o) { return o && to_string(o) === "[object NamedNodeMap]"; },
+        "NamedNodeMap": function (o) {
+            return o && to_string(o) === "[object NamedNodeMap]";
+        },
         "Node": function (o) {
             return false;
         },
@@ -1077,7 +1084,7 @@
             return false;
         },
         "Window": function (o) {
-            return false;
+            return o === global;
         },
         "Worker": function (o) {
             return false;

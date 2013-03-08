@@ -105,7 +105,9 @@ if (typeof module !== "undefined") {
         "ArrayBuffer": function (o) {
             return false;
         },
-        "Attr": function (o) { return o && to_string(o) === "[object Attr]"; },
+        "Attr": function (o) {
+            return o && to_string(o) === "[object Attr]";
+        },
         "Audio": function (o) {
             return false;
         },
@@ -114,6 +116,9 @@ if (typeof module !== "undefined") {
         },
         "BarInfo": function (o) {
             return o && to_string(o) === "[object BarInfo]";
+        },
+        "BarProp": function (o) {
+            return o && to_string(o) === "[object BarProp]";
         },
         "BeforeLoadEvent": function (o) {
             return false;
@@ -227,7 +232,7 @@ if (typeof module !== "undefined") {
             return false;
         },
         "Document": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDocument]";
         },
         "DocumentFragment": function (o) {
             return false;
@@ -540,7 +545,9 @@ if (typeof module !== "undefined") {
         "MutationEvent": function (o) {
             return false;
         },
-        "NamedNodeMap": function (o) { return o && to_string(o) === "[object NamedNodeMap]"; },
+        "NamedNodeMap": function (o) {
+            return o && to_string(o) === "[object NamedNodeMap]";
+        },
         "Node": function (o) {
             return false;
         },
@@ -1148,7 +1155,7 @@ if (typeof module !== "undefined") {
             return false;
         },
         "Window": function (o) {
-            return false;
+            return o === global;
         },
         "Worker": function (o) {
             return false;
@@ -1473,11 +1480,11 @@ if (typeof require !== "undefined") {
 /* Error constructors */
 /******************************************************************************/
 
-        "Error": function (o) { return o && o.name === "Error" &&
-            o instanceof Error;
+        "Error": function (o) {
+            return o && o.name === "Error" && o instanceof Error;
         },
-        "EvalError": function (o) { return o && o.name === "EvalError" &&
-            o instanceof Error && o instanceof EvalError;
+        "EvalError": function (o) {
+            return o && o instanceof Error && o instanceof EvalError;
         },
         /*
         // Harmony JS
@@ -1485,11 +1492,11 @@ if (typeof require !== "undefined") {
             o instanceof Error && o instanceof InternalError;
         },
         */
-        "RangeError": function (o) { return o && o.name === "RangeError" &&
-            o instanceof Error && o instanceof RangeError;
+        "RangeError": function (o) {
+            return o && o instanceof Error && o instanceof RangeError;
         },
-        "ReferenceError": function (o) { return o && o.name === "ReferenceError" &&
-            o instanceof Error && o instanceof ReferenceError;
+        "ReferenceError": function (o) {
+            return o && o instanceof Error && o instanceof ReferenceError;
         },
         /*
         // Harmony JS
@@ -1497,14 +1504,14 @@ if (typeof require !== "undefined") {
             o instanceof Error && o instanceof StopIteration;
         },
         */
-        "SyntaxError": function (o) { return o && o.name === "SyntaxError" &&
-            o instanceof Error && o instanceof SyntaxError;
+        "SyntaxError": function (o) {
+            return o && o instanceof Error && o instanceof SyntaxError;
         },
-        "TypeError": function (o) { return o && o.name === "TypeError" &&
-            o instanceof Error && o instanceof TypeError;
+        "TypeError": function (o) {
+            return o && o instanceof Error && o instanceof TypeError;
         },
-        "URIError": function (o) { return o && o.name === "URIError" &&
-            o instanceof Error && o instanceof URIError;
+        "URIError": function (o) {
+            return o && o instanceof Error && o instanceof URIError;
         },
 
 /******************************************************************************/
@@ -1553,7 +1560,7 @@ if (typeof require !== "undefined") {
             !isFinite(o);
         },
         "JSON": function (o) { return checker["Object"](o); },
-        "Math": function (o) { return o && o.E === Math.E; },
+        "Math": function (o) { return o && o === Math; },
         "NaN": function (o) { return typeof o === "number" && isNaN(o); },
         "Null": function (o) { return o === null; },
         "undefined": function (o) { return o === undefined; }
@@ -1628,7 +1635,6 @@ if (typeof require !== "undefined") {
         "DOMTokenList",
         "DataView",
         "DeviceOrientationEvent",
-        "Document",
         "DocumentFragment",
         "DocumentType",
         "Entity",
@@ -1865,7 +1871,6 @@ if (typeof require !== "undefined") {
         "WebKitTransitionEvent",
         "WebSocket",
         "WheelEvent",
-        "Window",
         "Worker",
         "XMLDocument",
         "XMLSerializer",
@@ -1925,12 +1930,8 @@ if (typeof require !== "undefined") {
             return logger.parser.JSParser["Object"](o);
         },
 
-        "BarInfo": function (o) {
-            return "[BarInfo]";
-        },
-
-        "NamedNodeMap": function () {
-            return logger.parser.JSParser["Object"].call(this, o);
+        "Document": function (o) {
+            return "Document: " + o.URL;
         },
 
         "DOMException": function (o) {
@@ -1955,6 +1956,18 @@ if (typeof require !== "undefined") {
                 name: name,
                 stack: stack
             }
+        },
+
+        "BarInfo": function (o) {
+            return "[BarInfo]";
+        },
+
+        "NamedNodeMap": function () {
+            return logger.parser.JSParser["Object"].call(this, o);
+        },
+
+        "Window": function (o) {
+            return "Window: " + o.location.href;
         }
     };
 

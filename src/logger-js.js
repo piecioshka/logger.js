@@ -145,11 +145,11 @@ if (typeof require !== "undefined") {
 /* Error constructors */
 /******************************************************************************/
 
-        "Error": function (o) { return o && o.name === "Error" &&
-            o instanceof Error;
+        "Error": function (o) {
+            return o && o.name === "Error" && o instanceof Error;
         },
-        "EvalError": function (o) { return o && o.name === "EvalError" &&
-            o instanceof Error && o instanceof EvalError;
+        "EvalError": function (o) {
+            return o && o instanceof Error && o instanceof EvalError;
         },
         /*
         // Harmony JS
@@ -157,11 +157,11 @@ if (typeof require !== "undefined") {
             o instanceof Error && o instanceof InternalError;
         },
         */
-        "RangeError": function (o) { return o && o.name === "RangeError" &&
-            o instanceof Error && o instanceof RangeError;
+        "RangeError": function (o) {
+            return o && o instanceof Error && o instanceof RangeError;
         },
-        "ReferenceError": function (o) { return o && o.name === "ReferenceError" &&
-            o instanceof Error && o instanceof ReferenceError;
+        "ReferenceError": function (o) {
+            return o && o instanceof Error && o instanceof ReferenceError;
         },
         /*
         // Harmony JS
@@ -169,14 +169,14 @@ if (typeof require !== "undefined") {
             o instanceof Error && o instanceof StopIteration;
         },
         */
-        "SyntaxError": function (o) { return o && o.name === "SyntaxError" &&
-            o instanceof Error && o instanceof SyntaxError;
+        "SyntaxError": function (o) {
+            return o && o instanceof Error && o instanceof SyntaxError;
         },
-        "TypeError": function (o) { return o && o.name === "TypeError" &&
-            o instanceof Error && o instanceof TypeError;
+        "TypeError": function (o) {
+            return o && o instanceof Error && o instanceof TypeError;
         },
-        "URIError": function (o) { return o && o.name === "URIError" &&
-            o instanceof Error && o instanceof URIError;
+        "URIError": function (o) {
+            return o && o instanceof Error && o instanceof URIError;
         },
 
 /******************************************************************************/
@@ -225,7 +225,7 @@ if (typeof require !== "undefined") {
             !isFinite(o);
         },
         "JSON": function (o) { return checker["Object"](o); },
-        "Math": function (o) { return o && o.E === Math.E; },
+        "Math": function (o) { return o && o === Math; },
         "NaN": function (o) { return typeof o === "number" && isNaN(o); },
         "Null": function (o) { return o === null; },
         "undefined": function (o) { return o === undefined; }

@@ -50,7 +50,6 @@
         "DOMTokenList",
         "DataView",
         "DeviceOrientationEvent",
-        "Document",
         "DocumentFragment",
         "DocumentType",
         "Entity",
@@ -287,7 +286,6 @@
         "WebKitTransitionEvent",
         "WebSocket",
         "WheelEvent",
-        "Window",
         "Worker",
         "XMLDocument",
         "XMLSerializer",
@@ -347,12 +345,8 @@
             return logger.parser.JSParser["Object"](o);
         },
 
-        "BarInfo": function (o) {
-            return "[BarInfo]";
-        },
-
-        "NamedNodeMap": function () {
-            return logger.parser.JSParser["Object"].call(this, o);
+        "Document": function (o) {
+            return "Document: " + o.URL;
         },
 
         "DOMException": function (o) {
@@ -377,6 +371,18 @@
                 name: name,
                 stack: stack
             }
+        },
+
+        "BarInfo": function (o) {
+            return "[BarInfo]";
+        },
+
+        "NamedNodeMap": function () {
+            return logger.parser.JSParser["Object"].call(this, o);
+        },
+
+        "Window": function (o) {
+            return "Window: " + o.location.href;
         }
     };
 
