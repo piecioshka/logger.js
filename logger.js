@@ -97,6 +97,18 @@ if (typeof module !== "undefined") {
         return Object.prototype.toString.call(data);
     }
 
+    function in_array(arr, element) {
+        var i, len = arr.length;
+
+        for (i = 0; i < len; ++i) {
+            if (arr[i] === element) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function trim(source) {
         return source.replace(/^\s+|\s+$/g, "");
     }
@@ -232,7 +244,8 @@ if (typeof module !== "undefined") {
             return false;
         },
         "Document": function (o) {
-            return o && to_string(o) === "[object HTMLDocument]";
+            var types = ["[object Document]", "[object HTMLDocument]"];
+            return o && in_array(types, to_string(o));
         },
         "DocumentFragment": function (o) {
             return false;
