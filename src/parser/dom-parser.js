@@ -391,7 +391,7 @@
 /******************************************************************************/
 
     function is_node(type) {
-        return type == "Node";
+        return type === "Node";
     }
 
 /******************************************************************************/
@@ -475,40 +475,65 @@
     }
 
     function like_as_node(o) {
-        var tagName = o.tagName;
-        var longTag = "<%TAG% %ATTRS%>%CONTENT%</%TAG%>";
-        var shortTag = "<%TAG% %ATTRS% />";
+        var long_tag = "<%TAG%%ATTRS%>%CONTENT%</%TAG%>";
+        var short_tag = "<%TAG%%ATTRS% />";
         var tag = "";
 
-        var isContent = false;
+        var tag_name = "";
+        var attrs = parse_attrs(o);
+        var is_content = false;
+        var content = "";
 
-        // check if tag have a content
-        if (o.innerHTML.length > 0) {
-            isContent = true;
+        if ( "tagName" in o ) {
+            tag_name = o.tagName;
+        } else if ( "documentElement" in o ) {
+            tag_name = o.documentElement.tagName;
         }
 
-        if (isContent) {
-            // if content exists, returns long tag representant
-            tag = longTag;
+        if ( "innerHTML" in o ) {
+            content = o.innerHTML;
+        } else if ( "documentElement" in o ) {
+            content = o.documentElement.innerHTML;
+        }
+
+        // check if tag have a content
+        if ( content.length > 0 ) {
+            is_content = true;
+        }
+
+        if (is_content) {
+            // if content exists, returns long tag instance
+            tag = long_tag;
         } else {
             // if content doesn't exists return short
-            tag = shortTag
+            tag = short_tag
+        }
+
+        if (attrs.length > 0) {
+            attrs = " " + attrs;
         }
 
         // replace node name
-        tag = tag.replace(/%TAG%/gi, tagName);
+        tag = tag.replace(/%TAG%/gi, tag_name.toLowerCase());
 
         // replace node attributes
-        tag = tag.replace(/%ATTRS%/, parse_attrs(o));
+        tag = tag.replace(/%ATTRS%/, attrs);
+
+        // replace content
+        tag = tag.replace(/%CONTENT%/, content);
 
         return tag;
     }
 
     function parse_attrs(o) {
-        var attrs = "", i, attr, attrs_count = o.attributes.length;
+        var attrs = "", i, attr, attrs_count = 0;
+
+        if ( "attributes" in o && o.attributes ) {
+            attrs_count = o.attributes.length;
+        }
 
         for (i = 0; i < attrs_count; ++i) {
-            attr = o[i];
+            attr = o.attributes[i];
 
             attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
 
@@ -543,7 +568,7 @@
         }
 
         // doesn't exists special parser for this object type
-        else if (is_node(type) && is_element(type)) {
+        else if (is_node(type) || is_element(type)) {
             return like_as_node(data);
         }
 

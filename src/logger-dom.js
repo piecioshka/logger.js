@@ -224,211 +224,211 @@
             return false;
         },
         "HTMLAllCollection": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAllCollection]";
         },
         "HTMLAnchorElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAnchorElement]";
         },
         "HTMLAppletElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAppletElement]";
         },
         "HTMLAreaElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAreaElement]";
         },
         "HTMLAudioElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAudioElement]";
         },
         "HTMLBRElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLBRElement]";
         },
         "HTMLBaseElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLBaseElement]";
         },
         "HTMLBaseFontElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLBaseFontElement]";
         },
         "HTMLBodyElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLBodyElement]";
         },
         "HTMLButtonElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLButtonElement]";
         },
         "HTMLCanvasElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLCanvasElement]";
         },
         "HTMLCollection": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLCollection]";
         },
         "HTMLDListElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDListElement]";
         },
         "HTMLDataListElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDataListElement]";
         },
         "HTMLDirectoryElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDirectoryElement]";
         },
         "HTMLDivElement": function (o) {
             return o && to_string(o) === "[object HTMLDivElement]";
         },
         "HTMLDocument": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDocument]";
         },
         "HTMLElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLElement]";
         },
         "HTMLEmbedElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLEmbedElement]";
         },
         "HTMLFieldSetElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFieldSetElement]";
         },
         "HTMLFontElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFontElement]";
         },
         "HTMLFormElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFormElement]";
         },
         "HTMLFrameElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFrameElement]";
         },
         "HTMLFrameSetElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFrameSetElement]";
         },
         "HTMLHRElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLHRElement]";
         },
         "HTMLHeadElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLHeadElement]";
         },
         "HTMLHeadingElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLHeadingElement]";
         },
         "HTMLHtmlElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLHtmlElement]";
         },
         "HTMLIFrameElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLIFrameElement]";
         },
         "HTMLImageElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLImageElement]";
         },
         "HTMLInputElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLInputElement]";
         },
         "HTMLKeygenElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLKeygenElement]";
         },
         "HTMLLIElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLLIElement]";
         },
         "HTMLLabelElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLLabelElement]";
         },
         "HTMLLegendElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLLegendElement]";
         },
         "HTMLLinkElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLLinkElement]";
         },
         "HTMLMapElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMapElement]";
         },
         "HTMLMarqueeElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMarqueeElement]";
         },
         "HTMLMediaElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMediaElement]";
         },
         "HTMLMenuElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMenuElement]";
         },
         "HTMLMetaElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMetaElement]";
         },
         "HTMLMeterElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMeterElement]";
         },
         "HTMLModElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLModElement]";
         },
         "HTMLOListElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLOListElement]";
         },
         "HTMLObjectElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLObjectElement]";
         },
         "HTMLOptGroupElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLOptGroupElement]";
         },
         "HTMLOptionElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLOptionElement]";
         },
         "HTMLOutputElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLOutputElement]";
         },
         "HTMLParagraphElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLParagraphElement]";
         },
         "HTMLParamElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLParamElement]";
         },
         "HTMLPreElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLPreElement]";
         },
         "HTMLProgressElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLProgressElement]";
         },
         "HTMLQuoteElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLQuoteElement]";
         },
         "HTMLScriptElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLScriptElement]";
         },
         "HTMLSelectElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLSelectElement]";
         },
         "HTMLSourceElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLSourceElement]";
         },
         "HTMLSpanElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLSpanElement]";
         },
         "HTMLStyleElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLStyleElement]";
         },
         "HTMLTableCaptionElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableCaptionElement]";
         },
         "HTMLTableCellElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableCellElement]";
         },
         "HTMLTableColElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableColElement]";
         },
         "HTMLTableElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableElement]";
         },
         "HTMLTableRowElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableRowElement]";
         },
         "HTMLTableSectionElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableSectionElement]";
         },
         "HTMLTextAreaElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTextAreaElement]";
         },
         "HTMLTitleElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTitleElement]";
         },
         "HTMLUListElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLUListElement]";
         },
         "HTMLUnknownElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLUnknownElement]";
         },
         "HTMLVideoElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLVideoElement]";
         },
         "HashChangeEvent": function (o) {
             return false;

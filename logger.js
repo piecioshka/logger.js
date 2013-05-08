@@ -295,211 +295,211 @@ if (typeof module !== "undefined") {
             return false;
         },
         "HTMLAllCollection": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAllCollection]";
         },
         "HTMLAnchorElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAnchorElement]";
         },
         "HTMLAppletElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAppletElement]";
         },
         "HTMLAreaElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAreaElement]";
         },
         "HTMLAudioElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLAudioElement]";
         },
         "HTMLBRElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLBRElement]";
         },
         "HTMLBaseElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLBaseElement]";
         },
         "HTMLBaseFontElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLBaseFontElement]";
         },
         "HTMLBodyElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLBodyElement]";
         },
         "HTMLButtonElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLButtonElement]";
         },
         "HTMLCanvasElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLCanvasElement]";
         },
         "HTMLCollection": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLCollection]";
         },
         "HTMLDListElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDListElement]";
         },
         "HTMLDataListElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDataListElement]";
         },
         "HTMLDirectoryElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDirectoryElement]";
         },
         "HTMLDivElement": function (o) {
             return o && to_string(o) === "[object HTMLDivElement]";
         },
         "HTMLDocument": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLDocument]";
         },
         "HTMLElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLElement]";
         },
         "HTMLEmbedElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLEmbedElement]";
         },
         "HTMLFieldSetElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFieldSetElement]";
         },
         "HTMLFontElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFontElement]";
         },
         "HTMLFormElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFormElement]";
         },
         "HTMLFrameElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFrameElement]";
         },
         "HTMLFrameSetElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLFrameSetElement]";
         },
         "HTMLHRElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLHRElement]";
         },
         "HTMLHeadElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLHeadElement]";
         },
         "HTMLHeadingElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLHeadingElement]";
         },
         "HTMLHtmlElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLHtmlElement]";
         },
         "HTMLIFrameElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLIFrameElement]";
         },
         "HTMLImageElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLImageElement]";
         },
         "HTMLInputElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLInputElement]";
         },
         "HTMLKeygenElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLKeygenElement]";
         },
         "HTMLLIElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLLIElement]";
         },
         "HTMLLabelElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLLabelElement]";
         },
         "HTMLLegendElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLLegendElement]";
         },
         "HTMLLinkElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLLinkElement]";
         },
         "HTMLMapElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMapElement]";
         },
         "HTMLMarqueeElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMarqueeElement]";
         },
         "HTMLMediaElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMediaElement]";
         },
         "HTMLMenuElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMenuElement]";
         },
         "HTMLMetaElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMetaElement]";
         },
         "HTMLMeterElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLMeterElement]";
         },
         "HTMLModElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLModElement]";
         },
         "HTMLOListElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLOListElement]";
         },
         "HTMLObjectElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLObjectElement]";
         },
         "HTMLOptGroupElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLOptGroupElement]";
         },
         "HTMLOptionElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLOptionElement]";
         },
         "HTMLOutputElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLOutputElement]";
         },
         "HTMLParagraphElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLParagraphElement]";
         },
         "HTMLParamElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLParamElement]";
         },
         "HTMLPreElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLPreElement]";
         },
         "HTMLProgressElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLProgressElement]";
         },
         "HTMLQuoteElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLQuoteElement]";
         },
         "HTMLScriptElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLScriptElement]";
         },
         "HTMLSelectElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLSelectElement]";
         },
         "HTMLSourceElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLSourceElement]";
         },
         "HTMLSpanElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLSpanElement]";
         },
         "HTMLStyleElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLStyleElement]";
         },
         "HTMLTableCaptionElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableCaptionElement]";
         },
         "HTMLTableCellElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableCellElement]";
         },
         "HTMLTableColElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableColElement]";
         },
         "HTMLTableElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableElement]";
         },
         "HTMLTableRowElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableRowElement]";
         },
         "HTMLTableSectionElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTableSectionElement]";
         },
         "HTMLTextAreaElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTextAreaElement]";
         },
         "HTMLTitleElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLTitleElement]";
         },
         "HTMLUListElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLUListElement]";
         },
         "HTMLUnknownElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLUnknownElement]";
         },
         "HTMLVideoElement": function (o) {
-            return false;
+            return o && to_string(o) === "[object HTMLVideoElement]";
         },
         "HashChangeEvent": function (o) {
             return false;
@@ -1989,7 +1989,7 @@ if (typeof require !== "undefined") {
 /******************************************************************************/
 
     function is_node(type) {
-        return type == "Node";
+        return type === "Node";
     }
 
 /******************************************************************************/
@@ -2073,40 +2073,65 @@ if (typeof require !== "undefined") {
     }
 
     function like_as_node(o) {
-        var tagName = o.tagName;
-        var longTag = "<%TAG% %ATTRS%>%CONTENT%</%TAG%>";
-        var shortTag = "<%TAG% %ATTRS% />";
+        var long_tag = "<%TAG%%ATTRS%>%CONTENT%</%TAG%>";
+        var short_tag = "<%TAG%%ATTRS% />";
         var tag = "";
 
-        var isContent = false;
+        var tag_name = "";
+        var attrs = parse_attrs(o);
+        var is_content = false;
+        var content = "";
 
-        // check if tag have a content
-        if (o.innerHTML.length > 0) {
-            isContent = true;
+        if ( "tagName" in o ) {
+            tag_name = o.tagName;
+        } else if ( "documentElement" in o ) {
+            tag_name = o.documentElement.tagName;
         }
 
-        if (isContent) {
-            // if content exists, returns long tag representant
-            tag = longTag;
+        if ( "innerHTML" in o ) {
+            content = o.innerHTML;
+        } else if ( "documentElement" in o ) {
+            content = o.documentElement.innerHTML;
+        }
+
+        // check if tag have a content
+        if ( content.length > 0 ) {
+            is_content = true;
+        }
+
+        if (is_content) {
+            // if content exists, returns long tag instance
+            tag = long_tag;
         } else {
             // if content doesn't exists return short
-            tag = shortTag
+            tag = short_tag
+        }
+
+        if (attrs.length > 0) {
+            attrs = " " + attrs;
         }
 
         // replace node name
-        tag = tag.replace(/%TAG%/gi, tagName);
+        tag = tag.replace(/%TAG%/gi, tag_name.toLowerCase());
 
         // replace node attributes
-        tag = tag.replace(/%ATTRS%/, parse_attrs(o));
+        tag = tag.replace(/%ATTRS%/, attrs);
+
+        // replace content
+        tag = tag.replace(/%CONTENT%/, content);
 
         return tag;
     }
 
     function parse_attrs(o) {
-        var attrs = "", i, attr, attrs_count = o.attributes.length;
+        var attrs = "", i, attr, attrs_count = 0;
+
+        if ( "attributes" in o && o.attributes ) {
+            attrs_count = o.attributes.length;
+        }
 
         for (i = 0; i < attrs_count; ++i) {
-            attr = o[i];
+            attr = o.attributes[i];
 
             attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
 
@@ -2141,7 +2166,7 @@ if (typeof require !== "undefined") {
         }
 
         // doesn't exists special parser for this object type
-        else if (is_node(type) && is_element(type)) {
+        else if (is_node(type) || is_element(type)) {
             return like_as_node(data);
         }
 

@@ -3,6 +3,17 @@
 <script type="text/javascript" src="../src/parser/js-parser.js"></script>
 <script type="text/javascript" src="../src/logger-dom.js"></script>
 <script type="text/javascript" src="../src/logger-js.js"></script>
+
+<div id="test">
+    <ul>
+        <li><a href="#">
+            <span>
+                <img src="http://www.google.com/logo.png" alt="Logo Google" />
+            </span>
+        </a></li>
+    </ul>
+</div>
+
 <script>
     console.log( logger(locationbar) );
 
@@ -55,7 +66,8 @@
         });
     }());
     */
-    console.log( logger(document) );
-    console.log( logger(window) );
+    // console.log( logger(document) );
+    // console.log( logger(window) );
+    console.log( logger( document.querySelector("img") ) );
 
 </script>
