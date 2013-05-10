@@ -232,14 +232,13 @@ if (typeof require !== "undefined") {
     };
 
     // public API
-    logger.JSLogger = function (data) {
-        var res,
-            type;
+    logger.JSLogger = function (data, indent) {
+        var res, type;
 
         for (type in checker) {
             if (checker.hasOwnProperty(type)) {
                 if (checker[type].call(null, data)) {
-                    res = logger.parser.JSParser.call(this, type, data);
+                    res = logger.parser.JSParser.call(this, type, data, indent);
                 }
             }
         }

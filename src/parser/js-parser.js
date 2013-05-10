@@ -59,6 +59,17 @@
         "Null",
         "undefined"
     ];
+
+    function get_space(nr) {
+        var result = "";
+        var space = "    ";
+
+        while (nr--) {
+            result += space;
+        }
+
+        return result;
+    }
     
     var special_parsers = {
 
@@ -66,7 +77,9 @@
 /* General-purpose constructors */
 /******************************************************************************/
 
-        "Array": function (o) {
+        "Array": function (o, indent) {
+            indent = indent || 0;
+
             o = Array.prototype.slice.call(o);
 
             var r = "[",
@@ -74,7 +87,9 @@
                 l = o.length;
 
             for (; i < l; ++i) {
-                r += logger(o[i]);
+                indent++;
+
+                r += get_space(indent) + logger(o[i], indent);
 
                 if (i < l - 1) {
                     r += ", ";
@@ -100,7 +115,11 @@
         "Number": function (o) {
             return o;
         },
-        "Object": function (o) {
+        "Object": function (o, indent) {
+            if (typeof indent !== "number") {
+                throw new Error("indent is not number");
+            }
+
             var r = "{",
                 i,
                 c = 0,
@@ -123,7 +142,12 @@
 
             for (i in o) {
                 if (o.hasOwnProperty(i)) {
-                    r += "\t" + "\"" + i + "\": " + logger(o[i]);
+
+                    indent++;
+
+                    r += (get_space(indent) + "\"" + i + "\": " + logger(o[i], indent));
+
+                    indent--;
 
                     if (c < len - 1) {
                         r += ",\n";
@@ -137,7 +161,7 @@
                 r += "\n";
             }
 
-            return r + "}";
+            return r + get_space(indent) + "}";
         },
         "RegExp": function (o) {
             return o.toString();
@@ -234,8 +258,8 @@
 /* Other */
 /******************************************************************************/
 
-        "JSON": function (o) {
-            return this["Object"](o);
+        "JSON": function (o, indent) {
+            return this["Object"](o, indent);
         },
         "Math": function (o) {
             return this["Object"](o);
@@ -252,8 +276,8 @@
         return false;
     }
 
-    function like_as_data_view(o) {
-        return JSParser("DataView", o);
+    function like_as_data_view(o, indent) {
+        return JSParser("DataView", o, indent);
     }
     
     function is_special_number(type) {
@@ -272,8 +296,8 @@
         return in_array(type, SPECIAL_NUMBER_ARRAY);
     }
 
-    function like_as_error(o) {
-        return JSParser("Error", o);
+    function like_as_error(o, indent) {
+        return JSParser("Error", o, indent);
     }
 
     function is_error(type) {
@@ -289,25 +313,25 @@
         return in_array(type, ERRORS_NAME_ARRAY);
     }
 
-    JSParser = function (type, data) {
+    JSParser = function (type, data, indent) {
         // check if exists special parser
         if (type in special_parsers) {
             // yes! exists, so run it!
-            return special_parsers[type](data);
+            return special_parsers[type](data, indent);
         }
 
         // is Special Number
         else if (is_special_number(type)) {
-            return like_as_data_view(data);
+            return like_as_data_view(data, indent);
         }
 
         // is Error
         else if (is_error(type)) {
-            return like_as_error(data);
+            return like_as_error(data, indent);
         }
 
         // default parser
-        return String(data);
+        return String(data, indent);
     };
 
     // public API

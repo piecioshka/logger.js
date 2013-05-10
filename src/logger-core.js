@@ -21,7 +21,9 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-function logger(data) {
+function logger(data, indent) {
+    indent = indent || 0;
+
     var i,
         // returned value
         res,
@@ -37,7 +39,7 @@ function logger(data) {
 
     // check if some special logger found value
     for (i = 0; i < len; ++i) {
-        if ( (res = logger[parts[i]](data)) !== undefined ) {
+        if ( (res = logger[parts[i]](data, indent)) !== undefined ) {
             logger.found = true;
             break;
         }
