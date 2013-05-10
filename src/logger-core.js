@@ -24,6 +24,10 @@
 function logger(data, indent) {
     indent = indent || 0;
 
+    if (typeof indent !== "number") {
+        throw new Error("logger: indent is not number");
+    }
+
     var i,
         // returned value
         res,
@@ -51,7 +55,7 @@ function logger(data, indent) {
     }
 
     // if not found, report w exception
-    throw new TypeError("LoggerUnexpectedValue: undefined type of variable: " + logger.JSLogger({
+    throw new Error("logger: unexpected data: undefined type of variable: " + logger.JSLogger({
         // value convert to string
         "toString": Object.prototype.toString.call( data ),
         "typeof": typeof data,

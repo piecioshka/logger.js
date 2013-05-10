@@ -78,8 +78,6 @@
 /******************************************************************************/
 
         "Array": function (o, indent) {
-            indent = indent || 0;
-
             o = Array.prototype.slice.call(o);
 
             var r = "[",
@@ -89,7 +87,7 @@
             for (; i < l; ++i) {
                 indent++;
 
-                r += get_space(indent) + logger(o[i], indent);
+                r += logger(o[i], indent);
 
                 if (i < l - 1) {
                     r += ", ";
@@ -116,10 +114,6 @@
             return o;
         },
         "Object": function (o, indent) {
-            if (typeof indent !== "number") {
-                throw new Error("indent is not number");
-            }
-
             var r = "{",
                 i,
                 c = 0,

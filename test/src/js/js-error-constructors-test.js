@@ -45,9 +45,9 @@ buster.testCase("logger/js Error constructors", {
         assert.equals(logger(new SyntaxError("test")), "SyntaxError({\n\tMessage: \"test\"\n})", "Error constructors: SyntaxError: with message");
     },
 
-    "TypeError": function () {
-        assert.equals(logger(new TypeError()), "TypeError()", "Error constructors: TypeError");
-        assert.equals(logger(new TypeError("test")), "TypeError({\n\tMessage: \"test\"\n})", "Error constructors: TypeError: with message");
+    "Error": function () {
+        assert.equals(logger(new Error()), "Error()", "Error constructors: Error");
+        assert.equals(logger(new Error("test")), "Error({\n\tMessage: \"test\"\n})", "Error constructors: Error: with message");
     },
 
     "URIError": function () {

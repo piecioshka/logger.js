@@ -24,6 +24,10 @@
 function logger(data, indent) {
     indent = indent || 0;
 
+    if (typeof indent !== "number") {
+        throw new Error("logger: indent is not number");
+    }
+
     var i,
         // returned value
         res,
@@ -51,7 +55,7 @@ function logger(data, indent) {
     }
 
     // if not found, report w exception
-    throw new TypeError("LoggerUnexpectedValue: undefined type of variable: " + logger.JSLogger({
+    throw new Error("logger: unexpected data: undefined type of variable: " + logger.JSLogger({
         // value convert to string
         "toString": Object.prototype.toString.call( data ),
         "typeof": typeof data,
@@ -2258,8 +2262,6 @@ if (typeof require !== "undefined") {
 /******************************************************************************/
 
         "Array": function (o, indent) {
-            indent = indent || 0;
-
             o = Array.prototype.slice.call(o);
 
             var r = "[",
@@ -2269,7 +2271,7 @@ if (typeof require !== "undefined") {
             for (; i < l; ++i) {
                 indent++;
 
-                r += get_space(indent) + logger(o[i], indent);
+                r += logger(o[i], indent);
 
                 if (i < l - 1) {
                     r += ", ";
@@ -2296,10 +2298,6 @@ if (typeof require !== "undefined") {
             return o;
         },
         "Object": function (o, indent) {
-            if (typeof indent !== "number") {
-                throw new Error("indent is not number");
-            }
-
             var r = "{",
                 i,
                 c = 0,
