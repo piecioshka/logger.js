@@ -1,0 +1,9 @@
+language: ruby
+
+rvm:
+  - 2.0.0
+
+notifications:
+  recipients:
+    - piecioshka@gmail.com
+
