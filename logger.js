@@ -70,7 +70,7 @@ logger.found = false;
 logger.parser = {};
 
 // public API
-if (typeof module !== "undefined") {
+if (module !== undefined) {
     // only for NodeJS
     module.exports = logger;
 }
@@ -81,7 +81,7 @@ if (typeof module !== "undefined") {
     // master scope
     var global = this,
 
-        logger = (typeof require !== "undefined") ? require("./logger-core.js") : global.logger;
+        logger = (require !== undefined) ? require("./logger-core.js") : global.logger;
 
     // Types of all available node
     var nodeTypes = {
@@ -1356,7 +1356,7 @@ if (typeof module !== "undefined") {
 /* Logger JavaScript */
 /******************************************************************************/
 
-if (typeof require !== "undefined") {
+if (require !== undefined) {
     var logger = require("./logger-core.js");
 }
 
@@ -1608,7 +1608,7 @@ if (typeof require !== "undefined") {
     var global = this,
 
         // lib
-        logger = (typeof require !== "undefined") ? require("../logger-core.js") : global.logger,
+        logger = (require !== undefined) ? require("../logger-core.js") : global.logger,
 
         // parser
         DOMParser;
@@ -2189,7 +2189,7 @@ if (typeof require !== "undefined") {
     var global = this,
 
         // lib
-        logger = (typeof require !== "undefined") ? require("../logger-core.js") : global.logger,
+        logger = (require !== undefined) ? require("../logger-core.js") : global.logger,
 
         // parser
         JSParser;

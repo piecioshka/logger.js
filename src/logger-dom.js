@@ -4,7 +4,7 @@
     // master scope
     var global = this,
 
-        logger = (typeof require !== "undefined") ? require("./logger-core.js") : global.logger;
+        logger = (require !== undefined) ? require("./logger-core.js") : global.logger;
 
     // Types of all available node
     var nodeTypes = {

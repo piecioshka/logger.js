@@ -2,7 +2,7 @@
 /* Logger JavaScript */
 /******************************************************************************/
 
-if (typeof require !== "undefined") {
+if (require !== undefined) {
     var logger = require("./logger-core.js");
 }
 

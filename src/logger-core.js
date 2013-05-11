@@ -70,7 +70,7 @@ logger.found = false;
 logger.parser = {};
 
 // public API
-if (typeof module !== "undefined") {
+if (module !== undefined) {
     // only for NodeJS
     module.exports = logger;
 }
