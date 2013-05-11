@@ -1,4 +1,4 @@
-# node-text-plain-logger
+# node-text-plain-logger [![Build Status](https://secure.travis-ci.org/piecioshka/node-text-plain-logger.png?branch=master)](http://travis-ci.org/piecioshka/node-text-plain-logger)
 
 Celem projektu jest realizacja konwersji obiektów JavaScript do postaci `plain/text`.
 
