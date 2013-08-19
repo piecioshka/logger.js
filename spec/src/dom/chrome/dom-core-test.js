@@ -111,7 +111,7 @@ describe("logger/bom Chrome", function () {
     });
     it("ErrorEvent", function () {
         // function ErrorEvent() { [native code] }
-        expect(logger(new ErrorEvent(''))).toEqual("[ErrorEvent]");
+        expect(logger(new ErrorEvent(''))).toEqual('ErrorEvent ({\n\tMessage: "",\n\tLine: 0,\n\tFile: ""\n})');
     });
     it("Event", function () {
         // function Event() { [native code] }

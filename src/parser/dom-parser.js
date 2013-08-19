@@ -51,7 +51,6 @@
         "DocumentType",
         "Entity",
         "EntityReference",
-        "ErrorEvent",
         "Event",
         "EventException",
         "EventSource",
@@ -339,7 +338,7 @@
 
     var special_parsers = {
         "Attr": function (o) {
-            return logger.parser.JSParser["Object"](o);
+            return logger.parser.JSParser("Object", o);
         },
 
         "Document": function (o) {
@@ -378,8 +377,18 @@
             return "[BarProp]";
         },
 
-        "NamedNodeMap": function () {
-            return logger.parser.JSParser["Object"].call(this, o);
+        "ErrorEvent": function (o) {
+            var res = "";
+            res += "ErrorEvent ({\n";
+            res += "\tMessage: \"" + o.message + "\",\n";
+            res += "\tLine: " + o.lineno + ",\n";
+            res += "\tFile: \"" + o.filename + "\"\n";
+            res += "})";
+            return res;
+        },
+
+        "NamedNodeMap": function (o) {
+            return logger.parser.JSParser("Object", o);
         },
 
         "Window": function (o) {

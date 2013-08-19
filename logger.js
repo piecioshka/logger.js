@@ -21,60 +21,64 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-function logger(data, indent) {
-    indent = indent || 0;
+(function (global) {
+    "use strict";
 
-    if (typeof indent !== "number") {
-        throw new Error("logger: indent is not number");
-    }
+    var logger = global.logger = function (data, indent) {
+        indent = indent || 0;
 
-    var i,
-        // returned value
-        res,
+        if (typeof indent !== "number") {
+            throw new Error("logger: indent is not number");
+        }
 
-        // available special logger types
-        parts = ["DOMLogger", "JSLogger"],
+        var i,
+            // returned value
+            res,
 
-        // number of special loggers
-        len = parts.length;
+            // available special logger types
+            parts = ["DOMLogger", "JSLogger"],
 
-    // reset found status
+            // number of special loggers
+            len = parts.length;
+
+        // reset found status
+        logger.found = false;
+
+        // check if some special logger found value
+        for (i = 0; i < len; ++i) {
+            if ( (res = logger[parts[i]](data, indent)) !== undefined ) {
+                logger.found = true;
+                break;
+            }
+        }
+
+        if ( logger.found ) {
+            // if logger model has matched also returned parsing value
+            return res;
+        }
+
+        // if not found, report w exception
+        throw new Error("logger: unexpected data: undefined type of variable: " + logger.JSLogger({
+            // value convert to string
+            "toString": Object.prototype.toString.call( data ),
+            "typeof": typeof data,
+            "contructor": data.constructor && data.constructor.name
+        }));
+    };
+
+    // found status
     logger.found = false;
 
-    // check if some special logger found value
-    for (i = 0; i < len; ++i) {
-        if ( (res = logger[parts[i]](data, indent)) !== undefined ) {
-            logger.found = true;
-            break;
-        }
+    // parser's
+    logger.parser = {};
+
+    // public API
+    if (typeof module !== 'undefined') {
+        // only for NodeJS
+        module.exports = logger;
     }
 
-    if ( logger.found ) {
-        // if logger model has matched also returned parsing value
-        return res;
-    }
-
-    // if not found, report w exception
-    throw new Error("logger: unexpected data: undefined type of variable: " + logger.JSLogger({
-        // value convert to string
-        "toString": Object.prototype.toString.call( data ),
-        "typeof": typeof data,
-        "contructor": data.constructor && data.constructor.name
-    }));
-}
-
-// found status
-logger.found = false;
-
-// parser's
-logger.parser = {};
-
-// public API
-if (typeof module !== 'undefined') {
-    // only for NodeJS
-    module.exports = logger;
-}
-
+}(this));
 (function () {
     "use strict";
 
@@ -1575,8 +1579,8 @@ if (typeof require !== 'undefined') {
 /* Other */
 /******************************************************************************/
 
-        "Infinity": function (o) { return typeof o === "number" &&
-            !isFinite(o);
+        "Infinity": function (o) {
+            return typeof o === "number" && !isFinite(o);
         },
         "JSON": function (o) { return checker["Object"](o); },
         "Math": function (o) { return o && o === Math; },
@@ -1601,17 +1605,14 @@ if (typeof require !== 'undefined') {
     };
 
 }).call(this);
-(function () {
+(function (global) {
     "use strict";
 
-    // master scope
-    var global = this,
+    // lib
+    var logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger;
 
-        // lib
-        logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger,
-
-        // parser
-        DOMParser;
+    // parser
+    var DOMParser;
 
     var default_data_objects = [
         "ArrayBuffer",
@@ -1657,7 +1658,6 @@ if (typeof require !== 'undefined') {
         "DocumentType",
         "Entity",
         "EntityReference",
-        "ErrorEvent",
         "Event",
         "EventException",
         "EventSource",
@@ -1945,7 +1945,7 @@ if (typeof require !== 'undefined') {
 
     var special_parsers = {
         "Attr": function (o) {
-            return logger.parser.JSParser["Object"](o);
+            return logger.parser.JSParser("Object", o);
         },
 
         "Document": function (o) {
@@ -1984,8 +1984,18 @@ if (typeof require !== 'undefined') {
             return "[BarProp]";
         },
 
-        "NamedNodeMap": function () {
-            return logger.parser.JSParser["Object"].call(this, o);
+        "ErrorEvent": function (o) {
+            var res = "";
+            res += "ErrorEvent ({\n";
+            res += "\tMessage: \"" + o.message + "\"\n";
+            res += "\tLine: " + o.lineno + "\n";
+            res += "\tFile: \"" + o.filename + "\"\n";
+            res += "})";
+            return res;
+        },
+
+        "NamedNodeMap": function (o) {
+            return logger.parser.JSParser("Object", o);
         },
 
         "Window": function (o) {
@@ -2186,17 +2196,14 @@ if (typeof require !== 'undefined') {
     // public API
     logger.parser.DOMParser = DOMParser;
 
-}).call(this);(function () {
+}(this));(function (global) {
     "use strict";
 
-    // master scope
-    var global = this,
+    // lib
+    var logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger;
 
-        // lib
-        logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger,
-
-        // parser
-        JSParser;
+    // parser
+    var JSParser;
 
     var default_data_objects = [
         "Array",
@@ -2370,16 +2377,16 @@ if (typeof require !== 'undefined') {
         "Error": function (o) {
             var res = "";
             res += o.name + "(";
-            if (o.message || o.lineNumber || o.line || o.fileName || o.sourceURL) {
+            if (o.message || o.lineNumber || o.line || o.lineno || o.filename || o.fileName || o.sourceURL) {
                 res += "{\n";
                 if (o.message) {
                     res += "\tMessage: \"" + o.message + "\"\n";
                 }
                 if (o.lineNumber || o.line) {
-                    res += "\tLine: " + (o.lineNumber || o.line) + "\n";
+                    res += "\tLine: " + (o.lineNumber || o.line || o.lineno) + "\n";
                 }
                 if (o.fileName || o.sourceURL) {
-                    res += "\tFile: \"" + (o.fileName || o.sourceURL) + "\"\n";
+                    res += "\tFile: \"" + (o.fileName || o.sourceURL || o.filename) + "\"\n";
                 }
                 res += "}";
             }
@@ -2484,6 +2491,7 @@ if (typeof require !== 'undefined') {
 
     function is_error(type) {
         var ERRORS_NAME_ARRAY = [
+            "ErrorEvent",
             "EvalError",
             "RangeError",
             "ReferenceError",
@@ -2519,4 +2527,4 @@ if (typeof require !== 'undefined') {
     // public API
     logger.parser.JSParser = JSParser;
 
-}).call(this);
+}(this));

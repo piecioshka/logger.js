@@ -221,8 +221,8 @@ if (typeof require !== 'undefined') {
 /* Other */
 /******************************************************************************/
 
-        "Infinity": function (o) { return typeof o === "number" &&
-            !isFinite(o);
+        "Infinity": function (o) {
+            return typeof o === "number" && !isFinite(o);
         },
         "JSON": function (o) { return checker["Object"](o); },
         "Math": function (o) { return o && o === Math; },

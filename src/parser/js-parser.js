@@ -179,16 +179,16 @@
         "Error": function (o) {
             var res = "";
             res += o.name + "(";
-            if (o.message || o.lineNumber || o.line || o.fileName || o.sourceURL) {
+            if (o.message || o.lineNumber || o.line || o.lineno || o.filename || o.fileName || o.sourceURL) {
                 res += "{\n";
                 if (o.message) {
                     res += "\tMessage: \"" + o.message + "\"\n";
                 }
                 if (o.lineNumber || o.line) {
-                    res += "\tLine: " + (o.lineNumber || o.line) + "\n";
+                    res += "\tLine: " + (o.lineNumber || o.line || o.lineno) + "\n";
                 }
                 if (o.fileName || o.sourceURL) {
-                    res += "\tFile: \"" + (o.fileName || o.sourceURL) + "\"\n";
+                    res += "\tFile: \"" + (o.fileName || o.sourceURL || o.filename) + "\"\n";
                 }
                 res += "}";
             }
@@ -293,6 +293,7 @@
 
     function is_error(type) {
         var ERRORS_NAME_ARRAY = [
+            "ErrorEvent",
             "EvalError",
             "RangeError",
             "ReferenceError",
