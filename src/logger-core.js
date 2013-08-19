@@ -21,57 +21,61 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-function logger(data, indent) {
-    indent = indent || 0;
+(function (global) {
+    "use strict";
 
-    if (typeof indent !== "number") {
-        throw new Error("logger: indent is not number");
-    }
+    var logger = global.logger = function (data, indent) {
+        indent = indent || 0;
 
-    var i,
-        // returned value
-        res,
+        if (typeof indent !== "number") {
+            throw new Error("logger: indent is not number");
+        }
 
-        // available special logger types
-        parts = ["DOMLogger", "JSLogger"],
+        var i,
+            // returned value
+            res,
 
-        // number of special loggers
-        len = parts.length;
+            // available special logger types
+            parts = ["DOMLogger", "JSLogger"],
 
-    // reset found status
+            // number of special loggers
+            len = parts.length;
+
+        // reset found status
+        logger.found = false;
+
+        // check if some special logger found value
+        for (i = 0; i < len; ++i) {
+            if ( (res = logger[parts[i]](data, indent)) !== undefined ) {
+                logger.found = true;
+                break;
+            }
+        }
+
+        if ( logger.found ) {
+            // if logger model has matched also returned parsing value
+            return res;
+        }
+
+        // if not found, report w exception
+        throw new Error("logger: unexpected data: undefined type of variable: " + logger.JSLogger({
+            // value convert to string
+            "toString": Object.prototype.toString.call( data ),
+            "typeof": typeof data,
+            "contructor": data.constructor && data.constructor.name
+        }));
+    };
+
+    // found status
     logger.found = false;
 
-    // check if some special logger found value
-    for (i = 0; i < len; ++i) {
-        if ( (res = logger[parts[i]](data, indent)) !== undefined ) {
-            logger.found = true;
-            break;
-        }
+    // parser's
+    logger.parser = {};
+
+    // public API
+    if (typeof module !== 'undefined') {
+        // only for NodeJS
+        module.exports = logger;
     }
 
-    if ( logger.found ) {
-        // if logger model has matched also returned parsing value
-        return res;
-    }
-
-    // if not found, report w exception
-    throw new Error("logger: unexpected data: undefined type of variable: " + logger.JSLogger({
-        // value convert to string
-        "toString": Object.prototype.toString.call( data ),
-        "typeof": typeof data,
-        "contructor": data.constructor && data.constructor.name
-    }));
-}
-
-// found status
-logger.found = false;
-
-// parser's
-logger.parser = {};
-
-// public API
-if (typeof module !== 'undefined') {
-    // only for NodeJS
-    module.exports = logger;
-}
-
+}(this));

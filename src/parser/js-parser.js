@@ -1,14 +1,11 @@
-(function () {
+(function (global) {
     "use strict";
 
-    // master scope
-    var global = this,
+    // lib
+    var logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger;
 
-        // lib
-        logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger,
-
-        // parser
-        JSParser;
+    // parser
+    var JSParser;
 
     var default_data_objects = [
         "Array",
@@ -331,4 +328,4 @@
     // public API
     logger.parser.JSParser = JSParser;
 
-}).call(this);
+}(this));

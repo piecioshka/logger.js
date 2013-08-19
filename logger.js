@@ -1,3 +1,80 @@
+// Copyright Piotr Kowalski and other contributors.
+//
+// MIT License
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function logger(data, indent) {
+    indent = indent || 0;
+
+    if (typeof indent !== "number") {
+        throw new Error("logger: indent is not number");
+    }
+
+    var i,
+        // returned value
+        res,
+
+        // available special logger types
+        parts = ["DOMLogger", "JSLogger"],
+
+        // number of special loggers
+        len = parts.length;
+
+    // reset found status
+    logger.found = false;
+
+    // check if some special logger found value
+    for (i = 0; i < len; ++i) {
+        if ( (res = logger[parts[i]](data, indent)) !== undefined ) {
+            logger.found = true;
+            break;
+        }
+    }
+
+    if ( logger.found ) {
+        // if logger model has matched also returned parsing value
+        return res;
+    }
+
+    // if not found, report w exception
+    throw new Error("logger: unexpected data: undefined type of variable: " + logger.JSLogger({
+        // value convert to string
+        "toString": Object.prototype.toString.call( data ),
+        "typeof": typeof data,
+        "contructor": data.constructor && data.constructor.name
+    }));
+}
+
+// found status
+logger.found = false;
+
+// parser's
+logger.parser = {};
+
+// public API
+if (typeof module !== 'undefined') {
+    // only for NodeJS
+    module.exports = logger;
+}
+
 (function () {
     "use strict";
 
@@ -1273,5 +1350,1173 @@
 
         return res;
     };
+
+}).call(this);
+/******************************************************************************/
+/* Logger JavaScript */
+/******************************************************************************/
+
+if (typeof require !== 'undefined') {
+    var logger = require("./logger-core.js");
+}
+
+(function () {
+    "use strict";
+
+    // master scope
+    var global = this;
+
+    /**
+     * @param {Object} o
+     * @returns {String}
+     */
+    function to_string(o) {
+        return Object.prototype.toString.call(o);
+    }
+
+    var checker = {
+
+/******************************************************************************/
+/* General-purpose constructors */
+/******************************************************************************/
+
+        "Array": function (o) {
+            if ( o && o.constructor && o.constructor.name === "Array" ) {
+                return true;
+            }
+            return o && o.constructor && o.pop && o.push &&
+                o.reverse && (typeof o.length === "number") && o.shift &&
+                o.sort && o.splice && o.unshift && o.concat && o.join &&
+                o.slice && o.indexOf;
+        },
+        "Arguments": function (o) {
+            return o && (typeof o.length === "number") &&
+                Object.prototype.toString.call(o) === "[object Arguments]";
+        },
+        "Boolean": function (o) { return typeof o === "boolean" },
+        "Date": function (o) { return o && o.getDate && o.getDay
+            && o.getFullYear && o.getHours && o.getMilliseconds &&
+            o.getMinutes && o.getMonth && o.getSeconds;
+        },
+        "Function": function (o) { return o &&
+            Object.prototype.toString.call(o) === "[object Function]";
+        },
+        // Harmony JS
+        // "Iterator": function (o) { return o.constructor === Iterator; },
+        "Number": function (o) { return typeof o === "number" && !isNaN(o) &&
+            isFinite(o);
+        },
+        "Object": function (o) {
+            return o && Object.prototype.toString.call(o) === "[object Object]";
+        },
+        "RegExp": function (o) { return o && o.exec && o.test; },
+        "String": function (o) { return typeof o === "string"; },
+
+/******************************************************************************/
+/* Typed array constructors */
+/******************************************************************************/
+
+        "ArrayBuffer": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o instanceof ArrayBuffer && typeof o.byteLength === "number";
+            }
+            return false;
+        },
+        "DataView": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    o.getInt8 && o.getUint8 && o.getInt16 && o.getUint16 && o.getInt32 &&
+                    o.getUint32 && o.getFloat32 && o.getFloat64 && o instanceof DataView;
+            }
+            return false;
+        },
+        "Float32Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Float32Array;
+            }
+            return false;
+        },
+        "Float64Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Float64Array;
+            }
+            return false;
+        },
+        "Int16Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Int16Array;
+            }
+        },
+        "Int32Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Int32Array;
+            }
+        },
+        "Int8Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Int8Array;
+            }
+        },
+        "Uint16Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Uint16Array;
+            }
+        },
+        "Uint32Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Uint32Array;
+            }
+        },
+        "Uint8Array": function (o) {
+            if ("ArrayBuffer" in global) {
+                return o && o.buffer instanceof ArrayBuffer &&
+                    typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+                    o instanceof Uint8Array;
+            }
+        },
+        /*
+        "Uint8ClampedArray": function (o) { return o && o.buffer instanceof ArrayBuffer &&
+            typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
+            !!Uint8ClampedArray && o instanceof Uint8ClampedArray;
+        },
+        */
+
+/******************************************************************************/
+/* Error constructors */
+/******************************************************************************/
+
+        "Error": function (o) {
+            return o && o.name === "Error" && o instanceof Error;
+        },
+        "EvalError": function (o) {
+            return o && o instanceof Error && o instanceof EvalError;
+        },
+        /*
+        // Harmony JS
+        "InternalError": function (o) { return o && o.name === "InternalError" &&
+            o instanceof Error && o instanceof InternalError;
+        },
+        */
+        "RangeError": function (o) {
+            return o && o instanceof Error && o instanceof RangeError;
+        },
+        "ReferenceError": function (o) {
+            return o && o instanceof Error && o instanceof ReferenceError;
+        },
+        /*
+        // Harmony JS
+        "StopIteration": function (o) { return o && o.name === "StopIteration" &&
+            o instanceof Error && o instanceof StopIteration;
+        },
+        */
+        "SyntaxError": function (o) {
+            return o && o instanceof Error && o instanceof SyntaxError;
+        },
+        "TypeError": function (o) {
+            return o && o instanceof Error && o instanceof TypeError;
+        },
+        "URIError": function (o) {
+            return o && o instanceof Error && o instanceof URIError;
+        },
+
+/******************************************************************************/
+/* Storage */
+/******************************************************************************/
+
+        "Storage": function (o) {
+            return o && to_string(o) === "[object Storage]";
+        },
+        "StorageEvent": function (o) {
+            return false;
+        },
+        "localStorage": function (o) {
+            return false;
+        },
+        "sessionStorage": function (o) {
+            return false;
+        },
+        "webkitStorageInfo": function (o) {
+            // StorageInfo
+            return false;
+        },
+
+/******************************************************************************/
+/* XMLHttpRequest */
+/******************************************************************************/
+
+        "XMLHttpRequest": function (o) {
+            return to_string(o) === "[object XMLHttpRequest]";
+        },
+        "XMLHttpRequestException": function (o) {
+            return to_string(o) === "[object XMLHttpRequestException]";
+        },
+        "XMLHttpRequestProgressEvent": function (o) {
+            return to_string(o) === "[object XMLHttpRequestProgressEvent]";
+        },
+        "XMLHttpRequestUpload": function (o) {
+            return to_string(o) === "[object XMLHttpRequestUpload]";
+        },
+
+/******************************************************************************/
+/* Other */
+/******************************************************************************/
+
+        "Infinity": function (o) { return typeof o === "number" &&
+            !isFinite(o);
+        },
+        "JSON": function (o) { return checker["Object"](o); },
+        "Math": function (o) { return o && o === Math; },
+        "NaN": function (o) { return typeof o === "number" && isNaN(o); },
+        "Null": function (o) { return o === null; },
+        "undefined": function (o) { return o === undefined; }
+    };
+
+    // public API
+    logger.JSLogger = function (data, indent) {
+        var res, type;
+
+        for (type in checker) {
+            if (checker.hasOwnProperty(type)) {
+                if (checker[type].call(null, data)) {
+                    res = logger.parser.JSParser.call(this, type, data, indent);
+                }
+            }
+        }
+
+        return res;
+    };
+
+}).call(this);
+(function () {
+    "use strict";
+
+    // master scope
+    var global = this,
+
+        // lib
+        logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger,
+
+        // parser
+        DOMParser;
+
+    var default_data_objects = [
+        "ArrayBuffer",
+        "Audio",
+        "AudioProcessingEvent",
+        "BeforeLoadEvent",
+        "Blob",
+        "CDATASection",
+        "CSSCharsetRule",
+        "CSSFontFaceRule",
+        "CSSImportRule",
+        "CSSMediaRule",
+        "CSSPageRule",
+        "CSSPrimitiveValue",
+        "CSSRule",
+        "CSSRuleList",
+        "CSSStyleDeclaration",
+        "CSSStyleRule",
+        "CSSStyleSheet",
+        "CSSValue",
+        "CSSValueList",
+        "CanvasGradient",
+        "CanvasPattern",
+        "CanvasRenderingContext2D",
+        "CharacterData",
+        "ClientRect",
+        "ClientRectList",
+        "Clipboard",
+        "CloseEvent",
+        "Comment",
+        "CompositionEvent",
+        "Counter",
+        "CustomEvent",
+        "DOMImplementation",
+        "DOMParser",
+        "DOMSettableTokenList",
+        "DOMStringList",
+        "DOMStringMap",
+        "DOMTokenList",
+        "DataView",
+        "DeviceOrientationEvent",
+        "DocumentFragment",
+        "DocumentType",
+        "Entity",
+        "EntityReference",
+        "ErrorEvent",
+        "Event",
+        "EventException",
+        "EventSource",
+        "File",
+        "FileError",
+        "FileList",
+        "FileReader",
+        "Float32Array",
+        "Float64Array",
+        "FormData",
+        "HTMLAllCollection",
+        "HashChangeEvent",
+        "IceCandidate",
+        "Image",
+        "ImageData",
+        "Int8Array",
+        "Int16Array",
+        "Int32Array",
+        "KeyboardEvent",
+        "MediaController",
+        "MediaError",
+        "MediaList",
+        "MediaStreamEvent",
+        "MessageChannel",
+        "MessageEvent",
+        "MessagePort",
+        "MimeType",
+        "MimeTypeArray",
+        "MouseEvent",
+        "MutationEvent",
+        "NodeFilter",
+        "NodeList",
+        "Notation",
+        "Notification",
+        "OfflineAudioCompletionEvent",
+        "Option",
+        "OverflowEvent",
+        "PageTransitionEvent",
+        "Plugin",
+        "PluginArray",
+        "PopStateEvent",
+        "ProcessingInstruction",
+        "ProgressEvent",
+        "RGBColor",
+        "Range",
+        "RangeException",
+        "Rect",
+        "SQLException",
+        "SVGAElement",
+        "SVGAltGlyphDefElement",
+        "SVGAltGlyphElement",
+        "SVGAltGlyphItemElement",
+        "SVGAngle",
+        "SVGAnimateColorElement",
+        "SVGAnimateElement",
+        "SVGAnimateMotionElement",
+        "SVGAnimateTransformElement",
+        "SVGAnimatedAngle",
+        "SVGAnimatedBoolean",
+        "SVGAnimatedEnumeration",
+        "SVGAnimatedInteger",
+        "SVGAnimatedLength",
+        "SVGAnimatedLengthList",
+        "SVGAnimatedNumber",
+        "SVGAnimatedNumberList",
+        "SVGAnimatedPreserveAspectRatio",
+        "SVGAnimatedRect",
+        "SVGAnimatedString",
+        "SVGAnimatedTransformList",
+        "SVGCircleElement",
+        "SVGClipPathElement",
+        "SVGColor",
+        "SVGComponentTransferFunctionElement",
+        "SVGCursorElement",
+        "SVGDefsElement",
+        "SVGDescElement",
+        "SVGDocument",
+        "SVGElement",
+        "SVGElementInstance",
+        "SVGElementInstanceList",
+        "SVGEllipseElement",
+        "SVGException",
+        "SVGFEBlendElement",
+        "SVGFEColorMatrixElement",
+        "SVGFEComponentTransferElement",
+        "SVGFECompositeElement",
+        "SVGFEConvolveMatrixElement",
+        "SVGFEDiffuseLightingElement",
+        "SVGFEDisplacementMapElement",
+        "SVGFEDistantLightElement",
+        "SVGFEDropShadowElement",
+        "SVGFEFloodElement",
+        "SVGFEFuncAElement",
+        "SVGFEFuncBElement",
+        "SVGFEFuncGElement",
+        "SVGFEFuncRElement",
+        "SVGFEGaussianBlurElement",
+        "SVGFEImageElement",
+        "SVGFEMergeElement",
+        "SVGFEMergeNodeElement",
+        "SVGFEMorphologyElement",
+        "SVGFEOffsetElement",
+        "SVGFEPointLightElement",
+        "SVGFESpecularLightingElement",
+        "SVGFESpotLightElement",
+        "SVGFETileElement",
+        "SVGFETurbulenceElement",
+        "SVGFilterElement",
+        "SVGFontElement",
+        "SVGFontFaceElement",
+        "SVGFontFaceFormatElement",
+        "SVGFontFaceNameElement",
+        "SVGFontFaceSrcElement",
+        "SVGFontFaceUriElement",
+        "SVGForeignObjectElement",
+        "SVGGElement",
+        "SVGGlyphElement",
+        "SVGGlyphRefElement",
+        "SVGGradientElement",
+        "SVGHKernElement",
+        "SVGImageElement",
+        "SVGLength",
+        "SVGLengthList",
+        "SVGLineElement",
+        "SVGLinearGradientElement",
+        "SVGMPathElement",
+        "SVGMarkerElement",
+        "SVGMaskElement",
+        "SVGMatrix",
+        "SVGMetadataElement",
+        "SVGMissingGlyphElement",
+        "SVGNumber",
+        "SVGNumberList",
+        "SVGPaint",
+        "SVGPathElement",
+        "SVGPathSeg",
+        "SVGPathSegArcAbs",
+        "SVGPathSegArcRel",
+        "SVGPathSegClosePath",
+        "SVGPathSegCurvetoCubicAbs",
+        "SVGPathSegCurvetoCubicRel",
+        "SVGPathSegCurvetoCubicSmoothAbs",
+        "SVGPathSegCurvetoCubicSmoothRel",
+        "SVGPathSegCurvetoQuadraticAbs",
+        "SVGPathSegCurvetoQuadraticRel",
+        "SVGPathSegCurvetoQuadraticSmoothAbs",
+        "SVGPathSegCurvetoQuadraticSmoothRel",
+        "SVGPathSegLinetoAbs",
+        "SVGPathSegLinetoHorizontalAbs",
+        "SVGPathSegLinetoHorizontalRel",
+        "SVGPathSegLinetoRel",
+        "SVGPathSegLinetoVerticalAbs",
+        "SVGPathSegLinetoVerticalRel",
+        "SVGPathSegList",
+        "SVGPathSegMovetoAbs",
+        "SVGPathSegMovetoRel",
+        "SVGPatternElement",
+        "SVGPoint",
+        "SVGPointList",
+        "SVGPolygonElement",
+        "SVGPolylineElement",
+        "SVGPreserveAspectRatio",
+        "SVGRadialGradientElement",
+        "SVGRect",
+        "SVGRectElement",
+        "SVGRenderingIntent",
+        "SVGSVGElement",
+        "SVGScriptElement",
+        "SVGSetElement",
+        "SVGStopElement",
+        "SVGStringList",
+        "SVGStyleElement",
+        "SVGSwitchElement",
+        "SVGSymbolElement",
+        "SVGTRefElement",
+        "SVGTSpanElement",
+        "SVGTextContentElement",
+        "SVGTextElement",
+        "SVGTextPathElement",
+        "SVGTextPositioningElement",
+        "SVGTitleElement",
+        "SVGTransform",
+        "SVGTransformList",
+        "SVGUnitTypes",
+        "SVGUseElement",
+        "SVGVKernElement",
+        "SVGViewElement",
+        "SVGViewSpec",
+        "SVGZoomAndPan",
+        "SVGZoomEvent",
+        "Selection",
+        "SessionDescription",
+        "SharedWorker",
+        "SpeechInputEvent",
+        "StyleSheet",
+        "StyleSheetList",
+        "Text",
+        "TextEvent",
+        "TextMetrics",
+        "TimeRanges",
+        "TouchEvent",
+        "UIEvent",
+        "Uint8Array",
+        "Uint8ClampedArray",
+        "Uint16Array",
+        "Uint32Array",
+        "WebGLActiveInfo",
+        "WebGLBuffer",
+        "WebGLContextEvent",
+        "WebGLFramebuffer",
+        "WebGLProgram",
+        "WebGLRenderbuffer",
+        "WebGLRenderingContext",
+        "WebGLShader",
+        "WebGLShaderPrecisionFormat",
+        "WebGLTexture",
+        "WebGLUniformLocation",
+        "WebKitAnimationEvent",
+        "WebKitBlobBuilder",
+        "WebKitCSSFilterValue",
+        "WebKitCSSKeyframeRule",
+        "WebKitCSSKeyframesRule",
+        "WebKitCSSMatrix",
+        "WebKitCSSRegionRule",
+        "WebKitCSSTransformValue",
+        "WebKitIntent",
+        "WebKitMutationObserver",
+        "WebKitPoint",
+        "WebKitTransitionEvent",
+        "WebSocket",
+        "WheelEvent",
+        "Worker",
+        "XMLDocument",
+        "XMLSerializer",
+        "XPathEvaluator",
+        "XPathException",
+        "XPathResult",
+        "XSLTProcessor",
+        "clientInformation",
+        "console",
+        "crypto",
+        "document",
+        "frames",
+        "history",
+        "location",
+        "locationbar",
+        "menubar",
+        "navigator",
+        "parent",
+        "performance",
+        "personalbar",
+        "screen",
+        "scrollbars",
+        "self",
+        "statusbar",
+        "styleMedia",
+        "toolbar",
+        "top",
+        "v8Intl",
+        "webkitAudioContext",
+        "webkitAudioPannerNode",
+        "webkitCancelAnimationFrame",
+        "webkitCancelRequestAnimationFrame",
+        "webkitConvertPointFromNodeToPage",
+        "webkitConvertPointFromPageToNode",
+        "webkitIDBCursor",
+        "webkitIDBDatabase",
+        "webkitIDBDatabaseException",
+        "webkitIDBFactory",
+        "webkitIDBIndex",
+        "webkitIDBKeyRange",
+        "webkitIDBObjectStore",
+        "webkitIDBRequest",
+        "webkitIDBTransaction",
+        "webkitIndexedDB",
+        "webkitMediaStream",
+        "webkitNotifications",
+        "webkitPostMessage",
+        "webkitRequestAnimationFrame",
+        "webkitRequestFileSystem",
+        "webkitResolveLocalFileSystemURL",
+        "webkitURL",
+        "window"
+    ];
+
+    var special_parsers = {
+        "Attr": function (o) {
+            return logger.parser.JSParser["Object"](o);
+        },
+
+        "Document": function (o) {
+            return "Document: " + o.URL;
+        },
+
+        "DOMException": function (o) {
+            var code, message, name, stack;
+
+            if ( "code" in o && o.code ) {
+                code = o.code;
+            }
+            if ( "message" in o && o.message ) {
+                message = o.message;
+            }
+            if ( "name" in o && o.name ) {
+                name = o.name;
+            }
+            if ( "stack" in o && o.stack ) {
+                stack = o.stack;
+            }
+
+            return {
+                code: code,
+                message: message,
+                name: name,
+                stack: stack
+            }
+        },
+
+        "BarInfo": function (o) {
+            return "[BarInfo]";
+        },
+
+        "BarProp": function (o) {
+            return "[BarProp]";
+        },
+
+        "NamedNodeMap": function () {
+            return logger.parser.JSParser["Object"].call(this, o);
+        },
+
+        "Window": function (o) {
+            return "Window: " + o.location.href;
+        }
+    };
+
+/******************************************************************************/
+/* Node */
+/******************************************************************************/
+
+    function is_node(type) {
+        return type === "Node";
+    }
+
+/******************************************************************************/
+/* Node ELEMENT_NODE 1 */
+/******************************************************************************/
+
+    function is_element(type) {
+        var ELEMENT_NODE_ARRAY = [
+            "Element",
+            "HTMLAnchorElement",
+            "HTMLAppletElement",
+            "HTMLAreaElement",
+            "HTMLAudioElement",
+            "HTMLBRElement",
+            "HTMLBaseElement",
+            "HTMLBaseFontElement",
+            "HTMLBodyElement",
+            "HTMLButtonElement",
+            "HTMLCanvasElement",
+            "HTMLCollection",
+            "HTMLDListElement",
+            "HTMLDataListElement",
+            "HTMLDirectoryElement",
+            "HTMLDivElement",
+            "HTMLDocument",
+            "HTMLElement",
+            "HTMLEmbedElement",
+            "HTMLFieldSetElement",
+            "HTMLFontElement",
+            "HTMLFormElement",
+            "HTMLFrameElement",
+            "HTMLFrameSetElement",
+            "HTMLHRElement",
+            "HTMLHeadElement",
+            "HTMLHeadingElement",
+            "HTMLHtmlElement",
+            "HTMLIFrameElement",
+            "HTMLImageElement",
+            "HTMLInputElement",
+            "HTMLKeygenElement",
+            "HTMLLIElement",
+            "HTMLLabelElement",
+            "HTMLLegendElement",
+            "HTMLLinkElement",
+            "HTMLMapElement",
+            "HTMLMarqueeElement",
+            "HTMLMediaElement",
+            "HTMLMenuElement",
+            "HTMLMetaElement",
+            "HTMLMeterElement",
+            "HTMLModElement",
+            "HTMLOListElement",
+            "HTMLObjectElement",
+            "HTMLOptGroupElement",
+            "HTMLOptionElement",
+            "HTMLOutputElement",
+            "HTMLParagraphElement",
+            "HTMLParamElement",
+            "HTMLPreElement",
+            "HTMLProgressElement",
+            "HTMLQuoteElement",
+            "HTMLScriptElement",
+            "HTMLSelectElement",
+            "HTMLSourceElement",
+            "HTMLSpanElement",
+            "HTMLStyleElement",
+            "HTMLTableCaptionElement",
+            "HTMLTableCellElement",
+            "HTMLTableColElement",
+            "HTMLTableElement",
+            "HTMLTableRowElement",
+            "HTMLTableSectionElement",
+            "HTMLTextAreaElement",
+            "HTMLTitleElement",
+            "HTMLUListElement",
+            "HTMLUnknownElement",
+            "HTMLVideoElement"
+        ];
+
+        return in_array(type, ELEMENT_NODE_ARRAY);
+    }
+
+    function like_as_node(o) {
+        var long_tag = "<%TAG%%ATTRS%>%CONTENT%</%TAG%>";
+        var short_tag = "<%TAG%%ATTRS% />";
+        var tag = "";
+
+        var tag_name = "";
+        var attrs = parse_attrs(o);
+        var is_content = false;
+        var content = "";
+
+        if ( "tagName" in o ) {
+            tag_name = o.tagName;
+        } else if ( "documentElement" in o ) {
+            tag_name = o.documentElement.tagName;
+        }
+
+        if ( "innerHTML" in o ) {
+            content = o.innerHTML;
+        } else if ( "documentElement" in o ) {
+            content = o.documentElement.innerHTML;
+        }
+
+        // check if tag have a content
+        if ( content.length > 0 ) {
+            is_content = true;
+        }
+
+        if (is_content) {
+            // if content exists, returns long tag instance
+            tag = long_tag;
+        } else {
+            // if content doesn't exists return short
+            tag = short_tag
+        }
+
+        if (attrs.length > 0) {
+            attrs = " " + attrs;
+        }
+
+        // replace node name
+        tag = tag.replace(/%TAG%/gi, tag_name.toLowerCase());
+
+        // replace node attributes
+        tag = tag.replace(/%ATTRS%/, attrs);
+
+        // replace content
+        tag = tag.replace(/%CONTENT%/, content);
+
+        return tag;
+    }
+
+    function parse_attrs(o) {
+        var attrs = "", i, attr, attrs_count = 0;
+
+        if ( "attributes" in o && o.attributes ) {
+            attrs_count = o.attributes.length;
+        }
+
+        for (i = 0; i < attrs_count; ++i) {
+            attr = o.attributes[i];
+
+            attrs += attr.nodeName + "=\"" + attr.nodeValue + "\"";
+
+            if (i < attrs_count - 1) {
+                attrs += " ";
+            }
+        }
+
+        return attrs;
+    }
+
+    function in_array(i, a) {
+        var j, l = a.length;
+
+        for (j = 0; j < l; ++j) {
+            if (a[j] === i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function to_string(o) {
+        return Object.prototype.toString.call(o);
+    }
+
+    DOMParser = function (type, data) {
+        // check if exists special parser
+        if (type in special_parsers) {
+            // yes! exists, so run it!
+            return special_parsers[type](data);
+        }
+
+        // doesn't exists special parser for this object type
+        else if (is_node(type) || is_element(type)) {
+            return like_as_node(data);
+        }
+
+        // default parser
+        return to_string(data);
+    };
+
+    // public API
+    logger.parser.DOMParser = DOMParser;
+
+}).call(this);(function () {
+    "use strict";
+
+    // master scope
+    var global = this,
+
+        // lib
+        logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger,
+
+        // parser
+        JSParser;
+
+    var default_data_objects = [
+        "Array",
+        "Arguments",
+        "Boolean",
+        "Date",
+        "Function",
+        "Number",
+        "Object",
+        "RegExp",
+        "String",
+
+        "ArrayBuffer",
+        "DataView",
+        "Float32Array",
+        "Float64Array",
+        "Int16Array",
+        "Int32Array",
+        "Int8Array",
+        "Uint16Array",
+        "Uint32Array",
+        "Uint8Array",
+        "Uint8ClampedArray",
+
+        "Error",
+        "EvalError",
+        "RangeError",
+        "ReferenceError",
+        "SyntaxError",
+        "TypeError",
+        "URIError",
+
+        "StorageInfo",
+        "StorageEvent",
+        "localStorage",
+        "sessionStorage",
+        "webkitStorageInfo",
+
+        "XMLHttpRequest",
+        "XMLHttpRequestException",
+        "XMLHttpRequestProgressEvent",
+        "XMLHttpRequestUpload",
+
+        "Infinity",
+        "JSON",
+        "Math",
+        "NaN",
+        "Null",
+        "undefined"
+    ];
+
+    function get_space(nr) {
+        var result = "";
+        var space = "    ";
+
+        while (nr--) {
+            result += space;
+        }
+
+        return result;
+    }
+    
+    var special_parsers = {
+
+/******************************************************************************/
+/* General-purpose constructors */
+/******************************************************************************/
+
+        "Array": function (o, indent) {
+            o = Array.prototype.slice.call(o);
+
+            var r = "[",
+                i = 0,
+                l = o.length;
+
+            for (; i < l; ++i) {
+                indent++;
+
+                r += logger(o[i], indent);
+
+                if (i < l - 1) {
+                    r += ", ";
+                }
+            }
+
+            return r + "]";
+        },
+        "Arguments": function (o) {
+            return this["Array"](o);
+        },
+        "Date": function (o) {
+            return "Date: " + o.toString();
+        },
+        "Function": function (o) {
+            var s = o.toString(), pre, post;
+
+            pre = s.slice(0, s.indexOf("{") + 1);
+            post = " [ignore code] }";
+
+            return pre + post;
+        },
+        "Number": function (o) {
+            return o;
+        },
+        "Object": function (o, indent) {
+            var r = "{",
+                i,
+                c = 0,
+                len = (function (o) {
+                    var i,
+                        c = 0;
+
+                    for (i in o) {
+                        if (o.hasOwnProperty(i)) {
+                            c++;
+                        }
+                    }
+
+                    return c;
+                }(o));
+
+            if (len > 0) {
+                r += "\n";
+            }
+
+            for (i in o) {
+                if (o.hasOwnProperty(i)) {
+
+                    indent++;
+
+                    r += (get_space(indent) + "\"" + i + "\": " + logger(o[i], indent));
+
+                    indent--;
+
+                    if (c < len - 1) {
+                        r += ",\n";
+                    }
+
+                    c++;
+                }
+            }
+
+            if (len > 0) {
+                r += "\n";
+            }
+
+            return r + get_space(indent) + "}";
+        },
+        "RegExp": function (o) {
+            return o.toString();
+        },
+        "String": function (o) {
+            return "\"" + String(o) + "\"";
+        },
+
+/******************************************************************************/
+/* Typed array constructors */
+/******************************************************************************/
+
+        "ArrayBuffer": function (o) {
+            return "[].byteLength: " + o.byteLength;
+        },
+        "DataView": function (o) {
+            return "[].buffer.byteLength: " + o.buffer.byteLength;
+        },
+
+/******************************************************************************/
+/* Error constructors */
+/******************************************************************************/
+
+        "Error": function (o) {
+            var res = "";
+            res += o.name + "(";
+            if (o.message || o.lineNumber || o.line || o.fileName || o.sourceURL) {
+                res += "{\n";
+                if (o.message) {
+                    res += "\tMessage: \"" + o.message + "\"\n";
+                }
+                if (o.lineNumber || o.line) {
+                    res += "\tLine: " + (o.lineNumber || o.line) + "\n";
+                }
+                if (o.fileName || o.sourceURL) {
+                    res += "\tFile: \"" + (o.fileName || o.sourceURL) + "\"\n";
+                }
+                res += "}";
+            }
+            res += ")";
+            return res;
+        },
+
+/******************************************************************************/
+/* Storage */
+/******************************************************************************/
+
+        "Storage": function () {
+            return "[Storage]";
+        },
+
+/******************************************************************************/
+/* XMLHttpRequest */
+/******************************************************************************/
+
+        "XMLHttpRequest": function (o) {
+            var state, code = 0, text = "";
+
+            switch (o.readyState) {
+                case 0: state = "UNSENT (0)"; break;
+                case 1: state = "OPENED (1)"; break;
+                case 2: state = "HEADERS_RECEIVED (2)"; break;
+                case 3: state = "LOADING (3)"; break;
+                case 4: state = "DONE (4)"; break;
+            }
+
+            // if XHR is not ready, can not read "status" and "statusText" values
+            if ( !in_array(o.readyState, [0, 1]) ) {
+                code = o.status;
+                text = o.statusText;
+            }
+
+            return {
+                type: "[XMLHttpRequest]",
+                readyState: state,
+                statusText: text,
+                httpCode: code
+            };
+        },
+        "XMLHttpRequestException": function (o) {
+            return {
+                type: "[XMLHttpRequestException]",
+                code: o.code
+            };
+        },
+        "XMLHttpRequestProgressEvent": function (o) {
+            return ["XMLHttpRequestProgressEvent"];
+        },
+        "XMLHttpRequestUpload": function (o) {
+            return "[XMLHttpRequestUpload]";
+        },
+
+/******************************************************************************/
+/* Other */
+/******************************************************************************/
+
+        "JSON": function (o, indent) {
+            return this["Object"](o, indent);
+        },
+        "Math": function (o) {
+            return this["Object"](o);
+        }
+    };
+
+    function in_array(i, a) {
+        var l = a.length;
+        for (var j = 0; j < l; ++j) {
+            if (a[j] === i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function like_as_data_view(o, indent) {
+        return JSParser("DataView", o, indent);
+    }
+    
+    function is_special_number(type) {
+        var SPECIAL_NUMBER_ARRAY = [
+            "Float32Array",
+            "Float64Array",
+            "Int16Array",
+            "Int32Array",
+            "Int8Array",
+            "Uint16Array",
+            "Uint32Array",
+            "Uint8Array",
+            "Uint8ClampedArray"
+        ];
+
+        return in_array(type, SPECIAL_NUMBER_ARRAY);
+    }
+
+    function like_as_error(o, indent) {
+        return JSParser("Error", o, indent);
+    }
+
+    function is_error(type) {
+        var ERRORS_NAME_ARRAY = [
+            "EvalError",
+            "RangeError",
+            "ReferenceError",
+            "SyntaxError",
+            "TypeError",
+            "URIError"
+        ];
+
+        return in_array(type, ERRORS_NAME_ARRAY);
+    }
+
+    JSParser = function (type, data, indent) {
+        // check if exists special parser
+        if (type in special_parsers) {
+            // yes! exists, so run it!
+            return special_parsers[type](data, indent);
+        }
+
+        // is Special Number
+        else if (is_special_number(type)) {
+            return like_as_data_view(data, indent);
+        }
+
+        // is Error
+        else if (is_error(type)) {
+            return like_as_error(data, indent);
+        }
+
+        // default parser
+        return String(data, indent);
+    };
+
+    // public API
+    logger.parser.JSParser = JSParser;
 
 }).call(this);

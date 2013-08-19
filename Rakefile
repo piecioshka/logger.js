@@ -1,5 +1,5 @@
 # check gem loaded
-['rainbow'].each{ |gem_name|
+%w(rainbow uglifier).each{ |gem_name|
   begin
     require gem_name
   rescue LoadError
@@ -8,74 +8,73 @@
   end
 }
 
-library           = "logger.js"
-library_min       = "logger.min.js"
-dir_src           = "src/"
-dir_doc           = "docs/"
-dir_jsdoc         = "tools/jsdoc-toolkit/"
-dir_yuicompressor = "tools/yuicompressor/"
+LIBRARY_PATH = 'logger.js'
+LIBRARY_MIN_PATH = 'logger.min.js'
+SOURCE_DIRECTORY = 'src/'
 
-yuicompressor = "java -jar #{dir_yuicompressor}/build/yuicompressor-2.4.7.jar #{library} -o #{library_min}"
-jsdoc = "java -jar #{dir_jsdoc}jsrun.jar #{dir_jsdoc}app/run.js #{library} -d=#{dir_doc} -a -t=#{dir_jsdoc}templates/jsdoc -p #{dir_src} -q"
-
-# ukrywamy wszelkie logi
 verbose(false)
 
-# glowny plik biblioteki
-if File.exists?(library)
-  File.delete(library)
+def create_file(file)
+  if File.exists?(file)
+    File.delete(file)
+  end
+  File.new(file, File::CREAT|File::TRUNC|File::RDWR, 0777)
 end
-File.new(library, File::CREAT|File::TRUNC|File::RDWR, 0777)
-
-# plik zminifajowany
-if File.exists?(library_min)
-  File.delete(library_min)
-end
-File.new(library_min, File::CREAT|File::TRUNC|File::RDWR, 0777)
-
-# katalog z dokumentacją
-if File.directory?(dir_doc)
-   FileUtils.rm_r dir_doc, :force => true
-end
-Dir.mkdir(dir_doc)
 
 def its_ok
   puts "\t\t\t\t\t" + '['.foreground(:cyan) + ' ok '.foreground(:green) + ']'.foreground(:cyan)
 end
 
-task :default
+def compress(path)
+    compressed = Uglifier.new(:output => {:comments => :none}).compile(File.read(path))
 
-puts '----------- node-plain-text-logger for Web -----------'.foreground(:yellow)
+    file = File.new(path, 'w')
+    file.write(compressed)
+    file.close
+end
 
-print '*'.foreground(:green) + ' Build ...'
+def build_lib
+  files = %w(logger-core.js logger-dom.js logger-js.js parser/dom-parser.js parser/js-parser.js)
 
-files = ['logger-core.js', 'logger-dom.js', 'logger-js.js', 'parser/dom-parser.js', 'parser/js-parser.js']
+  lib_data = File.read(LIBRARY_PATH)
 
-lib_data = File.read(library)
+  File.open(LIBRARY_PATH, 'w') do |f|
+    for file in files
+      f.write File.read("#{SOURCE_DIRECTORY}#{file}")
+      f.write lib_data
+    end
+  end
 
-File.open(library, 'w') do |f|
-  for file in files
-    f.write File.read("#{dir_src}#{file}")
+  its_ok()
+end
+
+def build_min_lib
+  FileUtils.copy_file(LIBRARY_PATH, LIBRARY_MIN_PATH)
+
+  compress(LIBRARY_MIN_PATH)
+
+  lib_data = File.read(LIBRARY_MIN_PATH)
+
+  File.open(LIBRARY_MIN_PATH, 'w') do |f|
+    f.write "/** node-text-plain-logger for Web | https://github.com/piecioshka/node-text-plain-logger **/\n"
     f.write lib_data
   end
+
+  its_ok()
 end
 
-its_ok()
+desc 'Build libraries'
+task :default => [] do
+  create_file(LIBRARY_PATH)
+  create_file(LIBRARY_MIN_PATH)
 
-print '*'.foreground(:green) + ' Minifing ...'
-sh yuicompressor
+  puts '----------- node-plain-text-logger for Web -----------'.foreground(:yellow)
 
-lib_data = File.read(library_min)
+  print '*'.foreground(:green) + ' Build ...'
 
-File.open(library_min, 'w') do |f|
-  f.write '/** node-text-plain-logger for Web | https://github.com/piecioshka/node-text-plain-logger **/\n'
-  f.write lib_data
+  build_lib()
+
+  print '*'.foreground(:green) + ' Minifing ...'
+
+  build_min_lib()
 end
-
-its_ok()
-
-print '*'.foreground(:green) + ' Documents ...'
-
-sh jsdoc
-
-its_ok()
