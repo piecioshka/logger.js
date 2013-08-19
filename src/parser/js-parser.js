@@ -5,7 +5,7 @@
     var global = this,
 
         // lib
-        logger = (require !== undefined) ? require("../logger-core.js") : global.logger,
+        logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger,
 
         // parser
         JSParser;
