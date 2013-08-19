@@ -1987,8 +1987,8 @@ if (typeof require !== 'undefined') {
         "ErrorEvent": function (o) {
             var res = "";
             res += "ErrorEvent ({\n";
-            res += "\tMessage: \"" + o.message + "\"\n";
-            res += "\tLine: " + o.lineno + "\n";
+            res += "\tMessage: \"" + o.message + "\",\n";
+            res += "\tLine: " + o.lineno + ",\n";
             res += "\tFile: \"" + o.filename + "\"\n";
             res += "})";
             return res;
@@ -2491,7 +2491,6 @@ if (typeof require !== 'undefined') {
 
     function is_error(type) {
         var ERRORS_NAME_ARRAY = [
-            "ErrorEvent",
             "EvalError",
             "RangeError",
             "ReferenceError",

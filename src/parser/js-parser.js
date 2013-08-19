@@ -293,7 +293,6 @@
 
     function is_error(type) {
         var ERRORS_NAME_ARRAY = [
-            "ErrorEvent",
             "EvalError",
             "RangeError",
             "ReferenceError",
