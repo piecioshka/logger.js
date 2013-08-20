@@ -86,6 +86,8 @@
 
                 r += logger(o[i], indent);
 
+                indent--;
+
                 if (i < l - 1) {
                     r += ", ";
                 }
