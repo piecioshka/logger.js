@@ -62,7 +62,6 @@
         "HTMLAllCollection",
         "HashChangeEvent",
         "IceCandidate",
-        "Image",
         "ImageData",
         "Int8Array",
         "Int16Array",
@@ -282,6 +281,7 @@
         "WheelEvent",
         "Worker",
         "XMLDocument",
+        "XMLElement",
         "XMLSerializer",
         "XPathEvaluator",
         "XPathException",
@@ -369,6 +369,10 @@
 
         "BarInfo": function () {
             return "[BarInfo]";
+        },
+
+        "Image": function (o) {
+            return "Image: " + o.src;
         },
 
         "NamedNodeMap": function (o) {

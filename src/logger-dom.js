@@ -434,7 +434,7 @@
             return false;
         },
         "Image": function (o) {
-            return false;
+            return o && to_string(o) === "[object Image]";
         },
         "ImageData": function (o) {
             return false;
@@ -1101,6 +1101,9 @@
         },
         "XMLDocument": function (o) {
             return false;
+        },
+        "XMLElement": function (o) {
+            return o && to_string(o) === "[object XMLElement]";
         },
         "XMLSerializer": function (o) {
             return false;
