@@ -1,10 +1,7 @@
-(function () {
+(function (global) {
     "use strict";
 
-    // master scope
-    var global = this,
-
-        logger = (require !== undefined) ? require("./logger-core.js") : global.logger;
+    var logger = (typeof require !== 'undefined') ? require("./logger-core.js") : global.logger;
 
     // Types of all available node
     var nodeTypes = {
@@ -1257,7 +1254,7 @@
         }
     };
 
-    // public API
+    // exports
     logger.DOMLogger = function (data) {
         var res,
             type;
@@ -1274,4 +1271,4 @@
         return res;
     };
 
-}).call(this);
+}(this));

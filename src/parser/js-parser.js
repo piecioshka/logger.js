@@ -1,14 +1,8 @@
-(function () {
+(function (global) {
     "use strict";
 
-    // master scope
-    var global = this,
-
-        // lib
-        logger = (require !== undefined) ? require("../logger-core.js") : global.logger,
-
-        // parser
-        JSParser;
+    var logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger;
+    var JSParser;
 
     var default_data_objects = [
         "Array",
@@ -70,7 +64,7 @@
 
         return result;
     }
-    
+
     var special_parsers = {
 
 /******************************************************************************/
@@ -80,11 +74,9 @@
         "Array": function (o, indent) {
             o = Array.prototype.slice.call(o);
 
-            var r = "[",
-                i = 0,
-                l = o.length;
+            var r = "[", i, l = o.length;
 
-            for (; i < l; ++i) {
+            for (i = 0; i < l; ++i) {
                 indent++;
 
                 r += logger(o[i], indent);
@@ -222,8 +214,8 @@
                 case 4: state = "DONE (4)"; break;
             }
 
-            // if XHR is not ready, can not read "status" and "statusText" values
-            if ( !in_array(o.readyState, [0, 1]) ) {
+            // if XHR is not ready, cannot read "status" and "statusText" values
+            if (!in_array(o.readyState, [0, 1])) {
                 code = o.status;
                 text = o.statusText;
             }
@@ -241,10 +233,10 @@
                 code: o.code
             };
         },
-        "XMLHttpRequestProgressEvent": function (o) {
+        "XMLHttpRequestProgressEvent": function () {
             return ["XMLHttpRequestProgressEvent"];
         },
-        "XMLHttpRequestUpload": function (o) {
+        "XMLHttpRequestUpload": function () {
             return "[XMLHttpRequestUpload]";
         },
 
@@ -328,7 +320,7 @@
         return String(data, indent);
     };
 
-    // public API
+    // exports
     logger.parser.JSParser = JSParser;
 
-}).call(this);
+}(this));

@@ -2,19 +2,16 @@
 /* Logger JavaScript */
 /******************************************************************************/
 
-if (require !== undefined) {
+if (typeof require !== 'undefined') {
     var logger = require("./logger-core.js");
 }
 
-(function () {
+(function (global) {
     "use strict";
-
-    // master scope
-    var global = this;
 
     /**
      * @param {Object} o
-     * @returns {String}
+     * @returns {string}
      */
     function to_string(o) {
         return Object.prototype.toString.call(o);
@@ -27,7 +24,7 @@ if (require !== undefined) {
 /******************************************************************************/
 
         "Array": function (o) {
-            if ( o && o.constructor && o.constructor.name === "Array" ) {
+            if (o && o.constructor && o.constructor.name === "Array") {
                 return true;
             }
             return o && o.constructor && o.pop && o.push &&
@@ -39,18 +36,22 @@ if (require !== undefined) {
             return o && (typeof o.length === "number") &&
                 Object.prototype.toString.call(o) === "[object Arguments]";
         },
-        "Boolean": function (o) { return typeof o === "boolean" },
-        "Date": function (o) { return o && o.getDate && o.getDay
-            && o.getFullYear && o.getHours && o.getMilliseconds &&
-            o.getMinutes && o.getMonth && o.getSeconds;
+        "Boolean": function (o) {
+            return typeof o === "boolean";
         },
-        "Function": function (o) { return o &&
-            Object.prototype.toString.call(o) === "[object Function]";
+        "Date": function (o) {
+            return o && o.getDate && o.getDay
+                && o.getFullYear && o.getHours && o.getMilliseconds &&
+                o.getMinutes && o.getMonth && o.getSeconds;
+        },
+        "Function": function (o) {
+            return o &&
+                Object.prototype.toString.call(o) === "[object Function]";
         },
         // Harmony JS
         // "Iterator": function (o) { return o.constructor === Iterator; },
-        "Number": function (o) { return typeof o === "number" && !isNaN(o) &&
-            isFinite(o);
+        "Number": function (o) {
+            return typeof o === "number" && !isNaN(o) && isFinite(o);
         },
         "Object": function (o) {
             return o && Object.prototype.toString.call(o) === "[object Object]";
@@ -98,6 +99,7 @@ if (require !== undefined) {
                     typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
                     o instanceof Int16Array;
             }
+            return false;
         },
         "Int32Array": function (o) {
             if ("ArrayBuffer" in global) {
@@ -105,6 +107,7 @@ if (require !== undefined) {
                     typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
                     o instanceof Int32Array;
             }
+            return false;
         },
         "Int8Array": function (o) {
             if ("ArrayBuffer" in global) {
@@ -112,6 +115,7 @@ if (require !== undefined) {
                     typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
                     o instanceof Int8Array;
             }
+            return false;
         },
         "Uint16Array": function (o) {
             if ("ArrayBuffer" in global) {
@@ -119,6 +123,7 @@ if (require !== undefined) {
                     typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
                     o instanceof Uint16Array;
             }
+            return false;
         },
         "Uint32Array": function (o) {
             if ("ArrayBuffer" in global) {
@@ -126,6 +131,7 @@ if (require !== undefined) {
                     typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
                     o instanceof Uint32Array;
             }
+            return false;
         },
         "Uint8Array": function (o) {
             if ("ArrayBuffer" in global) {
@@ -133,6 +139,7 @@ if (require !== undefined) {
                     typeof o.byteLength === "number" && typeof o.byteOffset === "number" &&
                     o instanceof Uint8Array;
             }
+            return false;
         },
         /*
         "Uint8ClampedArray": function (o) { return o && o.buffer instanceof ArrayBuffer &&
@@ -221,8 +228,8 @@ if (require !== undefined) {
 /* Other */
 /******************************************************************************/
 
-        "Infinity": function (o) { return typeof o === "number" &&
-            !isFinite(o);
+        "Infinity": function (o) {
+            return typeof o === "number" && !isFinite(o);
         },
         "JSON": function (o) { return checker["Object"](o); },
         "Math": function (o) { return o && o === Math; },
@@ -231,7 +238,7 @@ if (require !== undefined) {
         "undefined": function (o) { return o === undefined; }
     };
 
-    // public API
+    // exports
     logger.JSLogger = function (data, indent) {
         var res, type;
 
@@ -246,4 +253,4 @@ if (require !== undefined) {
         return res;
     };
 
-}).call(this);
+}(this));

@@ -22,6 +22,8 @@
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 function logger(data, indent) {
+    'use strict';
+
     indent = indent || 0;
 
     if (typeof indent !== "number") {
@@ -43,13 +45,13 @@ function logger(data, indent) {
 
     // check if some special logger found value
     for (i = 0; i < len; ++i) {
-        if ( (res = logger[parts[i]](data, indent)) !== undefined ) {
+        if ((res = logger[parts[i]](data, indent)) !== undefined) {
             logger.found = true;
             break;
         }
     }
 
-    if ( logger.found ) {
+    if (logger.found) {
         // if logger model has matched also returned parsing value
         return res;
     }
@@ -57,9 +59,9 @@ function logger(data, indent) {
     // if not found, report w exception
     throw new Error("logger: unexpected data: undefined type of variable: " + logger.JSLogger({
         // value convert to string
-        "toString": Object.prototype.toString.call( data ),
+        "toString": Object.prototype.toString.call(data),
         "typeof": typeof data,
-        "contructor": data.constructor && data.constructor.name
+        "constructor": data.constructor && data.constructor.name
     }));
 }
 
@@ -69,8 +71,8 @@ logger.found = false;
 // parser's
 logger.parser = {};
 
-// public API
-if (module !== undefined) {
+// exports
+if (typeof module !== 'undefined') {
     // only for NodeJS
     module.exports = logger;
 }
