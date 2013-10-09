@@ -1,7 +1,8 @@
 (function (global) {
     "use strict";
 
-    var logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger;
+    // imports
+    var logger = global.logger;
     var DOMParser;
 
     var default_data_objects = [
@@ -338,11 +339,9 @@
         "Attr": function (o) {
             return logger.parser.JSParser["Object"](o);
         },
-
         "Document": function (o) {
             return "Document: " + o.URL;
         },
-
         "DOMException": function (o) {
             var code, message, name, stack;
 
@@ -366,19 +365,15 @@
                 stack: stack
             };
         },
-
         "BarInfo": function () {
             return "[BarInfo]";
         },
-
         "Image": function (o) {
             return "Image: " + o.src;
         },
-
         "NamedNodeMap": function (o) {
             return logger.parser.JSParser["Object"].call(this, o);
         },
-
         "Window": function (o) {
             return "Window: " + o.location.href;
         }
@@ -468,7 +463,6 @@
             "HTMLUnknownElement",
             "HTMLVideoElement"
         ];
-
         return in_array(type, ELEMENT_NODE_ARRAY);
     }
 

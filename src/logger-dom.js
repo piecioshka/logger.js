@@ -1,7 +1,8 @@
 (function (global) {
     "use strict";
 
-    var logger = (typeof require !== 'undefined') ? require("./logger-core.js") : global.logger;
+    // imports
+    var logger = global.logger;
 
     // Types of all available node
     var nodeTypes = {

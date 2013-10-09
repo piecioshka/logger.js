@@ -1,7 +1,8 @@
 (function (global) {
     "use strict";
 
-    var logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger;
+    // imports
+    var logger = global.logger;
     var JSParser;
 
     var default_data_objects = [

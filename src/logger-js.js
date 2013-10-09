@@ -2,16 +2,15 @@
 /* Logger JavaScript */
 /******************************************************************************/
 
-if (typeof require !== 'undefined') {
-    var logger = require("./logger-core.js");
-}
-
 (function (global) {
     "use strict";
 
+    // imports
+    var logger = global.logger;
+
     /**
      * @param {Object} o
-     * @returns {string}
+     * @return {string}
      */
     function to_string(o) {
         return Object.prototype.toString.call(o);
