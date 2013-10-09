@@ -35,7 +35,7 @@ end
 puts "\nStart building master files...".foreground(:magenta)
 
 task :default => [:build, :compress] do
-  puts "Finished!".foreground(:green)
+  print "Finished!\n".foreground(:green)
 end
 
 task :build => [] do
