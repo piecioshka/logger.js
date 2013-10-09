@@ -8,86 +8,86 @@ describe("logger/dom DOM Events Level 2", function () {
 
     // interfaces
     it("[interface CSSStyleSheet : stylesheets::StyleSheet]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSRuleList]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSRule]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSStyleRule : CSSRule]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSMediaRule : CSSRule]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSFontFaceRule : CSSRule]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSPageRule : CSSRule]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSImportRule : CSSRule]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSCharsetRule : CSSRule]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSUnknownRule : CSSRule]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSStyleDeclaration]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSValue]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSPrimitiveValue : CSSValue]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CSSValueList : CSSValue]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface RGBColor]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Rect]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Counter]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 2.2.1. Override and computed style sheet
 
     // interfaces
     it("[interface ViewCSS : views::AbstractView]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DocumentCSS : stylesheets::DocumentStyle]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 2.2.2. Style sheet creation
 
     // interfaces
     it("[interface DOMImplementationCSS : DOMImplementation]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 2.2.3. Element with CSS inline style
 
     // interfaces
     it("[interface ElementCSSInlineStyle]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 2.3. CSS2 Extended Interface
 
     // interfaces
     it("[interface CSS2Properties]", function () {
-        expect(false);
+        // expect(true);
     });
 });
 

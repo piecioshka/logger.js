@@ -19,7 +19,7 @@ describe("logger/js Error constructors", function () {
     });
 
     // Harmony JS
-    // "InternalError", function () { expect(false); },
+    // "InternalError", function () { // expect(true); },
 
     it("RangeError", function () {
         expect(logger(new RangeError()), "RangeError()", "Error constructors: RangeError");
@@ -32,7 +32,7 @@ describe("logger/js Error constructors", function () {
     });
 
     // Harmony JS
-    // "StopIteration", function () { expect(false); },
+    // "StopIteration", function () { // expect(true); },
 
     it("SyntaxError", function () {
         expect(logger(new SyntaxError()), "SyntaxError()", "Error constructors: SyntaxError");

@@ -48,7 +48,7 @@ describe("logger/js General-purpose constructors", function () {
     });
 
     // Harmony JS
-    // "Iterator": function (o) { expect(false); },
+    // "Iterator": function (o) { // expect(true); },
 
     it("Number", function () {
         expect(logger(1), 1, "General-purpose constructors: Number: 1");

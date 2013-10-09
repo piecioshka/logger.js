@@ -8,6 +8,6 @@ describe("logger/dom DOM Traversal Level 3", function () {
 
     // interfaces
     it("[interface ElementTraversal]", function () {
-        expect(false);
+        // expect(true);
     });
 });

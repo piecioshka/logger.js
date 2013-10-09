@@ -8,9 +8,9 @@ describe("logger/dom DOM Views Level 2", function () {
 
     // interfaces
     it("[interface AbstractView]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DocumentView]", function () {
-        expect(false);
+        // expect(true);
     });
 });

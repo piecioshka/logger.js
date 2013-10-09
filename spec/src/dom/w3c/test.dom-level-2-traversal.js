@@ -8,15 +8,15 @@ describe("logger/dom DOM Traversal Level 2", function () {
 
     // interfaces
     it("[interface NodeIterator]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface NodeFilter]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface TreeWalker]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DocumentTraversal]", function () {
-        expect(false);
+        // expect(true);
     });
 });

@@ -360,11 +360,11 @@ describe("logger/bom/chrome DOM", function () {
     });
     it("Window", function () {
         // function Window() { [native code] }
-        expect(logger(window), "[object global]", "window");
-        expect(logger(parent), "[object global]", "parent");
-        expect(logger(self), "[object global]", "self");
-        expect(logger(top), "[object global]", "top");
-        expect(logger(frames), "[object global]", "frames");
+        expect(logger(window)).toMatch(/Window/);
+        expect(logger(parent)).toMatch(/Window/);
+        expect(logger(self)).toMatch(/Window/);
+        expect(logger(top)).toMatch(/Window/);
+        expect(logger(frames)).toMatch(/Window/);
     });
     it("XMLDocument", function () {
         // function Document() { [native code] }
@@ -372,7 +372,7 @@ describe("logger/bom/chrome DOM", function () {
     });
     it("XMLHttpRequest", function () {
         // function XMLHttpRequest() { [native code] }
-        expect(logger(new XMLHttpRequest()), "[object XMLHttpRequest]", "XMLHttpRequest");
+        expect(logger(new XMLHttpRequest())).toEqual({ type : '[XMLHttpRequest]', readyState : 'UNSENT (0)', statusText : '', httpCode : 0 });
     });
     it("XMLHttpRequestException", function () {
         // function XMLHttpRequestException() { [native code] }

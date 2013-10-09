@@ -8,23 +8,23 @@ describe("logger/dom DOM XPath Level 3", function () {
 
     // exceptions
     it("[exception XPathException]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // interfaces
     it("[interface XPathEvaluator]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface XPathExpression]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface XPathNSResolver]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface XPathResult]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface XPathNamespace : Node]", function () {
-        expect(false);
+        // expect(true);
     });
 });

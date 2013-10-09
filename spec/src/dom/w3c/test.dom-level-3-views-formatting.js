@@ -8,75 +8,75 @@ describe("logger/dom DOM Views & Formatting Level 3", function () {
 
     // interfaces
     it("[interface View]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Segment]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Segment : Match]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Match]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface MatchString : Match]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface MatchInteger : Match]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface MatchBoolean : Match]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface MatchContent : Match]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface MatchSet : Match]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Item]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface StringItem : Item]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface IntegerItem : Item]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface BooleanItem : Item]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ContentItem : Item]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualView]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualResource]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualFont : VisualResource]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualSegment : VisualResource]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualCharacter : VisualSegment]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualCharacterRun : VisualSegment]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualFrame : VisualSegment]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualImage : VisualSegment]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualFormButton : VisualSegment]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface VisualFormField : VisualSegment]", function () {
-        expect(false);
+        // expect(true);
     });
 });

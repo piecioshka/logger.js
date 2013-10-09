@@ -7,60 +7,60 @@ describe("logger/dom DOM Load & Save Level 3", function () {
     // 1.2.1 The LSInputStream Type
 
     it("[??? LSInputStream]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.2.2 The LSOutputStream Type
 
     it("[??? LSOutputStream]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.2.3 The LSReader Type
 
     it("[??? LSReader]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.2.4 The LSWriter Type
 
     it("[??? LSWriter]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.3 Fundamental Interfaces
 
     // exceptions
     it("[exception LSException]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // interfaces
     it("[interface DOMImplementationLS]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface LSInput]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface LSResourceResolver]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface LSParserFilter]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface LSProgressEvent : events::Event]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface LSLoadEvent : events::Event]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface LSSerializer]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface LSOutput]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface LSSerializerFilter : traversal::NodeFilter]", function () {
-        expect(false);
+        // expect(true);
     });
 });

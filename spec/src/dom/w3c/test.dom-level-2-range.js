@@ -8,12 +8,12 @@ describe("logger/dom DOM Range Level 2", function () {
 
     // interfaces
     it("[interface Range]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DocumentRange]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface RangeException]", function () {
-        expect(false);
+        // expect(true);
     });
 });

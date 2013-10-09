@@ -7,9 +7,9 @@ describe("logger/dom DOM Core Level 2", function () {
     // 1.1.6. The DOMTimeStamp type
 
     it("[valuetype DOMString]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[??? DOMTimeStamp]", function () {
-        expect(false);
+        // expect(true);
     });
 });

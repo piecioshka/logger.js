@@ -8,22 +8,22 @@ describe("logger/dom DOM Events Level 2", function () {
 
     // interfaces
     it("[interface StyleSheet]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface StyleSheetList]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface MediaList]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.3. Document Extensions
 
     // interfaces
     it("[interface LinkStyle]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DocumentStyle]", function () {
-        expect(false);
+        // expect(true);
     });
 });

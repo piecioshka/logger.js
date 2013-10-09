@@ -8,20 +8,20 @@ describe("logger/dom DOM Validation Level 3", function () {
 
     // exceptions
     it("[exception ExceptionVAL]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // interfaces
     it("[interface DocumentEditVAL : NodeEditVAL]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface NodeEditVAL]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ElementEditVAL : NodeEditVAL]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CharacterDataEditVAL : NodeEditVAL]", function () {
-        expect(false);
+        // expect(true);
     });
 });

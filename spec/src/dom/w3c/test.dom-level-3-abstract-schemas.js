@@ -8,82 +8,82 @@ describe("logger/dom DOM Abstract Schema Level 3", function () {
 
     // interfaces
     it("[interface ASConstants]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASObject]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASDataType]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASObjectList]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASNamedObjectMap]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASModel : ASObject]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASContentModel : ASObject]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASElementDecl : ASObject]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASAttributeDecl : ASObject]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASEntityDecl : ASObject]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASNotationDecl : ASObject]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASWModel : ASModel]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASWNamedObjectMap : ASNamedObjectMap]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASWElementDecl : ASElementDecl]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASWContentModel : ASContentModel]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASWAttributeDecl : ASAttributeDecl]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASWEntityDecl : ASEntityDecl]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASWNotationDecl : ASNotationDecl]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.4. Validation and Other Interfaces
 
     // exceptions
     it("[exception ASException : ASNotationDecl]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // interface
     it("[interface DocumentAS : Document]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DOMImplementationAS : DOMImplementation]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.9. Load and Save for Abstract Schemas
 
     // interface
     it("[interface ASDOMBuilder : ls::DOMBuilder]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ASDOMWriter : ls::DOMWriter]", function () {
-        expect(false);
+        // expect(true);
     });
 });

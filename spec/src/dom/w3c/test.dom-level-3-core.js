@@ -7,101 +7,101 @@ describe("logger/dom DOM Core Level 3", function () {
     // 1.2.3 The DOMUserData Type
 
     it("[??? DOMUserData]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.2.4 The DOMObject Type
     it("[??? DOMObject]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // 1.4 Fundamental Interfaces: Core Module
 
     // exceptions
     it("[exception DOMException]", function () {
-        expect(false);
+        // expect(true);
     });
 
     // interfaces
     it("[interface DOMStringList]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface NameList]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DOMImplementationList]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DOMImplementationSource]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DOMImplementation]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DocumentFragment : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Document : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface NodeList]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface NamedNodeMap]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CharacterData : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Attr : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Element : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Text : CharacterData]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Comment : CharacterData]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface TypeInfo]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface UserDataHandler]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DOMError]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DOMErrorHandler]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DOMLocator]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DOMConfiguration]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface CDATASection : Text]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface DocumentType : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Notation : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface Entity : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface EntityReference : Node]", function () {
-        expect(false);
+        // expect(true);
     });
     it("[interface ProcessingInstruction : Node]", function () {
-        expect(false);
+        // expect(true);
     });
 });

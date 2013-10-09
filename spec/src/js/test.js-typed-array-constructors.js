@@ -63,6 +63,6 @@ describe("logger/js Typed array constructors", function () {
     });
 
     // Harmony JS
-    // "Uint8ClampedArray", function () { expect(false); },
+    // "Uint8ClampedArray", function () { // expect(true); },
 
 });
