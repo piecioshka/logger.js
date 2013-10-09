@@ -1,13 +1,4 @@
-# IDE config files/dirs
-# ---------------------
-
-/.idea
-/.project
-/.settings
-/.buildpath
-
-
-# NodeJS modules
-# --------------
-
-/node_modules/
+# IDE
+.idea/
+.settings/
+.project

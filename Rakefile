@@ -1,5 +1,5 @@
 # check gem loaded
-['rainbow'].each{ |gem_name|
+%w(rainbow uglifier yui/compressor).each{ |gem_name|
   begin
     require gem_name
   rescue LoadError
@@ -8,74 +8,60 @@
   end
 }
 
-library           = "logger.js"
-library_min       = "logger.min.js"
-dir_src           = "src/"
-dir_doc           = "docs/"
-dir_jsdoc         = "tools/jsdoc-toolkit/"
-dir_yuicompressor = "tools/yuicompressor/"
-
-yuicompressor = "java -jar #{dir_yuicompressor}/build/yuicompressor-2.4.7.jar #{library} -o #{library_min}"
-jsdoc = "java -jar #{dir_jsdoc}jsrun.jar #{dir_jsdoc}app/run.js #{library} -d=#{dir_doc} -a -t=#{dir_jsdoc}templates/jsdoc -p #{dir_src} -q"
+LIBRARY = "logger.js"
+LIBRARY_MIN = "logger.min.js"
+DIR_SRC = "src/"
 
 # ukrywamy wszelkie logi
 verbose(false)
 
 # glowny plik biblioteki
-if File.exists?(library)
-  File.delete(library)
+if File.exists?(LIBRARY)
+  File.delete(LIBRARY)
 end
-File.new(library, File::CREAT|File::TRUNC|File::RDWR, 0777)
+File.new(LIBRARY, File::CREAT|File::TRUNC|File::RDWR, 0777)
 
 # plik zminifajowany
-if File.exists?(library_min)
-  File.delete(library_min)
+if File.exists?(LIBRARY_MIN)
+  File.delete(LIBRARY_MIN)
 end
-File.new(library_min, File::CREAT|File::TRUNC|File::RDWR, 0777)
+File.new(LIBRARY_MIN, File::CREAT|File::TRUNC|File::RDWR, 0777)
 
-# katalog z dokumentacją
-if File.directory?(dir_doc)
-   FileUtils.rm_r dir_doc, :force => true
-end
-Dir.mkdir(dir_doc)
-
-def its_ok
-  puts "\t\t\t\t\t" + '['.foreground(:cyan) + ' ok '.foreground(:green) + ']'.foreground(:cyan)
+def compress_js(file_content)
+  # compress by Uglifier
+  Uglifier.new(:output => {:comments => :none}).compile(file_content)
 end
 
-task :default
+puts "\nStart building master files...".foreground(:magenta)
 
-puts '----------- node-plain-text-logger for Web -----------'.foreground(:yellow)
+task :default => [:build, :compress] do
+  puts "Finished!".foreground(:green)
+end
 
-print '*'.foreground(:green) + ' Build ...'
+task :build => [] do
+  print "* Building... ".foreground(:yellow)
 
-files = ['logger-core.js', 'logger-dom.js', 'logger-js.js', 'parser/dom-parser.js', 'parser/js-parser.js']
+  files = ['logger-core.js', 'logger-dom.js', 'logger-js.js', 'parser/dom-parser.js', 'parser/js-parser.js']
 
-lib_data = File.read(library)
+  lib_data = File.read(LIBRARY)
 
-File.open(library, 'w') do |f|
-  for file in files
-    f.write File.read("#{dir_src}#{file}")
-    f.write lib_data
+  File.open(LIBRARY, 'w') do |f|
+    for file in files
+      f.write File.read("#{DIR_SRC}#{file}")
+      f.write lib_data
+    end
   end
+
+  puts 'done!'
 end
 
-its_ok()
+task :compress => [] do
+  print "* Compress... ".foreground(:cyan)
 
-print '*'.foreground(:green) + ' Minifing ...'
-sh yuicompressor
+  File.open(LIBRARY_MIN, 'w') do |f|
+    f.write "/** logger | https://github.com/piecioshka/logger **/\n"
+    f.write compress_js(File.read(LIBRARY))
+  end
 
-lib_data = File.read(library_min)
-
-File.open(library_min, 'w') do |f|
-  f.write '/** node-text-plain-logger for Web | https://github.com/piecioshka/node-text-plain-logger **/\n'
-  f.write lib_data
+  puts 'done!'
 end
-
-its_ok()
-
-print '*'.foreground(:green) + ' Documents ...'
-
-sh jsdoc
-
-its_ok()

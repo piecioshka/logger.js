@@ -1,4 +1,4 @@
-# node-text-plain-logger [![Build Status](https://secure.travis-ci.org/piecioshka/node-text-plain-logger.png?branch=master)](http://travis-ci.org/piecioshka/node-text-plain-logger)
+# logger [![Build Status](https://secure.travis-ci.org/piecioshka/logger.png?branch=master)](http://travis-ci.org/piecioshka/logger)
 
 Celem projektu jest realizacja konwersji obiektów JavaScript do postaci `plain/text`.
 
@@ -16,4 +16,6 @@ w silnikach dostępnych na telewizorach oraz urządzenia STB.
 
 ## LICENSE
 
-MIT License
+[The MIT License] [1]
+
+[1]: https://github.com/piecioshka/logger/blob/master/LICENSE
