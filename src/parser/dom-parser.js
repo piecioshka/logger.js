@@ -1,10 +1,8 @@
 (function (global) {
     "use strict";
 
-    // lib
-    var logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger;
-
-    // parser
+    // imports
+    var logger = global.logger;
     var DOMParser;
 
     var default_data_objects = [
@@ -51,6 +49,7 @@
         "DocumentType",
         "Entity",
         "EntityReference",
+        "ErrorEvent",
         "Event",
         "EventException",
         "EventSource",
@@ -64,7 +63,6 @@
         "HTMLAllCollection",
         "HashChangeEvent",
         "IceCandidate",
-        "Image",
         "ImageData",
         "Int8Array",
         "Int16Array",
@@ -284,6 +282,7 @@
         "WheelEvent",
         "Worker",
         "XMLDocument",
+        "XMLElement",
         "XMLSerializer",
         "XPathEvaluator",
         "XPathException",
@@ -338,26 +337,24 @@
 
     var special_parsers = {
         "Attr": function (o) {
-            return logger.parser.JSParser("Object", o);
+            return logger.parser.JSParser["Object"](o);
         },
-
         "Document": function (o) {
             return "Document: " + o.URL;
         },
-
         "DOMException": function (o) {
             var code, message, name, stack;
 
-            if ( "code" in o && o.code ) {
+            if ("code" in o && o.code) {
                 code = o.code;
             }
-            if ( "message" in o && o.message ) {
+            if ("message" in o && o.message) {
                 message = o.message;
             }
-            if ( "name" in o && o.name ) {
+            if ("name" in o && o.name) {
                 name = o.name;
             }
-            if ( "stack" in o && o.stack ) {
+            if ("stack" in o && o.stack) {
                 stack = o.stack;
             }
 
@@ -366,31 +363,17 @@
                 message: message,
                 name: name,
                 stack: stack
-            }
+            };
         },
-
-        "BarInfo": function (o) {
+        "BarInfo": function () {
             return "[BarInfo]";
         },
-
-        "BarProp": function (o) {
-            return "[BarProp]";
+        "Image": function (o) {
+            return "Image: " + o.src;
         },
-
-        "ErrorEvent": function (o) {
-            var res = "";
-            res += "ErrorEvent ({\n";
-            res += "\tMessage: \"" + o.message + "\",\n";
-            res += "\tLine: " + o.lineno + ",\n";
-            res += "\tFile: \"" + o.filename + "\"\n";
-            res += "})";
-            return res;
-        },
-
         "NamedNodeMap": function (o) {
-            return logger.parser.JSParser("Object", o);
+            return logger.parser.JSParser["Object"].call(this, o);
         },
-
         "Window": function (o) {
             return "Window: " + o.location.href;
         }
@@ -480,7 +463,6 @@
             "HTMLUnknownElement",
             "HTMLVideoElement"
         ];
-
         return in_array(type, ELEMENT_NODE_ARRAY);
     }
 
@@ -494,20 +476,20 @@
         var is_content = false;
         var content = "";
 
-        if ( "tagName" in o ) {
+        if ("tagName" in o) {
             tag_name = o.tagName;
-        } else if ( "documentElement" in o ) {
+        } else if ("documentElement" in o) {
             tag_name = o.documentElement.tagName;
         }
 
-        if ( "innerHTML" in o ) {
+        if ("innerHTML" in o) {
             content = o.innerHTML;
-        } else if ( "documentElement" in o ) {
+        } else if ("documentElement" in o) {
             content = o.documentElement.innerHTML;
         }
 
         // check if tag have a content
-        if ( content.length > 0 ) {
+        if (content.length > 0) {
             is_content = true;
         }
 
@@ -516,7 +498,7 @@
             tag = long_tag;
         } else {
             // if content doesn't exists return short
-            tag = short_tag
+            tag = short_tag;
         }
 
         if (attrs.length > 0) {
@@ -538,7 +520,7 @@
     function parse_attrs(o) {
         var attrs = "", i, attr, attrs_count = 0;
 
-        if ( "attributes" in o && o.attributes ) {
+        if ("attributes" in o && o.attributes) {
             attrs_count = o.attributes.length;
         }
 
@@ -586,7 +568,7 @@
         return to_string(data);
     };
 
-    // public API
+    // exports
     logger.parser.DOMParser = DOMParser;
 
 }(this));

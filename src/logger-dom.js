@@ -1,10 +1,8 @@
-(function () {
+(function (global) {
     "use strict";
 
-    // master scope
-    var global = this,
-
-        logger = (typeof require !== 'undefined') ? require("./logger-core.js") : global.logger;
+    // imports
+    var logger = global.logger;
 
     // Types of all available node
     var nodeTypes = {
@@ -191,7 +189,7 @@
         "EntityReference": function (o) {
         },
         "ErrorEvent": function (o) {
-            return to_string(o) === "[object ErrorEvent]";
+            return false;
         },
         "Event": function (o) {
             return false;
@@ -437,7 +435,7 @@
             return false;
         },
         "Image": function (o) {
-            return false;
+            return o && to_string(o) === "[object Image]";
         },
         "ImageData": function (o) {
             return false;
@@ -1105,6 +1103,9 @@
         "XMLDocument": function (o) {
             return false;
         },
+        "XMLElement": function (o) {
+            return o && to_string(o) === "[object XMLElement]";
+        },
         "XMLSerializer": function (o) {
             return false;
         },
@@ -1257,7 +1258,7 @@
         }
     };
 
-    // public API
+    // exports
     logger.DOMLogger = function (data) {
         var res,
             type;
@@ -1274,4 +1275,4 @@
         return res;
     };
 
-}).call(this);
+}(this));

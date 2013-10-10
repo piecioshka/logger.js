@@ -1,5 +1,5 @@
 # check gem loaded
-%w(rainbow uglifier).each{ |gem_name|
+%w(rainbow uglifier yui/compressor).each{ |gem_name|
   begin
     require gem_name
   rescue LoadError
@@ -8,73 +8,60 @@
   end
 }
 
-LIBRARY_PATH = 'logger.js'
-LIBRARY_MIN_PATH = 'logger.min.js'
-SOURCE_DIRECTORY = 'src/'
+LIBRARY = "logger.js"
+LIBRARY_MIN = "logger.min.js"
+DIR_SRC = "src/"
 
+# ukrywamy wszelkie logi
 verbose(false)
 
-def create_file(file)
-  if File.exists?(file)
-    File.delete(file)
-  end
-  File.new(file, File::CREAT|File::TRUNC|File::RDWR, 0777)
+# glowny plik biblioteki
+if File.exists?(LIBRARY)
+  File.delete(LIBRARY)
+end
+File.new(LIBRARY, File::CREAT|File::TRUNC|File::RDWR, 0777)
+
+# plik zminifajowany
+if File.exists?(LIBRARY_MIN)
+  File.delete(LIBRARY_MIN)
+end
+File.new(LIBRARY_MIN, File::CREAT|File::TRUNC|File::RDWR, 0777)
+
+def compress_js(file_content)
+  # compress by Uglifier
+  Uglifier.new(:output => {:comments => :none}).compile(file_content)
 end
 
-def its_ok
-  puts "\t\t\t\t\t" + '['.foreground(:cyan) + ' ok '.foreground(:green) + ']'.foreground(:cyan)
+puts "\nStart building master files...".foreground(:magenta)
+
+task :default => [:build, :compress] do
+  print "Finished!\n".foreground(:green)
 end
 
-def compress(path)
-    compressed = Uglifier.new(:output => {:comments => :none}).compile(File.read(path))
+task :build => [] do
+  print "* Building... ".foreground(:yellow)
 
-    file = File.new(path, 'w')
-    file.write(compressed)
-    file.close
-end
+  files = ['logger-core.js', 'logger-dom.js', 'logger-js.js', 'parser/dom-parser.js', 'parser/js-parser.js']
 
-def build_lib
-  files = %w(logger-core.js logger-dom.js logger-js.js parser/dom-parser.js parser/js-parser.js)
+  lib_data = File.read(LIBRARY)
 
-  lib_data = File.read(LIBRARY_PATH)
-
-  File.open(LIBRARY_PATH, 'w') do |f|
+  File.open(LIBRARY, 'w') do |f|
     for file in files
-      f.write File.read("#{SOURCE_DIRECTORY}#{file}")
+      f.write File.read("#{DIR_SRC}#{file}")
       f.write lib_data
     end
   end
 
-  its_ok()
+  puts 'done!'
 end
 
-def build_min_lib
-  FileUtils.copy_file(LIBRARY_PATH, LIBRARY_MIN_PATH)
+task :compress => [] do
+  print "* Compress... ".foreground(:cyan)
 
-  compress(LIBRARY_MIN_PATH)
-
-  lib_data = File.read(LIBRARY_MIN_PATH)
-
-  File.open(LIBRARY_MIN_PATH, 'w') do |f|
-    f.write "/** node-text-plain-logger for Web | https://github.com/piecioshka/node-text-plain-logger **/\n"
-    f.write lib_data
+  File.open(LIBRARY_MIN, 'w') do |f|
+    f.write "/** logger | https://github.com/piecioshka/logger **/\n"
+    f.write compress_js(File.read(LIBRARY))
   end
 
-  its_ok()
-end
-
-desc 'Build libraries'
-task :default => [] do
-  create_file(LIBRARY_PATH)
-  create_file(LIBRARY_MIN_PATH)
-
-  puts '----------- node-plain-text-logger for Web -----------'.foreground(:yellow)
-
-  print '*'.foreground(:green) + ' Build ...'
-
-  build_lib()
-
-  print '*'.foreground(:green) + ' Minifing ...'
-
-  build_min_lib()
+  puts 'done!'
 end

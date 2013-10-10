@@ -1,10 +1,8 @@
 (function (global) {
     "use strict";
 
-    // lib
-    var logger = (typeof require !== 'undefined') ? require("../logger-core.js") : global.logger;
-
-    // parser
+    // imports
+    var logger = global.logger;
     var JSParser;
 
     var default_data_objects = [
@@ -67,7 +65,7 @@
 
         return result;
     }
-    
+
     var special_parsers = {
 
 /******************************************************************************/
@@ -77,16 +75,12 @@
         "Array": function (o, indent) {
             o = Array.prototype.slice.call(o);
 
-            var r = "[",
-                i = 0,
-                l = o.length;
+            var r = "[", i, l = o.length;
 
-            for (; i < l; ++i) {
+            for (i = 0; i < l; ++i) {
                 indent++;
 
                 r += logger(o[i], indent);
-
-                indent--;
 
                 if (i < l - 1) {
                     r += ", ";
@@ -181,16 +175,16 @@
         "Error": function (o) {
             var res = "";
             res += o.name + "(";
-            if (o.message || o.lineNumber || o.line || o.lineno || o.filename || o.fileName || o.sourceURL) {
+            if (o.message || o.lineNumber || o.line || o.fileName || o.sourceURL) {
                 res += "{\n";
                 if (o.message) {
                     res += "\tMessage: \"" + o.message + "\"\n";
                 }
                 if (o.lineNumber || o.line) {
-                    res += "\tLine: " + (o.lineNumber || o.line || o.lineno) + "\n";
+                    res += "\tLine: " + (o.lineNumber || o.line) + "\n";
                 }
                 if (o.fileName || o.sourceURL) {
-                    res += "\tFile: \"" + (o.fileName || o.sourceURL || o.filename) + "\"\n";
+                    res += "\tFile: \"" + (o.fileName || o.sourceURL) + "\"\n";
                 }
                 res += "}";
             }
@@ -221,8 +215,8 @@
                 case 4: state = "DONE (4)"; break;
             }
 
-            // if XHR is not ready, can not read "status" and "statusText" values
-            if ( !in_array(o.readyState, [0, 1]) ) {
+            // if XHR is not ready, cannot read "status" and "statusText" values
+            if (!in_array(o.readyState, [0, 1])) {
                 code = o.status;
                 text = o.statusText;
             }
@@ -240,10 +234,10 @@
                 code: o.code
             };
         },
-        "XMLHttpRequestProgressEvent": function (o) {
+        "XMLHttpRequestProgressEvent": function () {
             return ["XMLHttpRequestProgressEvent"];
         },
-        "XMLHttpRequestUpload": function (o) {
+        "XMLHttpRequestUpload": function () {
             return "[XMLHttpRequestUpload]";
         },
 
@@ -327,7 +321,7 @@
         return String(data, indent);
     };
 
-    // public API
+    // exports
     logger.parser.JSParser = JSParser;
 
 }(this));
