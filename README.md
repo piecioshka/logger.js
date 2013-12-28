@@ -19,3 +19,6 @@ w silnikach dostępnych na telewizorach oraz urządzenia STB.
 [The MIT License] [1]
 
 [1]: https://github.com/piecioshka/logger/blob/master/LICENSE
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/piecioshka/logger/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
