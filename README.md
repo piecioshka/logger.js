@@ -16,7 +16,7 @@ w silnikach dostępnych na telewizorach oraz urządzenia STB.
 
 ## LICENSE
 
-[The MIT License] [0]
+[The MIT License][0]
 
 [0]: http://piecioshka.mit-license.org
 
