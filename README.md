@@ -1,4 +1,8 @@
-# logger [![Build Status](https://secure.travis-ci.org/piecioshka/logger.png?branch=master)](http://travis-ci.org/piecioshka/logger)
+# logger.js
+
+> :hammer: DEPRECATED: Convert every object on JavaScript to text/plain mode
+
+## Description (In polish)
 
 Celem projektu jest realizacja konwersji obiektów JavaScript do postaci `plain/text`.
 
@@ -14,9 +18,10 @@ rozwiązania które ulepszą pracę developerom. Dlatego ten projekt ma w swoich
 celach przyjść z pomocą gdy zainstnieje potrzeba wyprintowania dowolnego obiektu
 w silnikach dostępnych na telewizorach oraz urządzenia STB.
 
-## LICENSE
+## Unit tests
 
-[The MIT License][0]
+All 500 specs passed.
 
-[0]: http://piecioshka.mit-license.org
+## License
 
+[The MIT License](http://piecioshka.mit-license.org) @ 2011
