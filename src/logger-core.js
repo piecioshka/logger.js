@@ -1,7 +1,7 @@
 /**
  * @fileOverview Simple JavaScript logger with text/plain output.
  * @author Piotr Kowalski <piecioshka@gmail.com>
- * @see: https://github.com/piecioshka/logger
+ * @see https://github.com/piecioshka/logger
  * @license: The MIT License
  * @example:
  * // run
